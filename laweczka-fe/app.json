@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Ławeczka",
+    "slug": "laweczka-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "extra": {
+      "SUPABASE_URL": "https://iwettshmwzsmrllgcchx.supabase.co",
+      "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml3ZXR0c2htd3pzbXJsbGdjY2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3MjM1MDIsImV4cCI6MjA3MDI5OTUwMn0.mn4EHw-7vHKoNJ1a3-L8PVpQ7EE-3JBvGwLG6jxs8-o",
+      "eas": {
+        "projectId": "549fdde9-bd31-4318-9c1e-a2c95e7a7d17"
+      }
+    },
+    "cli": {
+      "appVersionSource": "remote"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.laweczka.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.laweczka.app",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-localization",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Aplikacja potrzebuje dostępu do lokalizacji, aby znaleźć ławeczki w pobliżu."
+        }
+      ]
+    ]
+  }
+}

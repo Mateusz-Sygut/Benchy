@@ -1,0 +1,44 @@
+# Supabase Local Development Configuration
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+port = 54322
+external_url = "http://localhost:54321"
+jwt_expiry = 3600
+password_min_length = 6
+email_confirm_changes = false
+email_enable_signup = true
+sms_enable_signup = false
+
+[realtime]
+enabled = true
+port = 54323
+
+[storage]
+enabled = true
+port = 54324
+image_transformation = {
+  enabled = true
+}
+
+[db]
+port = 54322
+
+[studio]
+enabled = true
+port = 54323
+
+[edge_functions]
+enabled = true
+port = 54325
+
+[analytics]
+enabled = false
+

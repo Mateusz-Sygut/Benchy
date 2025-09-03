@@ -1,0 +1,142 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "close": "Close",
+    "ok": "OK",
+    "error": "Error",
+    "success": "Success!",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username"
+  },
+  "app": {
+    "name": "Benchy"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Sign Up",
+    "logout": "Sign Out",
+    "loginTitle": "Welcome to Benchy!",
+    "loginSubtitle": "Find and rate benches in your city",
+    "registerTitle": "Join the community!",
+    "registerSubtitle": "Help others find the best benches",
+    "confirmPassword": "Confirm Password",
+    "noAccount": "Don't have an account? Sign up",
+    "haveAccount": "Already have an account? Sign in",
+    "fillAllFields": "Please fill in all fields",
+    "passwordsDontMatch": "Passwords don't match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "accountCreated": "Account created. Please check your email for verification.",
+    "loginError": "Login error",
+    "registerError": "Registration error",
+    "unexpectedError": "An unexpected error occurred"
+  },
+  "navigation": {
+    "map": "Map",
+    "benchList": "Bench List",
+    "profile": "Profile",
+    "addBench": "Add Bench",
+    "benchDetails": "Bench Details"
+  },
+  "map": {
+    "locationError": "Failed to access location",
+    "addBench": "Add Bench"
+  },
+  "bench": {
+    "addNew": "Add new bench",
+    "noDescription": "No description",
+    "addedBy": "by user",
+    "total": "benches"
+  },
+  "benchList": {
+    "noBenches": "No benches",
+    "noBenchesTitle": "No benches found",
+    "noBenchesText": "Be the first to add a bench in your area!",
+    "addFirstBench": "Add first bench",
+    "noRating": "No ratings"
+  },
+  "addBench": {
+    "title": "Add Bench",
+    "description": "Bench Description",
+    "descriptionPlaceholder": "Describe the bench... (e.g. 'Comfortable bench with backrest in the shade')",
+    "benchType": "Bench Type",
+    "locationInfo": "Location will be automatically obtained from your current position",
+    "addDescription": "Please add a bench description",
+    "selectType": "Please select bench type",
+    "benchAdded": "Bench has been added to the map",
+    "addError": "Failed to add bench",
+    "saving": "Saving..."
+  },
+  "benchDetails": {
+    "addRating": "Add your rating",
+    "userRatings": "User ratings",
+    "addedBy": "Added by",
+    "selectRating": "Please select a rating",
+    "addComment": "Please add a comment",
+    "commentPlaceholder": "Write a comment about this bench...",
+    "ratingAdded": "Your rating has been added",
+    "ratingError": "Failed to add rating",
+    "adding": "Adding...",
+    "addRatingButton": "Add Rating",
+    "beFirst": "Be the first!"
+  },
+  "profile": {
+    "myBenches": "My Benches",
+    "myBenchesSubtitle": "Benches you added",
+    "myRatings": "My Ratings",
+    "myRatingsSubtitle": "Your bench reviews",
+    "settings": "Settings",
+    "settingsSubtitle": "App configuration",
+    "help": "Help",
+    "helpSubtitle": "FAQ and support",
+    "addedBenches": "Added benches",
+    "givenRatings": "Given ratings",
+    "logoutConfirm": "Are you sure you want to sign out?",
+    "user": "User"
+  },
+  "benchTypes": {
+    "wooden_classic": "Classic Wooden",
+    "metal_modern": "Modern Metal",
+    "stone_bench": "Stone Bench",
+    "park_bench": "Park Bench",
+    "concrete_bench": "Concrete Bench",
+    "picnic_table": "Picnic Table"
+  },
+  "search": {
+    "title": "Search Benches",
+    "placeholder": "Enter city, location or bench name...",
+    "search": "Search",
+    "searching": "Searching...",
+    "noResults": "No benches found for this location",
+    "enterLocation": "Please enter a location to search",
+    "error": "Search failed. Please try again."
+  },
+  "location": {
+    "centering": "Centering on your location...",
+    "notReady": "Location function not ready yet...",
+    "permissionDenied": "Permission to access location was denied",
+    "locationError": "Failed to get location"
+  },
+  "header": {
+    "latestBench": "Latest bench added:"
+  },
+  "geocoding": {
+    "unknownCity": "Unknown city",
+    "unknownCountry": "Unknown country",
+    "unknownLocation": "Unknown location",
+    "noName": "No name"
+  },
+  "time": {
+    "justNow": "just now",
+    "minutesAgo": "min ago",
+    "hoursAgo": "hours ago",
+    "daysAgo": "days ago"
+  }
+}
+
+

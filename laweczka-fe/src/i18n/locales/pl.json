@@ -1,0 +1,142 @@
+{
+  "common": {
+    "loading": "Ładowanie...",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "back": "Wstecz",
+    "close": "Zamknij",
+    "ok": "OK",
+    "error": "Błąd",
+    "success": "Sukces!",
+    "email": "Email",
+    "password": "Hasło",
+    "username": "Nazwa użytkownika"
+  },
+  "app": {
+    "name": "Ławeczka"
+  },
+  "auth": {
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "logout": "Wyloguj się",
+    "loginTitle": "Witaj w Ławeczka!",
+    "loginSubtitle": "Znajdź i oceń ławeczki w Twoim mieście",
+    "registerTitle": "Dołącz do społeczności!",
+    "registerSubtitle": "Pomóż innym znaleźć najlepsze ławeczki",
+    "confirmPassword": "Potwierdź hasło",
+    "noAccount": "Nie masz konta? Zarejestruj się",
+    "haveAccount": "Masz już konto? Zaloguj się",
+    "fillAllFields": "Proszę wypełnić wszystkie pola",
+    "passwordsDontMatch": "Hasła nie są identyczne",
+    "passwordTooShort": "Hasło musi mieć co najmniej 6 znaków",
+    "accountCreated": "Konto zostało utworzone. Sprawdź swoją skrzynkę email w celu weryfikacji.",
+    "loginError": "Błąd logowania",
+    "registerError": "Błąd rejestracji",
+    "unexpectedError": "Wystąpił nieoczekiwany błąd"
+  },
+  "navigation": {
+    "map": "Mapa",
+    "benchList": "Lista ławeczek",
+    "profile": "Profil",
+    "addBench": "Dodaj ławeczkę",
+    "benchDetails": "Szczegóły ławeczki"
+  },
+  "map": {
+    "locationError": "Nie udało się uzyskać dostępu do lokalizacji",
+    "addBench": "Dodaj ławeczkę",
+    "ratePlaces": "Oceniaj miejsca",
+    "comment": "Komentuj",
+    "total": "ławeczek"
+  },
+  "bench": {
+    "addNew": "Dodaj ławeczke",
+    "noDescription": "Brak opisu",
+    "total": "ławeczek"
+  },
+  "benchList": {
+    "noBenches": "Brak ławeczek",
+    "noBenchesTitle": "Brak ławeczek",
+    "noBenchesText": "Bądź pierwszy i dodaj ławeczkę w Twojej okolicy!",
+    "addFirstBench": "Dodaj pierwszą ławeczkę",
+    "noRating": "Brak ocen"
+  },
+  "addBench": {
+    "title": "Dodaj ławeczkę",
+    "description": "Opis ławeczki",
+    "descriptionPlaceholder": "Opisz ławeczkę... (np. 'Wygodna ławka z oparciem w cieniu drzew')",
+    "benchType": "Typ ławeczki",
+    "locationInfo": "Lokalizacja zostanie automatycznie pobrana z Twojej aktualnej pozycji",
+    "addDescription": "Proszę dodać opis ławeczki",
+    "selectType": "Proszę wybrać typ ławeczki",
+    "benchAdded": "Ławeczka została dodana do mapy",
+    "addError": "Nie udało się dodać ławeczki",
+    "saving": "Zapisywanie..."
+  },
+  "benchDetails": {
+    "addRating": "Dodaj swoją ocenę",
+    "userRatings": "Oceny użytkowników",
+    "addedBy": "Dodane przez",
+    "selectRating": "Proszę wybrać ocenę",
+    "addComment": "Proszę dodać komentarz",
+    "commentPlaceholder": "Napisz komentarz o tej ławeczce...",
+    "ratingAdded": "Twoja ocena została dodana",
+    "ratingError": "Nie udało się dodać oceny",
+    "adding": "Dodawanie...",
+    "addRatingButton": "Dodaj ocenę",
+    "beFirst": "Bądź pierwszy!"
+  },
+  "profile": {
+    "myBenches": "Moje ławeczki",
+    "myBenchesSubtitle": "Ławeczki które dodałeś",
+    "myRatings": "Moje oceny",
+    "myRatingsSubtitle": "Twoje recenzje ławeczek",
+    "settings": "Ustawienia",
+    "settingsSubtitle": "Konfiguracja aplikacji",
+    "help": "Pomoc",
+    "helpSubtitle": "FAQ i wsparcie",
+    "addedBenches": "Dodane ławeczki",
+    "givenRatings": "Dane oceny",
+    "logoutConfirm": "Czy na pewno chcesz się wylogować?",
+    "user": "Użytkownik"
+  },
+  "benchTypes": {
+    "wooden_classic": "Drewniana klasyczna",
+    "metal_modern": "Metalowa nowoczesna",
+    "stone_bench": "Kamienna ławka",
+    "park_bench": "Ławka parkowa",
+    "concrete_bench": "Betonowa ławka",
+    "picnic_table": "Stół piknikowy"
+  },
+  "search": {
+    "title": "Szukaj ławeczek",
+    "placeholder": "Wpisz miasto, lokalizację lub nazwę ławeczki...",
+    "search": "Szukaj",
+    "searching": "Szukam...",
+    "noResults": "Nie znaleziono ławeczek w tej lokalizacji",
+    "enterLocation": "Proszę wpisać lokalizację do wyszukania",
+    "error": "Wyszukiwanie nie powiodło się. Spróbuj ponownie."
+  },
+  "location": {
+    "centering": "Centruję na Twojej lokalizacji...",
+    "notReady": "Funkcja lokalizacji nie jest jeszcze gotowa...",
+    "permissionDenied": "Odmowa dostępu do lokalizacji",
+    "locationError": "Nie udało się pobrać lokalizacji"
+  },
+  "header": {
+    "latestBench": "Ostatnio dodana ławka:"
+  },
+  "geocoding": {
+    "unknownCity": "Nieznane miasto",
+    "unknownCountry": "Nieznany kraj",
+    "unknownLocation": "Nieznana lokalizacja",
+    "noName": "Bez nazwy"
+  },
+  "time": {
+    "justNow": "przed chwilą",
+    "minutesAgo": "min temu",
+    "hoursAgo": "godz temu",
+    "daysAgo": "dni temu"
+  }
+}
