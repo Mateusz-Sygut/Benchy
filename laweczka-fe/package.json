@@ -21,7 +21,6 @@
     "expo-location": "~18.1.6",
     "expo-status-bar": "~2.2.3",
     "i18next": "^25.3.2",
-    "nativewind": "^4.1.23",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-i18next": "^15.6.1",
