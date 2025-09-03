@@ -204,7 +204,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 - 🐛 **Issues**: [GitHub Issues](link-to-issues)
 - 💬 **Discussions**: [GitHub Discussions](link-to-discussions)
-- 📧 **Email**: [contact@laweczka.app](mailto:contact@laweczka.app)
+- 📧 **Email**: [contact@laweczka.app](mailto:contact@laweczka.app) (...not yet)
 
 ---
 
