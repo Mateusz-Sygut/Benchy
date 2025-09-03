@@ -114,7 +114,9 @@
     "searching": "Searching...",
     "noResults": "No benches found for this location",
     "enterLocation": "Please enter a location to search",
-    "error": "Search failed. Please try again."
+    "error": "Search failed. Please try again.",
+    "result": "Search Result",
+    "searchingFor": "Searching for:"
   },
   "location": {
     "centering": "Centering on your location...",
@@ -136,6 +138,16 @@
     "minutesAgo": "min ago",
     "hoursAgo": "hours ago",
     "daysAgo": "days ago"
+  },
+  "errors": {
+    "locationPermissionDenied": "Permission to access location was denied",
+    "locationFailed": "Failed to get location",
+    "mustBeLoggedIn": "You must be logged in",
+    "mustBeLoggedInToRate": "You must be logged in to add a rating",
+    "failedToLoadBench": "Failed to load bench details",
+    "failedToLoadData": "An error occurred while loading data",
+    "failedToAddBench": "Failed to add bench",
+    "failedToAddRating": "Failed to add rating"
   }
 }
 

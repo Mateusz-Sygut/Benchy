@@ -14,7 +14,7 @@ export const reverseGeocode = async (
     
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'BenchyApp/1.0', // Wymagane przez Nominatim
+        'User-Agent': 'BenchyApp/1.0',
       },
     });
 
@@ -28,7 +28,6 @@ export const reverseGeocode = async (
       return null;
     }
 
-    // Wyciągnij miasto z różnych możliwych pól
     const city = 
       data.address.city ||
       data.address.town ||
@@ -39,7 +38,6 @@ export const reverseGeocode = async (
 
     const country = data.address.country || t('geocoding.unknownCountry');
     
-    // Stwórz pełny adres
     const addressParts = [];
     if (data.address.road) addressParts.push(data.address.road);
     if (data.address.house_number) addressParts.push(data.address.house_number);
@@ -59,7 +57,6 @@ export const reverseGeocode = async (
   }
 };
 
-// Funkcja pomocnicza do formatowania miasta dla wyświetlenia
 export const formatCityForDisplay = (
   geocodingResult: GeocodingResult | null,
   t: (key: string) => string
@@ -68,11 +65,9 @@ export const formatCityForDisplay = (
     return t('geocoding.unknownCity');
   }
   
-  // Jeśli mamy miasto, pokaż je
   if (geocodingResult.city && geocodingResult.city !== t('geocoding.unknownCity')) {
     return geocodingResult.city;
   }
   
-  // W przeciwnym razie pokaż kraj
   return geocodingResult.country || t('geocoding.unknownCity');
 };

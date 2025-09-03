@@ -73,19 +73,17 @@ const AddBenchScreen = ({ navigation }: any) => {
     }
 
     if (!user) {
-      Alert.alert(t('common.error'), 'Musisz być zalogowany');
+      Alert.alert(t('common.error'), t('errors.mustBeLoggedIn'));
       return;
     }
 
     setLoading(true);
     try {
-      // Sprawdź czy mamy lokalizację
       if (!userLocation) {
-        Alert.alert(t('common.error'), 'Nie udało się pobrać lokalizacji');
+        Alert.alert(t('common.error'), t('errors.locationFailed'));
         return;
       }
 
-      // Zapisz ławeczkę do Supabase
       const { data, error } = await supabase
         .from('benches')
         .insert([
@@ -101,7 +99,7 @@ const AddBenchScreen = ({ navigation }: any) => {
 
       if (error) {
         console.error('Supabase error:', error);
-        Alert.alert(t('common.error'), t('addBench.addError') + ': ' + error.message);
+        Alert.alert(t('common.error'), t('errors.failedToAddBench') + ': ' + error.message);
         return;
       }
 
@@ -112,7 +110,7 @@ const AddBenchScreen = ({ navigation }: any) => {
       );
     } catch (error) {
       console.error('Error saving bench:', error);
-      Alert.alert(t('common.error'), t('addBench.addError'));
+      Alert.alert(t('common.error'), t('errors.failedToAddBench'));
     } finally {
       setLoading(false);
     }

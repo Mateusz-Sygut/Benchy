@@ -41,8 +41,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onSearch })
     setIsSearching(true);
     
     try {
-      // TODO: Implement actual search functionality
-      // For now, simulate search results
       const mockResults: SearchResult[] = [
         {
           id: '1',

@@ -22,7 +22,6 @@ export const Button: React.FC<ButtonProps> = ({
   let textStyle: TextStyle = styles.buttonText;
   let iconColor = '#ffffff';
 
-  // Dodaj style wariantu
   if (disabled || loading) {
     buttonStyle.push(styles.disabled);
   } else {

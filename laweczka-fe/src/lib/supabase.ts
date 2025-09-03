@@ -2,7 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 import Constants from 'expo-constants';
 import { Database } from '../types/database';
 
-// Pobierz dane z zmiennych środowiskowych lub app.json
 const supabaseUrl = Constants.expoConfig?.extra?.SUPABASE_URL || 
                    process.env.EXPO_PUBLIC_SUPABASE_URL || 
                    'YOUR_SUPABASE_URL';

@@ -33,7 +33,6 @@ const BenchDetailsScreen = ({ route }: any) => {
 
   const loadBenchDetails = async () => {
     try {
-      // Load bench details
       const { data: benchData, error: benchError } = await supabase
         .from('benches')
         .select('*')
@@ -42,13 +41,12 @@ const BenchDetailsScreen = ({ route }: any) => {
 
       if (benchError) {
         console.error('Error loading bench:', benchError);
-        Alert.alert(t('common.error'), 'Nie udało się załadować szczegółów ławeczki');
+        Alert.alert(t('common.error'), t('errors.failedToLoadBench'));
         return;
       }
 
       setBench(benchData);
 
-      // Load ratings for this bench
       const { data: ratingsData, error: ratingsError } = await supabase
         .from('ratings')
         .select('*')
@@ -62,7 +60,7 @@ const BenchDetailsScreen = ({ route }: any) => {
       }
     } catch (error) {
       console.error('Error loading bench details:', error);
-      Alert.alert(t('common.error'), 'Wystąpił błąd podczas ładowania danych');
+      Alert.alert(t('common.error'), t('errors.failedToLoadData'));
     }
   };
 
@@ -78,13 +76,12 @@ const BenchDetailsScreen = ({ route }: any) => {
     }
 
     if (!user) {
-      Alert.alert(t('common.error'), 'Musisz być zalogowany żeby dodać ocenę');
+      Alert.alert(t('common.error'), t('errors.mustBeLoggedInToRate'));
       return;
     }
 
     setLoading(true);
     try {
-      // Insert or update rating
       const { error } = await supabase
         .from('ratings')
         .upsert({
@@ -96,17 +93,17 @@ const BenchDetailsScreen = ({ route }: any) => {
 
       if (error) {
         console.error('Error submitting rating:', error);
-        Alert.alert(t('common.error'), t('benchDetails.ratingError'));
+        Alert.alert(t('common.error'), t('errors.failedToAddRating'));
         return;
       }
 
       Alert.alert(t('common.success'), t('benchDetails.ratingAdded'));
       setUserRating(0);
       setUserComment('');
-      loadBenchDetails(); // Refresh data
+      loadBenchDetails();
     } catch (error) {
       console.error('Error submitting rating:', error);
-      Alert.alert(t('common.error'), t('benchDetails.ratingError'));
+      Alert.alert(t('common.error'), t('errors.failedToAddRating'));
     } finally {
       setLoading(false);
     }

@@ -35,7 +35,6 @@ const ProfileScreen = () => {
       title: t('profile.myBenches'),
       subtitle: t('profile.myBenchesSubtitle'),
       onPress: () => {
-        // TODO: Navigate to user's benches
       },
     },
     {
@@ -43,7 +42,6 @@ const ProfileScreen = () => {
       title: t('profile.myRatings'),
       subtitle: t('profile.myRatingsSubtitle'),
       onPress: () => {
-        // TODO: Navigate to user's ratings
       },
     },
     {
@@ -51,7 +49,6 @@ const ProfileScreen = () => {
       title: t('profile.settings'),
       subtitle: t('profile.settingsSubtitle'),
       onPress: () => {
-        // TODO: Navigate to settings
       },
     },
     {
@@ -59,7 +56,6 @@ const ProfileScreen = () => {
       title: t('profile.help'),
       subtitle: t('profile.helpSubtitle'),
       onPress: () => {
-        // TODO: Navigate to help
       },
     },
   ];

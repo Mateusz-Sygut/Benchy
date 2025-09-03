@@ -11,7 +11,6 @@ const ScrollingBenchesHeader: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
-  // Pobierz rzeczywiste dane z API
   useEffect(() => {
     const fetchRecentBenches = async () => {
       try {
@@ -19,7 +18,6 @@ const ScrollingBenchesHeader: React.FC = () => {
         setRecentBenches(benches);
       } catch (error) {
         console.error('Error fetching recent benches:', error);
-        // Fallback do mock data jeśli API nie działa
         setRecentBenches([
           { id: '1', name: 'Park Centralny', city: 'Warszawa', addedAt: '2 min temu' },
           { id: '2', name: 'Nad Wisłą', city: 'Kraków', addedAt: '5 min temu' },
@@ -37,29 +35,25 @@ const ScrollingBenchesHeader: React.FC = () => {
     if (recentBenches.length === 0) return;
 
     const interval = setInterval(() => {
-      // Fade out
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 1000,
         useNativeDriver: true,
       }).start(() => {
-        // Change index
         setCurrentIndex((prev) => (prev + 1) % recentBenches.length);
-        // Fade in
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 1000,
           useNativeDriver: true,
         }).start();
       });
-    }, 3000); // Change every 3 seconds
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [fadeAnim, recentBenches.length]);
 
   const currentBench = recentBenches[currentIndex];
 
-  // Jeśli nie ma danych lub ładowanie, pokaż placeholder
   if (loading || recentBenches.length === 0) {
     return (
       <View style={styles.container}>
@@ -71,7 +65,7 @@ const ScrollingBenchesHeader: React.FC = () => {
             {t('header.latestBench')}
           </Text>
           <Text style={styles.benchText}>
-            Ładowanie...
+            {t('common.loading')}
           </Text>
         </View>
       </View>

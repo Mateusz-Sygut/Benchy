@@ -18,7 +18,6 @@ const MapScreen = () => {
   const mapRef = useRef<MapView>(null);
   const { t } = useTranslation();
 
-  // Załaduj ławeczki gdy ekran się otwiera
   useFocusEffect(
     React.useCallback(() => {
       loadBenches();
@@ -61,21 +60,17 @@ const MapScreen = () => {
   };
 
   const handleSearchResult = (query: string) => {
-    // TODO: Implement actual search functionality
-    // For now, just show an alert with the search query
-    Alert.alert('Search Result', `Searching for: ${query}`);
+    Alert.alert(t('search.result'), `${t('search.searchingFor')} ${query}`);
   };
 
   const handleLocationButtonClick = async () => {
     try {
-      // Request permission
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        Alert.alert(t('common.error'), t('location.permissionDenied'));
+        Alert.alert(t('common.error'), t('errors.locationPermissionDenied'));
         return;
       }
 
-      // Get current location
       const location = await Location.getCurrentPositionAsync({});
       const newLocation = {
         latitude: location.coords.latitude,
@@ -91,22 +86,19 @@ const MapScreen = () => {
       }
     } catch (error) {
       console.error('Error getting location:', error);
-      Alert.alert(t('common.error'), t('location.locationError'));
+      Alert.alert(t('common.error'), t('errors.locationFailed'));
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* Map */}
       <ExpoMap 
         benches={benches} 
         onMarkerPress={handleMarkerPress}
         mapRef={mapRef}
       />
 
-      {/* Control Buttons Container */}
       <View style={styles.controlButtonsContainer}>
-        {/* Search Button */}
         <TouchableOpacity
           onPress={handleSearch}
           style={styles.controlButton}
@@ -114,7 +106,6 @@ const MapScreen = () => {
           <Ionicons name="search" size={24} color="#ffffff" />
         </TouchableOpacity>
 
-        {/* Location Button */}
         <TouchableOpacity
           onPress={handleLocationButtonClick}
           style={styles.controlButton}
@@ -122,7 +113,6 @@ const MapScreen = () => {
           <Ionicons name="locate" size={24} color="#ffffff" />
         </TouchableOpacity>
 
-        {/* Add Bench Button */}
         <TouchableOpacity
           onPress={handleAddBench}
           style={styles.controlButton}
@@ -131,7 +121,6 @@ const MapScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Search Modal */}
       <SearchModal
         visible={searchModalVisible}
         onClose={() => setSearchModalVisible(false)}

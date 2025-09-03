@@ -27,17 +27,15 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
 
   const getUserLocation = async () => {
     try {
-      // Request permission
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert(
           t('common.error'),
-          'Permission to access location was denied'
+          t('errors.locationPermissionDenied')
         );
         return;
       }
 
-      // Get current location
       const location = await Location.getCurrentPositionAsync({});
       setUserLocation({
         latitude: location.coords.latitude,
@@ -67,11 +65,10 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
       }
     } catch (error) {
       console.error('Error getting location:', error);
-      Alert.alert(t('common.error'), 'Nie udało się pobrać lokalizacji');
+      Alert.alert(t('common.error'), t('errors.locationFailed'));
     }
   };
 
-  // Don't render map until we have user location
   if (!userLocation) {
     return (
       <View style={styles.container}>
@@ -98,7 +95,6 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
         showsCompass={true}
         showsScale={true}
       >
-        {/* Bench markers */}
         {benches.map((bench) => (
           <Marker
             key={bench.id}
@@ -108,7 +104,7 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
             }}
             title={bench.name}
             description={bench.description || t('bench.noDescription')}
-            pinColor="#22c55e" // Green color for benches
+            pinColor="#22c55e"
             onPress={() => onMarkerPress?.(bench)}
           />
         ))}

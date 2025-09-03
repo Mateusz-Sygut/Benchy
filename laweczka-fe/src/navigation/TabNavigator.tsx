@@ -14,7 +14,7 @@ const TabNavigator = () => {
   const screenOptions = useMemo(() => ({
     map: {
       title: t('navigation.map'),
-      headerShown: false // Hide header for full-screen map
+      headerShown: false
     },
     benchList: {
       title: t('navigation.benchList')

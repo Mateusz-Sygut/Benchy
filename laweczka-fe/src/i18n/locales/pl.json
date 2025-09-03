@@ -116,7 +116,9 @@
     "searching": "Szukam...",
     "noResults": "Nie znaleziono ławeczek w tej lokalizacji",
     "enterLocation": "Proszę wpisać lokalizację do wyszukania",
-    "error": "Wyszukiwanie nie powiodło się. Spróbuj ponownie."
+    "error": "Wyszukiwanie nie powiodło się. Spróbuj ponownie.",
+    "result": "Wynik wyszukiwania",
+    "searchingFor": "Szukam:"
   },
   "location": {
     "centering": "Centruję na Twojej lokalizacji...",
@@ -138,5 +140,15 @@
     "minutesAgo": "min temu",
     "hoursAgo": "godz temu",
     "daysAgo": "dni temu"
+  },
+  "errors": {
+    "locationPermissionDenied": "Odmowa dostępu do lokalizacji",
+    "locationFailed": "Nie udało się pobrać lokalizacji",
+    "mustBeLoggedIn": "Musisz być zalogowany",
+    "mustBeLoggedInToRate": "Musisz być zalogowany żeby dodać ocenę",
+    "failedToLoadBench": "Nie udało się załadować szczegółów ławeczki",
+    "failedToLoadData": "Wystąpił błąd podczas ładowania danych",
+    "failedToAddBench": "Nie udało się dodać ławeczki",
+    "failedToAddRating": "Nie udało się dodać oceny"
   }
 }

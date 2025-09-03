@@ -1,5 +1,4 @@
 export const colors = {
-  // Primary colors (Green theme for nature/park benches)
   primary: {
     50: '#f1f8e9',
     100: '#dcedc1', 
@@ -10,10 +9,9 @@ export const colors = {
     600: '#7cb342',
     700: '#689f38',
     800: '#558b2f',
-    900: '#2e7d32', // Main brand color
+    900: '#2e7d32',
   },
   
-  // Neutral colors
   gray: {
     50: '#fafafa',
     100: '#f5f5f5',
@@ -27,23 +25,19 @@ export const colors = {
     900: '#212121',
   },
   
-  // Semantic colors
   success: '#4caf50',
   warning: '#ff9800',
   error: '#f44336',
   info: '#2196f3',
   
-  // Rating color
   rating: '#ffd700',
   
-  // Background colors
   background: {
     primary: '#ffffff',
     secondary: '#f5f5f5',
     disabled: '#cccccc',
   },
   
-  // Text colors
   text: {
     primary: '#333333',
     secondary: '#666666',

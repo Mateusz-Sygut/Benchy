@@ -7,7 +7,6 @@ import AppNavigator from './src/navigation/AppNavigator';
 import LoadingScreen from './src/screens/LoadingScreen';
 import './src/i18n';
 
-// Main App Component
 const AppContent = () => {
   const { user, loading } = useAuth();
 
@@ -23,7 +22,6 @@ const AppContent = () => {
   );
 };
 
-// Root App Component with Providers
 export default function App() {
   return (
     <AuthProvider>

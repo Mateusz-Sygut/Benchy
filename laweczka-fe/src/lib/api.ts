@@ -35,7 +35,6 @@ export const getRecentBenches = async (
       return [];
     }
 
-    // Konwertuj dane do formatu RecentBench z reverse geocoding
     const recentBenches: RecentBench[] = await Promise.all(
       data.map(async (bench) => {
         const createdAt = new Date(bench.created_at);
@@ -55,7 +54,6 @@ export const getRecentBenches = async (
           timeAgo = `${days} ${t('time.daysAgo')}`;
         }
 
-        // Pobierz miasto z reverse geocoding
         const geocodingResult = await reverseGeocode(bench.latitude, bench.longitude, t);
         const city = formatCityForDisplay(geocodingResult, t);
 

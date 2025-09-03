@@ -22,7 +22,6 @@ const BenchListScreen = () => {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
-  // Załaduj ławeczki gdy ekran się otwiera
   useFocusEffect(
     React.useCallback(() => {
       loadBenches();
@@ -43,7 +42,6 @@ const BenchListScreen = () => {
         return;
       }
 
-      // Na razie bez username - dodamy później
       setBenches(data || []);
     } catch (error) {
       console.error('Error loading benches:', error);
