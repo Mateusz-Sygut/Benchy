@@ -1,11 +1,11 @@
-# 🪑 ŁAWECZKA (Benchy) - Smart Bench Discovery App
+# 🪑 ŁaweczkApp (Benchy) - Smart Bench Discovery App
 
 [![React Native](https://img.shields.io/badge/React%20Native-0.79.5-blue.svg)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-53.0.20-blue.svg)](https://expo.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-green.svg)](https://supabase.com/)
 
-**ŁAWECZKA** is a smart mobile application for adding, discovering and rating benches in your area. Find the perfect place to rest, add new benches, and rate the ones you already know!gi
+**ŁAWECZKApp** is a smart mobile application for adding, discovering and rating benches in your area. Find the perfect place to rest, add new benches, and rate the ones you already know!
 
 ## 🚀 **Features**
 
