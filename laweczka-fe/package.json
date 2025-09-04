@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
-    "@react-navigation/bottom-tabs": "^7.4.5",
-    "@react-navigation/native": "^7.1.17",
-    "@react-navigation/native-stack": "^7.3.24",
+    "@react-navigation/bottom-tabs": "^6.5.20",
+    "@react-navigation/native": "^6.1.17",
+    "@react-navigation/native-stack": "^6.9.26",
     "@supabase/supabase-js": "^2.54.0",
     "expo": "~53.0.20",
     "expo-dev-client": "~5.2.4",

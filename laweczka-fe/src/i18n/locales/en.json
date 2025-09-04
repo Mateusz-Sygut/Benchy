@@ -45,7 +45,10 @@
   },
   "map": {
     "locationError": "Failed to access location",
-    "addBench": "Add Bench"
+    "addBench": "Add Bench",
+    "viewMode2D": "2D View",
+    "viewMode3D": "3D View",
+    "toggleViewMode": "Toggle map view"
   },
   "bench": {
     "addNew": "Add new bench",

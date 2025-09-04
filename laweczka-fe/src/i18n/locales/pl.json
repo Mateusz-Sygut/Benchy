@@ -48,7 +48,10 @@
     "addBench": "Dodaj ławeczkę",
     "ratePlaces": "Oceniaj miejsca",
     "comment": "Komentuj",
-    "total": "ławeczek"
+    "total": "ławeczek",
+    "viewMode2D": "Widok 2D",
+    "viewMode3D": "Widok 3D",
+    "toggleViewMode": "Przełącz widok mapy"
   },
   "bench": {
     "addNew": "Dodaj ławeczke",

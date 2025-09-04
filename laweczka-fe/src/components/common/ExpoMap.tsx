@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { Bench } from '../../types/database';
@@ -24,6 +23,21 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
   useEffect(() => {
     getUserLocation();
   }, []);
+
+  useEffect(() => {
+    if (userLocation && mapRef.current) {
+      mapRef.current.animateCamera({
+        center: {
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+        },
+        pitch: 45,
+        heading: 0,
+        altitude: 1000,
+        zoom: 16,
+      }, { duration: 2000 });
+    }
+  }, [userLocation]);
 
   const getUserLocation = async () => {
     try {
@@ -57,11 +71,16 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
       setUserLocation(newLocation);
       
       if (mapRef.current) {
-        mapRef.current.animateToRegion({
-          ...newLocation,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }, 1000);
+        mapRef.current.animateCamera({
+          center: {
+            latitude: newLocation.latitude,
+            longitude: newLocation.longitude,
+          },
+          pitch: 45,
+          heading: 0,
+          altitude: 1000,
+          zoom: 16,
+        }, { duration: 1000 });
       }
     } catch (error) {
       console.error('Error getting location:', error);
@@ -94,6 +113,9 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
         showsMyLocationButton={false}
         showsCompass={true}
         showsScale={true}
+        pitchEnabled={true}
+        rotateEnabled={true}
+        mapType="standard"
       >
         {benches.map((bench) => (
           <Marker
