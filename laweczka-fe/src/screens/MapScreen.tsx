@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -10,6 +10,8 @@ import supabase from '../lib/supabase';
 import { Bench } from '../types/database';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
+import { screenStyles } from '../styles/screens';
+import { commonStyles } from '../styles/common';
 
 const MapScreen = () => {
   const navigation = useNavigation<any>();
@@ -91,31 +93,31 @@ const MapScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={screenStyles.mapScreenContainer}>
       <ExpoMap 
         benches={benches} 
         onMarkerPress={handleMarkerPress}
         mapRef={mapRef}
       />
 
-      <View style={styles.controlButtonsContainer}>
+      <View style={screenStyles.mapScreenControlButtonsContainer}>
         <TouchableOpacity
           onPress={handleSearch}
-          style={styles.controlButton}
+          style={screenStyles.mapScreenControlButton}
         >
           <Ionicons name="search" size={24} color="#ffffff" />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleLocationButtonClick}
-          style={styles.controlButton}
+          style={screenStyles.mapScreenControlButton}
         >
           <Ionicons name="locate" size={24} color="#ffffff" />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleAddBench}
-          style={styles.controlButton}
+          style={screenStyles.mapScreenControlButton}
         >
           <Ionicons name="add-circle" size={24} color="#ffffff" />
         </TouchableOpacity>
@@ -130,36 +132,5 @@ const MapScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  controlButtonsContainer: {
-    position: 'absolute',
-    bottom: 30,
-    right: 20,
-    zIndex: 1000,
-    flexDirection: 'column',
-    gap: 12,
-  },
-  controlButton: {
-    backgroundColor: '#22c55e',
-    borderRadius: 30,
-    padding: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 60,
-    height: 60,
-  },
-});
 
 export default MapScreen;

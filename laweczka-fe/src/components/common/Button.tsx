@@ -1,6 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, TouchableOpacityProps, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator, TouchableOpacityProps, ViewStyle, TextStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { componentStyles } from '../../styles/components';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -18,27 +19,27 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   ...props
 }) => {
-  const buttonStyle: ViewStyle[] = [styles.button];
-  let textStyle: TextStyle = styles.buttonText;
+  const buttonStyle: ViewStyle[] = [componentStyles.button];
+  let textStyle: TextStyle = componentStyles.buttonText;
   let iconColor = '#ffffff';
 
   if (disabled || loading) {
-    buttonStyle.push(styles.disabled);
+    buttonStyle.push(componentStyles.buttonDisabled);
   } else {
     switch (variant) {
       case 'primary':
-        buttonStyle.push(styles.primary);
+        buttonStyle.push(componentStyles.buttonPrimary);
         break;
       case 'danger':
-        buttonStyle.push(styles.danger);
+        buttonStyle.push(componentStyles.buttonDanger);
         break;
       case 'outline':
-        buttonStyle.push(styles.outline);
-        textStyle = styles.outlineText;
+        buttonStyle.push(componentStyles.buttonOutline);
+        textStyle = componentStyles.buttonTextOutline;
         iconColor = '#22c55e';
         break;
       default:
-        buttonStyle.push(styles.primary);
+        buttonStyle.push(componentStyles.buttonPrimary);
     }
   }
 
@@ -57,7 +58,7 @@ export const Button: React.FC<ButtonProps> = ({
               name={icon} 
               size={20} 
               color={iconColor} 
-              style={styles.icon} 
+              style={componentStyles.buttonIcon} 
             />
           )}
           <Text style={textStyle}>{title}</Text>
@@ -66,43 +67,3 @@ export const Button: React.FC<ButtonProps> = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  primary: {
-    backgroundColor: '#22c55e',
-  },
-  danger: {
-    backgroundColor: '#d32f2f',
-  },
-  outline: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: '#22c55e',
-  },
-  disabled: {
-    backgroundColor: '#cccccc',
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  outlineText: {
-    color: '#22c55e',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  icon: {
-    marginRight: 8,
-  },
-});

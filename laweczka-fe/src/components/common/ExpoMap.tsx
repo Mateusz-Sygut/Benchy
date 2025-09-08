@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { Bench } from '../../types/database';
+import { componentStyles } from '../../styles/components';
 
 interface ExpoMapProps {
   benches: Bench[];
@@ -90,19 +91,19 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
 
   if (!userLocation) {
     return (
-      <View style={styles.container}>
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>{t('common.loading')}</Text>
+      <View style={componentStyles.mapContainer}>
+        <View style={componentStyles.loadingContainer}>
+          <Text style={componentStyles.loadingText}>{t('common.loading')}</Text>
         </View>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={componentStyles.mapContainer}>
       <MapView
         ref={mapRef}
-        style={styles.map}
+        style={componentStyles.map}
         initialRegion={{
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
@@ -135,23 +136,5 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
-  },
-  loadingText: {
-    fontSize: 16,
-    color: '#666',
-  },
-});
 
 

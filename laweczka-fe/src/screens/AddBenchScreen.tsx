@@ -5,7 +5,6 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
-  StyleSheet,
   StatusBar,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,6 +15,8 @@ import { useAuth } from '../contexts/AuthContext';
 import supabase from '../lib/supabase';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
+import { screenStyles } from '../styles/screens';
+import { commonStyles } from '../styles/common';
 
 const AddBenchScreen = ({ navigation }: any) => {
   const [description, setDescription] = useState('');
@@ -121,53 +122,54 @@ const AddBenchScreen = ({ navigation }: any) => {
       <StatusBar barStyle="light-content" backgroundColor="#2e7d32" />
       <LinearGradient
         colors={['#e8f5e8', '#f1f8e9']}
-        style={styles.container}
+        style={commonStyles.container}
       >
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.content}>
+        <ScrollView style={commonStyles.scrollView}>
+          <View style={commonStyles.content}>
             {/* Header */}
-            <View style={styles.headerCard}>
-              <Text style={styles.sectionTitle}>{t('addBench.description')}</Text>
+            <View style={screenStyles.addBenchHeaderCard}>
+              <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.description')}</Text>
               <Input
                 placeholder={t('addBench.descriptionPlaceholder')}
                 value={description}
                 onChangeText={setDescription}
-                style={styles.textInput}
-                containerStyle={styles.inputContainer}
+                multiline={true}
+                numberOfLines={4}
+                containerStyle={screenStyles.addBenchInputContainer}
               />
             </View>
 
             {/* Location Info */}
-            <View style={styles.sectionCard}>
-              <Text style={styles.sectionTitle}>{t('addBench.locationInfo')}</Text>
+            <View style={screenStyles.addBenchSectionCard}>
+              <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.locationInfo')}</Text>
               {userLocation ? (
-                <Text style={styles.locationText}>
+                <Text style={screenStyles.addBenchInfoText}>
                   📍 {userLocation.latitude.toFixed(6)}, {userLocation.longitude.toFixed(6)}
                 </Text>
               ) : (
-                <Text style={styles.locationText}>
+                <Text style={screenStyles.addBenchInfoText}>
                   {t('common.loading')}...
                 </Text>
               )}
             </View>
 
             {/* Bench Type Selection */}
-            <View style={styles.sectionCard}>
-              <Text style={styles.sectionTitle}>{t('addBench.benchType')}</Text>
-              <View style={styles.benchGrid}>
+            <View style={screenStyles.addBenchSectionCard}>
+              <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.benchType')}</Text>
+              <View style={screenStyles.addBenchGrid}>
                 {benchImages.map((image) => (
                   <TouchableOpacity
                     key={image.id}
                     style={[
-                      styles.benchOption,
-                      selectedImage === image.id && styles.benchOptionSelected
+                      screenStyles.addBenchOption,
+                      selectedImage === image.id && screenStyles.addBenchOptionSelected
                     ]}
                     onPress={() => setSelectedImage(image.id)}
                   >
-                    <Text style={styles.benchIcon}>{image.icon}</Text>
-                    <Text style={styles.benchName}>{image.name}</Text>
+                    <Text style={screenStyles.addBenchIcon}>{image.icon}</Text>
+                    <Text style={screenStyles.addBenchName}>{image.name}</Text>
                     {selectedImage === image.id && (
-                      <View style={styles.checkmark}>
+                      <View style={screenStyles.addBenchCheckmark}>
                         <Ionicons 
                           name="checkmark-circle" 
                           size={24} 
@@ -181,18 +183,18 @@ const AddBenchScreen = ({ navigation }: any) => {
             </View>
 
             {/* Location Info */}
-            <View style={styles.infoCard}>
-              <View style={styles.infoIconContainer}>
+            <View style={screenStyles.addBenchInfoCard}>
+              <View style={screenStyles.addBenchInfoIconContainer}>
                 <Ionicons name="location" size={20} color="#2e7d32" />
               </View>
-              <View style={styles.locationInfo}>
-                <Text style={styles.infoText}>
+              <View style={screenStyles.addBenchLocationInfo}>
+                <Text style={screenStyles.addBenchInfoText}>
                   {userLocation 
                     ? `📍 ${userLocation.latitude.toFixed(4)}, ${userLocation.longitude.toFixed(4)}`
                     : 'Pobieranie lokalizacji...'
                   }
                 </Text>
-                <Text style={styles.infoSubtext}>
+                <Text style={screenStyles.addBenchInfoSubtext}>
                   {userLocation ? 'Aktualna lokalizacja' : 'Czekaj...'}
                 </Text>
               </View>
@@ -205,7 +207,7 @@ const AddBenchScreen = ({ navigation }: any) => {
               loading={loading}
               disabled={loading}
               icon="add-circle"
-              style={styles.saveButton}
+              style={screenStyles.addBenchSaveButton}
             />
           </View>
         </ScrollView>
@@ -214,132 +216,5 @@ const AddBenchScreen = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  headerCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  sectionCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2e7d32',
-    marginBottom: 16,
-  },
-  inputContainer: {
-    marginBottom: 0,
-  },
-  textInput: {
-    minHeight: 80,
-    textAlignVertical: 'top',
-  },
-  benchGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  benchOption: {
-    width: '48%',
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    marginBottom: 12,
-    borderWidth: 2,
-    borderColor: '#e9ecef',
-    position: 'relative',
-  },
-  benchOptionSelected: {
-    borderColor: '#2e7d32',
-    backgroundColor: '#e8f5e8',
-  },
-  benchIcon: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  benchName: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-  },
-  checkmark: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-  },
-  infoCard: {
-    backgroundColor: 'rgba(46, 125, 50, 0.1)',
-    borderRadius: 12,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-    borderWidth: 1,
-    borderColor: 'rgba(46, 125, 50, 0.2)',
-  },
-  infoIconContainer: {
-    marginRight: 12,
-  },
-  locationInfo: {
-    flex: 1,
-  },
-  infoText: {
-    fontSize: 14,
-    color: '#2e7d32',
-    fontWeight: '600',
-    marginBottom: 2,
-  },
-  infoSubtext: {
-    fontSize: 12,
-    color: '#666',
-  },
-  locationText: {
-    fontSize: 14,
-    color: '#666',
-    fontFamily: 'monospace',
-    backgroundColor: '#f8f9fa',
-    padding: 8,
-    borderRadius: 8,
-    textAlign: 'center',
-  },
-  saveButton: {
-    backgroundColor: '#2e7d32',
-    paddingVertical: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-});
 
 export default AddBenchScreen;

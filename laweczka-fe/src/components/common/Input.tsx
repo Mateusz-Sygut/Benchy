@@ -1,94 +1,70 @@
 import React from 'react';
-import { TextInput, View, Text, TextInputProps, StyleSheet, ViewStyle } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { componentStyles } from '../../styles/components';
 
-interface InputProps extends TextInputProps {
-  label?: string;
+interface InputProps {
+  placeholder?: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  secureTextEntry?: boolean;
+  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  autoCorrect?: boolean;
+  icon?: string;
+  containerStyle?: any;
   error?: string;
-  icon?: keyof typeof Ionicons.glyphMap;
-  containerStyle?: ViewStyle;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 
 export const Input: React.FC<InputProps> = ({
-  label,
-  error,
+  placeholder,
+  value,
+  onChangeText,
+  secureTextEntry = false,
+  keyboardType = 'default',
+  autoCapitalize = 'sentences',
+  autoCorrect = true,
   icon,
   containerStyle,
-  style,
-  ...props
+  error,
+  multiline = false,
+  numberOfLines = 1,
 }) => {
-  const inputStyle = [
-    styles.input,
-    error && styles.inputError,
-    icon && styles.inputWithIcon,
-    style
-  ];
-
   return (
-    <View style={[styles.container, containerStyle]}>
-      {label && (
-        <Text style={styles.label}>
-          {label}
-        </Text>
-      )}
-      <View style={styles.inputContainer}>
+    <View style={[componentStyles.inputContainer, containerStyle]}>
+      <View style={componentStyles.inputWrapper}>
         {icon && (
-          <View style={styles.iconContainer}>
-            <Ionicons name={icon} size={20} color="#9e9e9e" />
+          <View style={componentStyles.inputIconContainer}>
+            <Ionicons name={icon as any} size={20} color="#666" />
           </View>
         )}
         <TextInput
-          style={inputStyle}
-          placeholderTextColor="#9e9e9e"
-          {...props}
+          style={[
+            componentStyles.input,
+            icon && componentStyles.inputWithIcon,
+            multiline && componentStyles.inputMultiline,
+            error && componentStyles.inputError,
+          ]}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
+          autoCorrect={autoCorrect}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
+          placeholderTextColor="#999"
         />
       </View>
-      {error && (
-        <Text style={styles.errorText}>
-          {error}
-        </Text>
-      )}
+      {error && <Text style={componentStyles.inputErrorText}>{error}</Text>}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  label: {
-    color: '#374151',
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 8,
-  },
-  inputContainer: {
-    position: 'relative',
-  },
-  input: {
-    backgroundColor: '#ffffff',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    fontSize: 16,
-  },
-  inputWithIcon: {
-    paddingLeft: 48,
-  },
-  inputError: {
-    borderColor: '#ef4444',
-  },
-  iconContainer: {
-    position: 'absolute',
-    left: 12,
-    top: 12,
-    zIndex: 10,
-  },
-  errorText: {
-    color: '#ef4444',
-    fontSize: 12,
-    marginTop: 4,
-  },
-});

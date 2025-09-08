@@ -5,12 +5,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   FlatList,
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { componentStyles } from '../../styles/components';
 
 interface SearchModalProps {
   visible: boolean;
@@ -73,16 +73,16 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onSearch })
 
   const renderSearchResult = ({ item }: { item: SearchResult }) => (
     <TouchableOpacity
-      style={styles.resultItem}
+      style={componentStyles.searchModalResultItem}
       onPress={() => handleResultPress(item)}
     >
-      <View style={styles.resultIcon}>
+      <View style={componentStyles.searchModalResultIcon}>
         <Ionicons name="location" size={20} color="#22c55e" />
       </View>
-      <View style={styles.resultContent}>
-        <Text style={styles.resultTitle}>{item.name}</Text>
+      <View style={componentStyles.searchModalResultContent}>
+        <Text style={componentStyles.searchModalResultTitle}>{item.name}</Text>
         {item.description && (
-          <Text style={styles.resultDescription}>{item.description}</Text>
+          <Text style={componentStyles.searchModalResultDescription}>{item.description}</Text>
         )}
       </View>
       <Ionicons name="chevron-forward" size={20} color="#ccc" />
@@ -96,22 +96,22 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onSearch })
       presentationStyle="pageSheet"
       onRequestClose={onClose}
     >
-      <View style={styles.container}>
+      <View style={componentStyles.searchModalContainer}>
         {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+        <View style={componentStyles.searchModalHeader}>
+          <TouchableOpacity onPress={onClose} style={componentStyles.searchModalCloseButton}>
             <Ionicons name="close" size={24} color="#666" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>{t('search.title')}</Text>
-          <View style={styles.placeholder} />
+          <Text style={componentStyles.searchModalHeaderTitle}>{t('search.title')}</Text>
+          <View style={componentStyles.searchModalPlaceholder} />
         </View>
 
         {/* Search Input */}
-        <View style={styles.searchContainer}>
-          <View style={styles.searchInputContainer}>
-            <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
+        <View style={componentStyles.searchModalSearchContainer}>
+          <View style={componentStyles.searchModalSearchInputContainer}>
+            <Ionicons name="search" size={20} color="#666" style={componentStyles.searchModalSearchIcon} />
             <TextInput
-              style={styles.searchInput}
+              style={componentStyles.searchModalSearchInput}
               placeholder={t('search.placeholder')}
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -121,18 +121,18 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onSearch })
             {searchQuery.length > 0 && (
               <TouchableOpacity
                 onPress={() => setSearchQuery('')}
-                style={styles.clearButton}
+                style={componentStyles.searchModalClearButton}
               >
                 <Ionicons name="close-circle" size={20} color="#666" />
               </TouchableOpacity>
             )}
           </View>
           <TouchableOpacity
-            style={styles.searchButton}
+            style={componentStyles.searchModalSearchButton}
             onPress={handleSearch}
             disabled={isSearching}
           >
-            <Text style={styles.searchButtonText}>
+            <Text style={componentStyles.searchModalSearchButtonText}>
               {isSearching ? t('search.searching') : t('search.search')}
             </Text>
           </TouchableOpacity>
@@ -143,12 +143,12 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onSearch })
           data={searchResults}
           renderItem={renderSearchResult}
           keyExtractor={(item) => item.id}
-          style={styles.resultsList}
+          style={componentStyles.searchModalResultsList}
           ListEmptyComponent={
             searchQuery.length > 0 && !isSearching ? (
-              <View style={styles.emptyContainer}>
+              <View style={componentStyles.searchModalEmptyContainer}>
                 <Ionicons name="search-outline" size={48} color="#ccc" />
-                <Text style={styles.emptyText}>{t('search.noResults')}</Text>
+                <Text style={componentStyles.searchModalEmptyText}>{t('search.noResults')}</Text>
               </View>
             ) : null
           }
@@ -158,109 +158,5 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onSearch })
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
-  },
-  closeButton: {
-    padding: 5,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  placeholder: {
-    width: 34,
-  },
-  searchContainer: {
-    padding: 20,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
-  },
-  searchInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    paddingVertical: 15,
-    fontSize: 16,
-    color: '#333',
-  },
-  clearButton: {
-    padding: 5,
-  },
-  searchButton: {
-    backgroundColor: '#22c55e',
-    borderRadius: 12,
-    paddingVertical: 15,
-    alignItems: 'center',
-  },
-  searchButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  resultsList: {
-    flex: 1,
-  },
-  resultItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  resultIcon: {
-    marginRight: 15,
-  },
-  resultContent: {
-    flex: 1,
-  },
-  resultTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
-  },
-  resultDescription: {
-    fontSize: 14,
-    color: '#666',
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 60,
-  },
-  emptyText: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 15,
-    textAlign: 'center',
-  },
-});
 
 export default SearchModal;

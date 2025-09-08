@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Animated, StyleSheet } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { getRecentBenches, RecentBench } from '../../lib/api';
+import { componentStyles } from '../../styles/components';
 
 const ScrollingBenchesHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -56,15 +57,15 @@ const ScrollingBenchesHeader: React.FC = () => {
 
   if (loading || recentBenches.length === 0) {
     return (
-      <View style={styles.container}>
-        <View style={styles.iconContainer}>
+      <View style={componentStyles.scrollingHeaderContainer}>
+        <View style={componentStyles.scrollingHeaderIconContainer}>
           <Ionicons name="time-outline" size={16} color="#ffffff" />
         </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.mainText}>
+        <View style={componentStyles.scrollingHeaderTextContainer}>
+          <Text style={componentStyles.scrollingHeaderMainText}>
             {t('header.latestBench')}
           </Text>
-          <Text style={styles.benchText}>
+          <Text style={componentStyles.scrollingHeaderBenchText}>
             {t('common.loading')}
           </Text>
         </View>
@@ -73,18 +74,18 @@ const ScrollingBenchesHeader: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.iconContainer}>
+    <View style={componentStyles.scrollingHeaderContainer}>
+      <View style={componentStyles.scrollingHeaderIconContainer}>
         <Ionicons name="time-outline" size={16} color="#ffffff" />
       </View>
-      <Animated.View style={[styles.textContainer, { opacity: fadeAnim }]}>
-        <Text style={styles.mainText}>
+      <Animated.View style={[componentStyles.scrollingHeaderTextContainer, { opacity: fadeAnim }]}>
+        <Text style={componentStyles.scrollingHeaderMainText}>
           {t('header.latestBench')}
         </Text>
-        <Text style={styles.benchText}>
+        <Text style={componentStyles.scrollingHeaderBenchText}>
           "{currentBench.name}" w {currentBench.city}
         </Text>
-        <Text style={styles.timeText}>
+        <Text style={componentStyles.scrollingHeaderTimeText}>
           {currentBench.addedAt}
         </Text>
       </Animated.View>
@@ -92,57 +93,5 @@ const ScrollingBenchesHeader: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    borderRadius: 24,
-    marginHorizontal: 16,
-    marginTop: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  iconContainer: {
-    marginRight: 14,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 12,
-    padding: 6,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  mainText: {
-    color: '#ffffff',
-    fontSize: 11,
-    fontWeight: '600',
-    opacity: 0.85,
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
-  },
-  benchText: {
-    color: '#ffffff',
-    fontSize: 15,
-    fontWeight: '700',
-    marginTop: 3,
-    letterSpacing: 0.3,
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
-  },
-  timeText: {
-    color: '#ffffff',
-    fontSize: 12,
-    opacity: 0.75,
-    marginTop: 2,
-    fontWeight: '500',
-    fontStyle: 'italic',
-  },
-});
 
 export default ScrollingBenchesHeader;

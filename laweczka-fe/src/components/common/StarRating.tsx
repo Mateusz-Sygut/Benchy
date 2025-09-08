@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { componentStyles } from '../../styles/components';
 
 interface StarRatingProps {
   rating: number;
@@ -44,7 +45,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
       <StarComponent
         key={starNumber}
         onPress={() => handleStarPress(starNumber)}
-        style={styles.star}
+        style={componentStyles.starRatingStar}
         disabled={readonly}
       >
         <Ionicons
@@ -57,18 +58,8 @@ export const StarRating: React.FC<StarRatingProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={componentStyles.starRatingContainer}>
       {Array.from({ length: maxRating }, (_, index) => renderStar(index + 1))}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  star: {
-    marginHorizontal: 2,
-  },
-});

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -10,19 +10,6 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   const { t } = useTranslation();
-  
-  const screenOptions = useMemo(() => ({
-    map: {
-      title: t('navigation.map'),
-      headerShown: false
-    },
-    benchList: {
-      title: t('navigation.benchList')
-    },
-    profile: {
-      title: t('navigation.profile')
-    }
-  }), [t]);
   
   return (
     <Tab.Navigator
@@ -56,17 +43,24 @@ const TabNavigator = () => {
       <Tab.Screen 
         name="Map" 
         component={MapScreen} 
-        options={screenOptions.map}
+        options={{
+          title: t('navigation.map'),
+          headerShown: false
+        }}
       />
       <Tab.Screen 
         name="BenchList" 
         component={BenchListScreen} 
-        options={screenOptions.benchList}
+        options={{
+          title: t('navigation.benchList')
+        }}
       />
       <Tab.Screen 
         name="Profile" 
-        component={ProfileScreen} 
-        options={screenOptions.profile}
+        component={ProfileScreen}
+        options={{
+          title: t('navigation.profile')
+        }}
       />
     </Tab.Navigator>
   );

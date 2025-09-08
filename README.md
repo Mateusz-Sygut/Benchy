@@ -31,7 +31,11 @@ Laweczka/
 │   │   ├── types/          # TypeScript types
 │   │   ├── lib/            # Libraries (Supabase)
 │   │   ├── contexts/       # React contexts
-│   │   └── styles/         # Styles and colors
+│   │   └── styles/         # Centralized styling system
+│   │       ├── colors.ts   # Color palette
+│   │       ├── common.ts   # Common styles
+│   │       ├── components.ts # Component styles
+│   │       └── screens.ts  # Screen styles
 │   ├── app.json            # Expo configuration
 │   └── package.json        # Dependencies
 │
@@ -54,6 +58,7 @@ Laweczka/
 - **react-i18next** - Internationalization
 - **react-native-safe-area-context** - Safe area handling
 - **@expo/vector-icons** - Icons
+- **Centralized Styling System** - Organized StyleSheet architecture
 
 ### **Backend (`laweczka-be`)**
 - **Supabase** - Backend-as-a-Service
@@ -174,6 +179,37 @@ eas build --platform android
 
 # iOS  
 eas build --platform ios
+```
+
+## 🎨 **Styling Architecture**
+
+The app uses a **centralized styling system** for better maintainability and consistency:
+
+### **Style Organization**
+```
+src/styles/
+├── colors.ts      # Color palette and theme
+├── common.ts      # Common styles (containers, layouts)
+├── components.ts  # Reusable component styles
+└── screens.ts     # Screen-specific styles
+```
+
+### **Benefits**
+- ✅ **Consistent Design** - Unified color palette and spacing
+- ✅ **Easy Maintenance** - All styles in one place
+- ✅ **Type Safety** - TypeScript support for all styles
+- ✅ **Reusability** - Shared styles across components
+- ✅ **Performance** - StyleSheet.create optimization
+
+### **Usage Example**
+```typescript
+import { screenStyles } from '../styles/screens';
+import { componentStyles } from '../styles/components';
+
+// In component
+<View style={screenStyles.authContainer}>
+  <Button style={componentStyles.buttonPrimary} />
+</View>
 ```
 
 ## 🤝 **Contributing**

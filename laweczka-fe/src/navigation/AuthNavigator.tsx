@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
@@ -9,24 +8,11 @@ import ScrollingBenchesHeader from '../components/common/ScrollingBenchesHeader'
 const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => {
-  const { t } = useTranslation();
-  
   const CustomHeader = () => (
     <View style={{ backgroundColor: '#22c55e', paddingTop: 40, paddingBottom: 8 }}>
       <ScrollingBenchesHeader />
     </View>
   );
-  
-  const screenOptions = useMemo(() => ({
-    login: {
-      header: () => <CustomHeader />,
-      headerShown: true,
-    },
-    register: {
-      header: () => <CustomHeader />,
-      headerShown: true,
-    }
-  }), []);
   
   return (
     <Stack.Navigator 
@@ -44,12 +30,18 @@ const AuthNavigator = () => {
       <Stack.Screen 
         name="Login" 
         component={LoginScreen} 
-        options={screenOptions.login}
+        options={{
+          header: () => <CustomHeader />,
+          headerShown: true,
+        }}
       />
       <Stack.Screen 
         name="Register" 
         component={RegisterScreen} 
-        options={screenOptions.register}
+        options={{
+          header: () => <CustomHeader />,
+          headerShown: true,
+        }}
       />
     </Stack.Navigator>
   );

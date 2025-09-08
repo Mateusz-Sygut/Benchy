@@ -5,7 +5,6 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  StyleSheet,
   StatusBar,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,6 +14,8 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
 import { Bench } from '../types/database';
+import { screenStyles } from '../styles/screens';
+import { commonStyles } from '../styles/common';
 
 const BenchListScreen = () => {
   const navigation = useNavigation<any>();
@@ -65,32 +66,32 @@ const BenchListScreen = () => {
 
   const renderBenchItem = ({ item }: { item: Bench }) => (
     <TouchableOpacity
-      style={styles.benchCard}
+      style={screenStyles.benchListBenchCard}
       onPress={() => navigation.navigate('BenchDetails', { benchId: item.id })}
     >
-      <View style={styles.benchIconContainer}>
-        <Text style={styles.benchIcon}>{getBenchIcon(item.image_type)}</Text>
+      <View style={screenStyles.benchListBenchIconContainer}>
+        <Text style={screenStyles.benchListBenchIcon}>{getBenchIcon(item.image_type)}</Text>
       </View>
       
-      <View style={styles.benchContent}>
-        <Text style={styles.benchDescription} numberOfLines={2}>
+      <View style={screenStyles.benchListBenchContent}>
+        <Text style={screenStyles.benchListBenchDescription} numberOfLines={2}>
           {item.description}
         </Text>
         
-        <View style={styles.benchMeta}>
-          <View style={styles.ratingContainer}>
+        <View style={screenStyles.benchListBenchMeta}>
+          <View style={screenStyles.benchListRatingContainer}>
             <Ionicons name="star" size={16} color="#FFD700" />
-            <Text style={styles.ratingText}>
+            <Text style={screenStyles.benchListRatingText}>
               {item.average_rating && item.average_rating > 0 ? item.average_rating.toFixed(1) : t('benchList.noRating')}
             </Text>
           </View>
           
-          <Text style={styles.usernameText}>
+          <Text style={screenStyles.benchListUsernameText}>
             {t('bench.addedBy')}
           </Text>
         </View>
         
-        <Text style={styles.locationText}>
+        <Text style={screenStyles.benchListLocationText}>
           📍 {item.latitude.toFixed(4)}, {item.longitude.toFixed(4)}
         </Text>
       </View>
@@ -100,25 +101,25 @@ const BenchListScreen = () => {
   );
 
   const renderEmptyState = () => (
-    <View style={styles.emptyContainer}>
+    <View style={screenStyles.benchListEmptyContainer}>
       <LinearGradient
         colors={['#e8f5e8', '#f1f8e9']}
-        style={styles.emptyGradient}
+        style={screenStyles.benchListEmptyGradient}
       >
-        <View style={styles.emptyIconContainer}>
+        <View style={screenStyles.benchListEmptyIconContainer}>
           <Ionicons name="map-outline" size={64} color="#2e7d32" />
         </View>
-        <Text style={styles.emptyTitle}>
+        <Text style={screenStyles.benchListEmptyTitle}>
           {t('benchList.noBenchesTitle')}
         </Text>
-        <Text style={styles.emptyText}>
+        <Text style={screenStyles.benchListEmptyText}>
           {t('benchList.noBenchesText')}
         </Text>
         <Button
           title={t('benchList.addFirstBench')}
           onPress={() => navigation.navigate('AddBench')}
           icon="add"
-          style={styles.emptyButton}
+          style={screenStyles.benchListEmptyButton}
         />
       </LinearGradient>
     </View>
@@ -127,7 +128,7 @@ const BenchListScreen = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#2e7d32" />
-      <View style={styles.container}>
+      <View style={screenStyles.benchListContainer}>
         <FlatList
           data={benches}
           renderItem={renderBenchItem}
@@ -141,7 +142,7 @@ const BenchListScreen = () => {
             />
           }
           ListEmptyComponent={renderEmptyState}
-          contentContainerStyle={benches.length === 0 ? styles.emptyContentContainer : styles.listContent}
+          contentContainerStyle={benches.length === 0 ? screenStyles.benchListEmptyContentContainer : screenStyles.benchListListContent}
           showsVerticalScrollIndicator={false}
         />
       </View>
@@ -149,114 +150,5 @@ const BenchListScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  listContent: {
-    padding: 16,
-  },
-  benchCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  benchIconContainer: {
-    width: 50,
-    height: 50,
-    backgroundColor: '#e8f5e8',
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  benchIcon: {
-    fontSize: 24,
-  },
-  benchContent: {
-    flex: 1,
-  },
-  benchDescription: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 8,
-  },
-  benchMeta: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  ratingText: {
-    marginLeft: 4,
-    fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
-  },
-  usernameText: {
-    fontSize: 12,
-    color: '#888',
-    fontStyle: 'italic',
-  },
-  locationText: {
-    fontSize: 12,
-    color: '#999',
-  },
-  emptyContainer: {
-    flex: 1,
-  },
-  emptyContentContainer: {
-    flex: 1,
-  },
-  emptyGradient: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 32,
-  },
-  emptyIconContainer: {
-    width: 120,
-    height: 120,
-    backgroundColor: 'rgba(46, 125, 50, 0.1)',
-    borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  emptyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2e7d32',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  emptyText: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 32,
-  },
-  emptyButton: {
-    backgroundColor: '#2e7d32',
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 12,
-  },
-});
 
 export default BenchListScreen;
