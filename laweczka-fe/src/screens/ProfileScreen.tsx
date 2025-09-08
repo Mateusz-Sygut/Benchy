@@ -14,6 +14,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/common/Button';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
+import { colors } from '../styles/colors';
 
 const ProfileScreen = () => {
   const { user, signOut } = useAuth();
@@ -63,11 +64,11 @@ const ProfileScreen = () => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#2e7d32" />
+      <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
       <ScrollView style={screenStyles.profileContainer}>
         {/* Header with Gradient */}
         <LinearGradient
-          colors={['#2e7d32', '#388e3c', '#43a047']}
+          colors={colors.gradient.primary}
           style={screenStyles.profileHeader}
         >
           <View style={screenStyles.profileProfileSection}>
@@ -118,7 +119,7 @@ const ProfileScreen = () => {
             >
               <View style={screenStyles.profileMenuItemContent}>
                 <View style={screenStyles.profileMenuIconContainer}>
-                  <Ionicons name={item.icon as any} size={24} color="#2e7d32" />
+                  <Ionicons name={item.icon as any} size={24} color={colors.primary[900]} />
                 </View>
                 <View style={screenStyles.profileMenuTextContainer}>
                   <Text style={screenStyles.profileMenuTitle}>

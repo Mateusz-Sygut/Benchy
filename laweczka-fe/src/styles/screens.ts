@@ -206,6 +206,9 @@ export const screenStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f0f8f0',
   },
+  benchDetailsScrollContent: {
+    paddingBottom: 30,
+  },
   benchDetailsLoading: {
     textAlign: 'center',
     marginTop: 50,

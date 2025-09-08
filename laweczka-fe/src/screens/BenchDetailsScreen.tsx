@@ -136,7 +136,7 @@ const BenchDetailsScreen = ({ route }: any) => {
   }
 
   return (
-    <ScrollView style={screenStyles.benchDetailsContainer} contentContainerStyle={{ paddingBottom: 30 }}>
+    <ScrollView style={screenStyles.benchDetailsContainer} contentContainerStyle={screenStyles.benchDetailsScrollContent}>
       {/* Bench Info */}
       <View style={screenStyles.benchDetailsBenchInfo}>
         <Text style={screenStyles.benchDetailsIcon}>{getBenchIcon(bench.image_type)}</Text>

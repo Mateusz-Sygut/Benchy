@@ -77,4 +77,26 @@ export const commonStyles = StyleSheet.create({
   backgroundSecondary: {
     backgroundColor: colors.background.secondary,
   },
+  
+  // Navigation styles
+  authHeaderContainer: {
+    backgroundColor: colors.primary[600],
+    paddingTop: 40,
+    paddingBottom: 8,
+  },
+  authHeaderStyle: {
+    backgroundColor: colors.primary[600],
+  },
+  authHeaderTitleStyle: {
+    fontWeight: 'bold' as const,
+  },
+  mainHeaderStyle: {
+    backgroundColor: colors.primary[800],
+  },
+  tabHeaderStyle: {
+    backgroundColor: colors.primary[800],
+  },
+  tabHeaderTitleStyle: {
+    fontWeight: 'bold' as const,
+  },
 });

@@ -31,6 +31,12 @@ export const colors = {
   info: '#2196f3',
   
   rating: '#ffd700',
+  star: '#FFD700',
+  gradient: {
+    light: '#e8f5e8',
+    lighter: '#f1f8e9',
+    primary: ['#2e7d32', '#388e3c', '#43a047'],
+  },
   
   background: {
     primary: '#ffffff',

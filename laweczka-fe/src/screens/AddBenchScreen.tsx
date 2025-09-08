@@ -17,6 +17,7 @@ import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
+import { colors } from '../styles/colors';
 
 const AddBenchScreen = ({ navigation }: any) => {
   const [description, setDescription] = useState('');
@@ -119,9 +120,9 @@ const AddBenchScreen = ({ navigation }: any) => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#2e7d32" />
+      <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
       <LinearGradient
-        colors={['#e8f5e8', '#f1f8e9']}
+        colors={[colors.gradient.light, colors.gradient.lighter]}
         style={commonStyles.container}
       >
         <ScrollView style={commonStyles.scrollView}>
@@ -173,7 +174,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                         <Ionicons 
                           name="checkmark-circle" 
                           size={24} 
-                          color="#2e7d32" 
+                          color={colors.primary[900]} 
                         />
                       </View>
                     )}
@@ -185,7 +186,7 @@ const AddBenchScreen = ({ navigation }: any) => {
             {/* Location Info */}
             <View style={screenStyles.addBenchInfoCard}>
               <View style={screenStyles.addBenchInfoIconContainer}>
-                <Ionicons name="location" size={20} color="#2e7d32" />
+                <Ionicons name="location" size={20} color={colors.primary[900]} />
               </View>
               <View style={screenStyles.addBenchLocationInfo}>
                 <Text style={screenStyles.addBenchInfoText}>

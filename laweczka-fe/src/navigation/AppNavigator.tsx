@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import TabNavigator from './TabNavigator';
 import AddBenchScreen from '../screens/AddBenchScreen';
 import BenchDetailsScreen from '../screens/BenchDetailsScreen';
+import { commonStyles } from '../styles/common';
+import { colors } from '../styles/colors';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,8 +24,8 @@ const AppNavigator = () => {
         component={AddBenchScreen} 
         options={{
           title: t('navigation.addBench'),
-          headerStyle: { backgroundColor: '#2E7D32' },
-          headerTintColor: '#fff',
+          headerStyle: commonStyles.mainHeaderStyle,
+          headerTintColor: colors.text.white,
         }}
       />
       <Stack.Screen 
@@ -31,8 +33,8 @@ const AppNavigator = () => {
         component={BenchDetailsScreen} 
         options={{
           title: t('navigation.benchDetails'),
-          headerStyle: { backgroundColor: '#2E7D32' },
-          headerTintColor: '#fff',
+          headerStyle: commonStyles.mainHeaderStyle,
+          headerTintColor: colors.text.white,
         }}
       />
     </Stack.Navigator>

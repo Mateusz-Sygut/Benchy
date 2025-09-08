@@ -12,6 +12,7 @@ import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
+import { colors } from '../styles/colors';
 
 const MapScreen = () => {
   const navigation = useNavigation<any>();
@@ -105,21 +106,21 @@ const MapScreen = () => {
           onPress={handleSearch}
           style={screenStyles.mapScreenControlButton}
         >
-          <Ionicons name="search" size={24} color="#ffffff" />
+          <Ionicons name="search" size={24} color={colors.text.white} />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleLocationButtonClick}
           style={screenStyles.mapScreenControlButton}
         >
-          <Ionicons name="locate" size={24} color="#ffffff" />
+          <Ionicons name="locate" size={24} color={colors.text.white} />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleAddBench}
           style={screenStyles.mapScreenControlButton}
         >
-          <Ionicons name="add-circle" size={24} color="#ffffff" />
+          <Ionicons name="add-circle" size={24} color={colors.text.white} />
         </TouchableOpacity>
       </View>
 

@@ -4,12 +4,14 @@ import { View } from 'react-native';
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import ScrollingBenchesHeader from '../components/common/ScrollingBenchesHeader';
+import { commonStyles } from '../styles/common';
+import { colors } from '../styles/colors';
 
 const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => {
   const CustomHeader = () => (
-    <View style={{ backgroundColor: '#22c55e', paddingTop: 40, paddingBottom: 8 }}>
+    <View style={commonStyles.authHeaderContainer}>
       <ScrollingBenchesHeader />
     </View>
   );
@@ -18,13 +20,9 @@ const AuthNavigator = () => {
     <Stack.Navigator 
       initialRouteName="Login"
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#22c55e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        headerStyle: commonStyles.authHeaderStyle,
+        headerTintColor: colors.text.white,
+        headerTitleStyle: commonStyles.authHeaderTitleStyle,
       }}
     >
       <Stack.Screen 

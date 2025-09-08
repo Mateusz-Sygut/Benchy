@@ -5,6 +5,7 @@ import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { Bench } from '../../types/database';
 import { componentStyles } from '../../styles/components';
+import { colors } from '../../styles/colors';
 
 interface ExpoMapProps {
   benches: Bench[];
@@ -127,7 +128,7 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
             }}
             title={bench.name}
             description={bench.description || t('bench.noDescription')}
-            pinColor="#22c55e"
+            pinColor={colors.primary[600]}
             onPress={() => onMarkerPress?.(bench)}
           />
         ))}

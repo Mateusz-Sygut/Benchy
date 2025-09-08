@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { componentStyles } from '../../styles/components';
+import { colors } from '../../styles/colors';
 
 interface StarRatingProps {
   rating: number;
@@ -51,7 +52,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
         <Ionicons
           name={iconName}
           size={size}
-          color="#ffd700"
+          color={colors.star}
         />
       </StarComponent>
     );

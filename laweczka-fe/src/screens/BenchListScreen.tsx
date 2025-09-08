@@ -16,6 +16,7 @@ import supabase from '../lib/supabase';
 import { Bench } from '../types/database';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
+import { colors } from '../styles/colors';
 
 const BenchListScreen = () => {
   const navigation = useNavigation<any>();
@@ -80,7 +81,7 @@ const BenchListScreen = () => {
         
         <View style={screenStyles.benchListBenchMeta}>
           <View style={screenStyles.benchListRatingContainer}>
-            <Ionicons name="star" size={16} color="#FFD700" />
+            <Ionicons name="star" size={16} color={colors.star} />
             <Text style={screenStyles.benchListRatingText}>
               {item.average_rating && item.average_rating > 0 ? item.average_rating.toFixed(1) : t('benchList.noRating')}
             </Text>
@@ -103,11 +104,11 @@ const BenchListScreen = () => {
   const renderEmptyState = () => (
     <View style={screenStyles.benchListEmptyContainer}>
       <LinearGradient
-        colors={['#e8f5e8', '#f1f8e9']}
+        colors={[colors.gradient.light, colors.gradient.lighter]}
         style={screenStyles.benchListEmptyGradient}
       >
         <View style={screenStyles.benchListEmptyIconContainer}>
-          <Ionicons name="map-outline" size={64} color="#2e7d32" />
+          <Ionicons name="map-outline" size={64} color={colors.primary[900]} />
         </View>
         <Text style={screenStyles.benchListEmptyTitle}>
           {t('benchList.noBenchesTitle')}
@@ -127,7 +128,7 @@ const BenchListScreen = () => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#2e7d32" />
+      <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
       <View style={screenStyles.benchListContainer}>
         <FlatList
           data={benches}
@@ -137,8 +138,8 @@ const BenchListScreen = () => {
             <RefreshControl
               refreshing={loading}
               onRefresh={loadBenches}
-              colors={['#2e7d32']}
-              tintColor="#2e7d32"
+              colors={[colors.primary[900]]}
+              tintColor={colors.primary[900]}
             />
           }
           ListEmptyComponent={renderEmptyState}

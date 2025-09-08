@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { componentStyles } from '../../styles/components';
+import { colors } from '../../styles/colors';
 
 interface SearchModalProps {
   visible: boolean;
@@ -77,7 +78,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onSearch })
       onPress={() => handleResultPress(item)}
     >
       <View style={componentStyles.searchModalResultIcon}>
-        <Ionicons name="location" size={20} color="#22c55e" />
+        <Ionicons name="location" size={20} color={colors.primary[600]} />
       </View>
       <View style={componentStyles.searchModalResultContent}>
         <Text style={componentStyles.searchModalResultTitle}>{item.name}</Text>

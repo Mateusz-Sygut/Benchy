@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import MapScreen from '../screens/MapScreen';
 import BenchListScreen from '../screens/BenchListScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import { commonStyles } from '../styles/common';
+import { colors } from '../styles/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,15 +31,11 @@ const TabNavigator = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#2E7D32',
-        tabBarInactiveTintColor: 'gray',
-        headerStyle: {
-          backgroundColor: '#2E7D32',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        tabBarActiveTintColor: colors.primary[800],
+        tabBarInactiveTintColor: colors.text.secondary,
+        headerStyle: commonStyles.tabHeaderStyle,
+        headerTintColor: colors.text.white,
+        headerTitleStyle: commonStyles.tabHeaderTitleStyle,
       })}
     >
       <Tab.Screen 

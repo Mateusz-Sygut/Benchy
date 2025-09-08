@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { getRecentBenches, RecentBench } from '../../lib/api';
 import { componentStyles } from '../../styles/components';
+import { colors } from '../../styles/colors';
 
 const ScrollingBenchesHeader: React.FC = () => {
   const { t } = useTranslation();
@@ -59,7 +60,7 @@ const ScrollingBenchesHeader: React.FC = () => {
     return (
       <View style={componentStyles.scrollingHeaderContainer}>
         <View style={componentStyles.scrollingHeaderIconContainer}>
-          <Ionicons name="time-outline" size={16} color="#ffffff" />
+          <Ionicons name="time-outline" size={16} color={colors.text.white} />
         </View>
         <View style={componentStyles.scrollingHeaderTextContainer}>
           <Text style={componentStyles.scrollingHeaderMainText}>
@@ -76,7 +77,7 @@ const ScrollingBenchesHeader: React.FC = () => {
   return (
     <View style={componentStyles.scrollingHeaderContainer}>
       <View style={componentStyles.scrollingHeaderIconContainer}>
-        <Ionicons name="time-outline" size={16} color="#ffffff" />
+        <Ionicons name="time-outline" size={16} color={colors.text.white} />
       </View>
       <Animated.View style={[componentStyles.scrollingHeaderTextContainer, { opacity: fadeAnim }]}>
         <Text style={componentStyles.scrollingHeaderMainText}>

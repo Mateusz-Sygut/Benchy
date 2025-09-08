@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, ActivityIndicator, TouchableOpacityProps, ViewStyle, TextStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { componentStyles } from '../../styles/components';
+import { colors } from '../../styles/colors';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -21,7 +22,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const buttonStyle: ViewStyle[] = [componentStyles.button];
   let textStyle: TextStyle = componentStyles.buttonText;
-  let iconColor = '#ffffff';
+  let iconColor: string = colors.text.white;
 
   if (disabled || loading) {
     buttonStyle.push(componentStyles.buttonDisabled);
@@ -36,7 +37,7 @@ export const Button: React.FC<ButtonProps> = ({
       case 'outline':
         buttonStyle.push(componentStyles.buttonOutline);
         textStyle = componentStyles.buttonTextOutline;
-        iconColor = '#22c55e';
+        iconColor = colors.primary[600];
         break;
       default:
         buttonStyle.push(componentStyles.buttonPrimary);
