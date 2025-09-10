@@ -61,12 +61,15 @@
     "noBenchesTitle": "No benches found",
     "noBenchesText": "Be the first to add a bench in your area!",
     "addFirstBench": "Add first bench",
-    "noRating": "No ratings"
+    "noRating": "No ratings",
+    "searchPlaceholder": "Find a place to sit...",
+    "noSearchResults": "No search results",
+    "noSearchResultsText": "Try changing your search query"
   },
   "addBench": {
     "title": "Add Bench",
     "description": "Bench Description",
-    "descriptionPlaceholder": "Describe the bench... (e.g. 'Comfortable bench with backrest in the shade')",
+    "descriptionPlaceholder": "Describe the bench...",
     "benchType": "Bench Type",
     "locationInfo": "Location will be automatically obtained from your current position",
     "addDescription": "Please add a bench description",

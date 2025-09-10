@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   RefreshControl,
   StatusBar,
+  TextInput,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,7 +22,9 @@ import { colors } from '../styles/colors';
 const BenchListScreen = () => {
   const navigation = useNavigation<any>();
   const [benches, setBenches] = useState<Bench[]>([]);
+  const [filteredBenches, setFilteredBenches] = useState<Bench[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
 
   useFocusEffect(
@@ -29,6 +32,24 @@ const BenchListScreen = () => {
       loadBenches();
     }, [])
   );
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredBenches(benches);
+      return;
+    }
+
+    const filtered = benches.filter(bench => {
+      const query = searchQuery.toLowerCase();
+      return (
+        (bench.name && bench.name.toLowerCase().includes(query)) ||
+        (bench.description && bench.description.toLowerCase().includes(query)) ||
+        bench.latitude.toString().includes(query) ||
+        bench.longitude.toString().includes(query)
+      );
+    });
+    setFilteredBenches(filtered);
+  }, [benches, searchQuery]);
 
   const loadBenches = async () => {
     setLoading(true);
@@ -53,6 +74,20 @@ const BenchListScreen = () => {
     }
   };
 
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
+
+  const navigateToMapWithBench = (bench: Bench) => {
+    navigation.navigate('Map', { 
+      focusBench: {
+        latitude: bench.latitude,
+        longitude: bench.longitude,
+        name: bench.name
+      }
+    });
+  };
+
   const getBenchIcon = (imageType: string) => {
     switch (imageType) {
       case 'wooden_classic': return '🪑';
@@ -70,13 +105,16 @@ const BenchListScreen = () => {
       style={screenStyles.benchListBenchCard}
       onPress={() => navigation.navigate('BenchDetails', { benchId: item.id })}
     >
-      <View style={screenStyles.benchListBenchIconContainer}>
-        <Text style={screenStyles.benchListBenchIcon}>{getBenchIcon(item.image_type)}</Text>
-      </View>
+      <TouchableOpacity 
+        style={screenStyles.benchListBenchIconContainer}
+        onPress={() => navigateToMapWithBench(item)}
+      >
+        <Text style={screenStyles.benchListBenchIcon}>{getBenchIcon(item.image_type || 'wooden_classic')}</Text>
+      </TouchableOpacity>
       
       <View style={screenStyles.benchListBenchContent}>
         <Text style={screenStyles.benchListBenchDescription} numberOfLines={2}>
-          {item.description}
+          {item.description || t('bench.noDescription')}
         </Text>
         
         <View style={screenStyles.benchListBenchMeta}>
@@ -101,6 +139,26 @@ const BenchListScreen = () => {
     </TouchableOpacity>
   );
 
+  const renderSearchBar = () => (
+    <View style={screenStyles.benchListSearchContainer}>
+      <View style={screenStyles.benchListSearchInputContainer}>
+        <Ionicons name="search" size={20} color={colors.text.secondary} style={screenStyles.benchListSearchIcon} />
+        <TextInput
+          style={screenStyles.benchListSearchInput}
+          placeholder={t('benchList.searchPlaceholder')}
+          placeholderTextColor={colors.text.secondary}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        {searchQuery.length > 0 && (
+          <TouchableOpacity onPress={clearSearch} style={screenStyles.benchListSearchClearButton}>
+            <Ionicons name="close" size={16} color={colors.text.secondary} />
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+
   const renderEmptyState = () => (
     <View style={screenStyles.benchListEmptyContainer}>
       <LinearGradient
@@ -111,17 +169,19 @@ const BenchListScreen = () => {
           <Ionicons name="map-outline" size={64} color={colors.primary[900]} />
         </View>
         <Text style={screenStyles.benchListEmptyTitle}>
-          {t('benchList.noBenchesTitle')}
+          {searchQuery ? t('benchList.noSearchResults') : t('benchList.noBenchesTitle')}
         </Text>
         <Text style={screenStyles.benchListEmptyText}>
-          {t('benchList.noBenchesText')}
+          {searchQuery ? t('benchList.noSearchResultsText') : t('benchList.noBenchesText')}
         </Text>
-        <Button
-          title={t('benchList.addFirstBench')}
-          onPress={() => navigation.navigate('AddBench')}
-          icon="add"
-          style={screenStyles.benchListEmptyButton}
-        />
+        {!searchQuery && (
+          <Button
+            title={t('benchList.addFirstBench')}
+            onPress={() => navigation.navigate('AddBench')}
+            icon="add"
+            style={screenStyles.benchListEmptyButton}
+          />
+        )}
       </LinearGradient>
     </View>
   );
@@ -130,8 +190,9 @@ const BenchListScreen = () => {
     <>
       <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
       <View style={screenStyles.benchListContainer}>
+        {renderSearchBar()}
         <FlatList
-          data={benches}
+          data={filteredBenches}
           renderItem={renderBenchItem}
           keyExtractor={(item) => item.id}
           refreshControl={
@@ -143,7 +204,7 @@ const BenchListScreen = () => {
             />
           }
           ListEmptyComponent={renderEmptyState}
-          contentContainerStyle={benches.length === 0 ? screenStyles.benchListEmptyContentContainer : screenStyles.benchListListContent}
+          contentContainerStyle={filteredBenches.length === 0 ? screenStyles.benchListEmptyContentContainer : screenStyles.benchListListContent}
           showsVerticalScrollIndicator={false}
         />
       </View>

@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { getRecentBenches, RecentBench } from '../../lib/api';
 import { componentStyles } from '../../styles/components';
 import { colors } from '../../styles/colors';
+import { FallingLeavesEffect } from './AnimationSystem';
 
 const ScrollingBenchesHeader: React.FC = () => {
   const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recentBenches, setRecentBenches] = useState<RecentBench[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showFallingLeaves, setShowFallingLeaves] = useState(false);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -18,20 +20,25 @@ const ScrollingBenchesHeader: React.FC = () => {
       try {
         const benches = await getRecentBenches(5, t);
         setRecentBenches(benches);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching recent benches:', error);
-        setRecentBenches([
-          { id: '1', name: 'Park Centralny', city: 'Warszawa', addedAt: '2 min temu' },
-          { id: '2', name: 'Nad Wisłą', city: 'Kraków', addedAt: '5 min temu' },
-          { id: '3', name: 'Stare Miasto', city: 'Gdańsk', addedAt: '8 min temu' },
-        ]);
-      } finally {
         setLoading(false);
       }
     };
 
     fetchRecentBenches();
-  }, []);
+  }, [t]);
+
+  useEffect(() => {
+    if (recentBenches.length > 0 && !loading) {
+      setShowFallingLeaves(true);
+      const timer = setTimeout(() => {
+        setShowFallingLeaves(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [recentBenches, loading]);
 
   useEffect(() => {
     if (recentBenches.length === 0) return;
@@ -76,20 +83,23 @@ const ScrollingBenchesHeader: React.FC = () => {
 
   return (
     <View style={componentStyles.scrollingHeaderContainer}>
+      <FallingLeavesEffect isVisible={showFallingLeaves} />
       <View style={componentStyles.scrollingHeaderIconContainer}>
         <Ionicons name="time-outline" size={16} color={colors.text.white} />
       </View>
-      <Animated.View style={[componentStyles.scrollingHeaderTextContainer, { opacity: fadeAnim }]}>
+      <View style={componentStyles.scrollingHeaderTextContainer}>
         <Text style={componentStyles.scrollingHeaderMainText}>
           {t('header.latestBench')}
         </Text>
-        <Text style={componentStyles.scrollingHeaderBenchText}>
-          "{currentBench.name}" w {currentBench.city}
-        </Text>
-        <Text style={componentStyles.scrollingHeaderTimeText}>
-          {currentBench.addedAt}
-        </Text>
-      </Animated.View>
+        <Animated.View style={{ opacity: fadeAnim }}>
+          <Text style={componentStyles.scrollingHeaderBenchText}>
+            "{currentBench.name}" w {currentBench.city}
+          </Text>
+          <Text style={componentStyles.scrollingHeaderTimeText}>
+            {currentBench.addedAt}
+          </Text>
+        </Animated.View>
+      </View>
     </View>
   );
 };

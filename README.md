@@ -191,7 +191,8 @@ src/styles/
 ├── colors.ts      # Color palette and theme
 ├── common.ts      # Common styles (containers, layouts)
 ├── components.ts  # Reusable component styles
-└── screens.ts     # Screen-specific styles
+├── screens.ts     # Screen-specific styles
+└── animations.ts  # Animation styles and configurations
 ```
 
 ### **Benefits**
@@ -200,16 +201,25 @@ src/styles/
 - ✅ **Type Safety** - TypeScript support for all styles
 - ✅ **Reusability** - Shared styles across components
 - ✅ **Performance** - StyleSheet.create optimization
+- ✅ **Animated Effects** - Centralized animation configurations
+- ✅ **Plant Animations** - Living, feng shui-inspired effects
 
 ### **Usage Example**
 ```typescript
 import { screenStyles } from '../styles/screens';
 import { componentStyles } from '../styles/components';
+import { colors } from '../styles/colors';
+import { animationStyles, animationConfigs } from '../styles/animations';
 
 // In component
 <View style={screenStyles.authContainer}>
   <Button style={componentStyles.buttonPrimary} />
 </View>
+
+// Animation components
+<PlantAnimations variant="login" />
+<BackgroundPlants />
+<ParticleEffects />
 ```
 
 ## 🤝 **Contributing**

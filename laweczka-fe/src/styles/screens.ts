@@ -1,9 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { colors } from './colors';
 
-// Screen-specific styles
 export const screenStyles = StyleSheet.create({
-  // Auth screens (Login/Register)
   authBackground: {
     flex: 1,
     width: '100%',
@@ -93,7 +91,6 @@ export const screenStyles = StyleSheet.create({
   },
   
   
-  // Add Bench screen
   addBenchHeaderCard: {
     backgroundColor: colors.background.primary,
     borderRadius: 16,
@@ -119,7 +116,7 @@ export const screenStyles = StyleSheet.create({
   addBenchSectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.primary[900],
+    color: colors.primary[600],
     marginBottom: 16,
   },
   addBenchInputContainer: {
@@ -146,8 +143,8 @@ export const screenStyles = StyleSheet.create({
     position: 'relative',
   },
   addBenchOptionSelected: {
-    borderColor: colors.primary[900],
-    backgroundColor: '#e8f5e8',
+    borderColor: colors.primary[600],
+    backgroundColor: colors.gradient.light,
   },
   addBenchIcon: {
     fontSize: 32,
@@ -182,7 +179,7 @@ export const screenStyles = StyleSheet.create({
   },
   addBenchInfoText: {
     fontSize: 14,
-    color: colors.primary[900],
+    color: colors.primary[600],
     fontWeight: '600',
     marginBottom: 2,
   },
@@ -191,7 +188,7 @@ export const screenStyles = StyleSheet.create({
     color: colors.text.secondary,
   },
   addBenchSaveButton: {
-    backgroundColor: colors.primary[900],
+    backgroundColor: colors.primary[600],
     paddingVertical: 16,
     borderRadius: 12,
     shadowColor: '#000',
@@ -201,10 +198,9 @@ export const screenStyles = StyleSheet.create({
     elevation: 8,
   },
   
-  // BenchDetailsScreen styles
   benchDetailsContainer: {
     flex: 1,
-    backgroundColor: '#f0f8f0',
+    backgroundColor: colors.gradient.lighter,
   },
   benchDetailsScrollContent: {
     paddingBottom: 30,
@@ -232,7 +228,7 @@ export const screenStyles = StyleSheet.create({
   benchDetailsIcon: {
     fontSize: 60,
     marginRight: 16,
-    backgroundColor: '#f0f8f0',
+    backgroundColor: colors.gradient.lighter,
     padding: 12,
     borderRadius: 50,
     textAlign: 'center',
@@ -358,7 +354,7 @@ export const screenStyles = StyleSheet.create({
     gap: 12,
   },
   mapScreenControlButton: {
-    backgroundColor: '#22c55e',
+    backgroundColor: colors.primary[600],
     borderRadius: 30,
     padding: 12,
     shadowColor: '#000',
@@ -380,6 +376,42 @@ export const screenStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
+  benchListSearchContainer: {
+    padding: 16,
+    paddingBottom: 12,
+  },
+  benchListSearchInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.background.primary,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(46, 125, 50, 0.1)',
+  },
+  benchListSearchIcon: {
+    marginRight: 12,
+    color: colors.primary[600],
+  },
+  benchListSearchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: colors.text.primary,
+    paddingVertical: 2,
+    fontWeight: '500',
+  },
+  benchListSearchClearButton: {
+    padding: 6,
+    backgroundColor: colors.gray[200],
+    borderRadius: 12,
+    marginLeft: 8,
+  },
   benchListListContent: {
     padding: 16,
   },
@@ -399,11 +431,16 @@ export const screenStyles = StyleSheet.create({
   benchListBenchIconContainer: {
     width: 50,
     height: 50,
-    backgroundColor: '#e8f5e8',
+    backgroundColor: colors.gradient.light,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   benchListBenchIcon: {
     fontSize: 24,
@@ -471,7 +508,7 @@ export const screenStyles = StyleSheet.create({
     marginBottom: 30,
   },
   benchListEmptyButton: {
-    backgroundColor: '#22c55e',
+    backgroundColor: colors.primary[600],
     borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 32,
@@ -578,7 +615,7 @@ export const screenStyles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f0f8f0',
+    backgroundColor: colors.gradient.lighter,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,

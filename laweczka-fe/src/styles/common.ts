@@ -1,9 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { colors } from './colors';
 
-// Common styles used across multiple components
 export const commonStyles = StyleSheet.create({
-  // Layout
   container: {
     flex: 1,
   },
@@ -15,7 +13,6 @@ export const commonStyles = StyleSheet.create({
     paddingBottom: 40,
   },
   
-  // Cards
   card: {
     backgroundColor: colors.background.primary,
     borderRadius: 16,
@@ -28,7 +25,6 @@ export const commonStyles = StyleSheet.create({
     elevation: 4,
   },
   
-  // Typography
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -38,7 +34,7 @@ export const commonStyles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.primary[900],
+    color: colors.primary[600],
     marginBottom: 16,
   },
   text: {
@@ -50,7 +46,6 @@ export const commonStyles = StyleSheet.create({
     color: colors.text.secondary,
   },
   
-  // Spacing
   marginBottom: {
     marginBottom: 16,
   },
@@ -58,7 +53,6 @@ export const commonStyles = StyleSheet.create({
     marginTop: 16,
   },
   
-  // Flex
   row: {
     flexDirection: 'row',
   },
@@ -70,7 +64,6 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
   },
   
-  // Background
   backgroundPrimary: {
     backgroundColor: colors.background.primary,
   },
@@ -78,7 +71,6 @@ export const commonStyles = StyleSheet.create({
     backgroundColor: colors.background.secondary,
   },
   
-  // Navigation styles
   authHeaderContainer: {
     backgroundColor: colors.primary[600],
     paddingTop: 40,

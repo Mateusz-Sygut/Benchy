@@ -63,12 +63,15 @@
     "noBenchesTitle": "Brak ławeczek",
     "noBenchesText": "Bądź pierwszy i dodaj ławeczkę w Twojej okolicy!",
     "addFirstBench": "Dodaj pierwszą ławeczkę",
-    "noRating": "Brak ocen"
+    "noRating": "Brak ocen",
+    "searchPlaceholder": "Znajdź miejsce, żeby sobie klapnąć...",
+    "noSearchResults": "Brak wyników wyszukiwania",
+    "noSearchResultsText": "Spróbuj zmienić zapytanie wyszukiwania"
   },
   "addBench": {
     "title": "Dodaj ławeczkę",
     "description": "Opis ławeczki",
-    "descriptionPlaceholder": "Opisz ławeczkę... (np. 'Wygodna ławka z oparciem w cieniu drzew')",
+    "descriptionPlaceholder": "Opisz ławeczkę...",
     "benchType": "Typ ławeczki",
     "locationInfo": "Lokalizacja zostanie automatycznie pobrana z Twojej aktualnej pozycji",
     "addDescription": "Proszę dodać opis ławeczki",

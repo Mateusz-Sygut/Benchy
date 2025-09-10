@@ -66,7 +66,6 @@ const ProfileScreen = () => {
     <>
       <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
       <ScrollView style={screenStyles.profileContainer}>
-        {/* Header with Gradient */}
         <LinearGradient
           colors={colors.gradient.primary}
           style={screenStyles.profileHeader}
@@ -89,7 +88,6 @@ const ProfileScreen = () => {
           </View>
         </LinearGradient>
 
-        {/* Stats Card */}
         <View style={screenStyles.profileStatsCard}>
           <View style={screenStyles.profileStatItem}>
             <Text style={screenStyles.profileStatNumber}>0</Text>
@@ -106,7 +104,6 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        {/* Menu Items */}
         <View style={screenStyles.profileMenuCard}>
           {menuItems.map((item, index) => (
             <TouchableOpacity
@@ -135,7 +132,6 @@ const ProfileScreen = () => {
           ))}
         </View>
 
-        {/* Logout Button */}
         <View style={screenStyles.profileLogoutContainer}>
           <Button
             title={t('auth.logout')}

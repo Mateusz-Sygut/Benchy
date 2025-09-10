@@ -127,7 +127,6 @@ const AddBenchScreen = ({ navigation }: any) => {
       >
         <ScrollView style={commonStyles.scrollView}>
           <View style={commonStyles.content}>
-            {/* Header */}
             <View style={screenStyles.addBenchHeaderCard}>
               <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.description')}</Text>
               <Input
@@ -140,7 +139,6 @@ const AddBenchScreen = ({ navigation }: any) => {
               />
             </View>
 
-            {/* Location Info */}
             <View style={screenStyles.addBenchSectionCard}>
               <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.locationInfo')}</Text>
               {userLocation ? (
@@ -154,7 +152,6 @@ const AddBenchScreen = ({ navigation }: any) => {
               )}
             </View>
 
-            {/* Bench Type Selection */}
             <View style={screenStyles.addBenchSectionCard}>
               <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.benchType')}</Text>
               <View style={screenStyles.addBenchGrid}>
@@ -183,7 +180,6 @@ const AddBenchScreen = ({ navigation }: any) => {
               </View>
             </View>
 
-            {/* Location Info */}
             <View style={screenStyles.addBenchInfoCard}>
               <View style={screenStyles.addBenchInfoIconContainer}>
                 <Ionicons name="location" size={20} color={colors.primary[900]} />
@@ -201,7 +197,6 @@ const AddBenchScreen = ({ navigation }: any) => {
               </View>
             </View>
 
-            {/* Save Button */}
             <Button
               title={loading ? t('addBench.saving') : t('navigation.addBench')}
               onPress={handleSave}

@@ -15,6 +15,13 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { screenStyles } from '../../styles/screens';
+import { 
+  PlantAnimations, 
+  BackgroundPlants, 
+  ParticleEffects, 
+  AnimatedBackground,
+  RandomLeaves 
+} from '../../components/common/AnimationSystem';
 
 const RegisterScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
@@ -70,9 +77,14 @@ const RegisterScreen = ({ navigation }: any) => {
         imageStyle={screenStyles.authBackgroundStyle}
       >
         <LinearGradient
-          colors={['rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.6)', 'rgba(0, 0, 0, 0.8)']}
+          colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.7)']}
           style={screenStyles.authGradient}
         >
+        <AnimatedBackground />
+        <BackgroundPlants />
+        <PlantAnimations variant="register" />
+        <ParticleEffects />
+        <RandomLeaves />
           <KeyboardAvoidingView 
             style={screenStyles.authContainer}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -81,7 +93,6 @@ const RegisterScreen = ({ navigation }: any) => {
               contentContainerStyle={screenStyles.authScrollContent}
               showsVerticalScrollIndicator={false}
             >
-              {/* Header Section */}
               <View style={screenStyles.authHeader}>
                 <Text style={screenStyles.authTitle}>
                   {t('auth.registerTitle')}
@@ -91,7 +102,6 @@ const RegisterScreen = ({ navigation }: any) => {
                 </Text>
               </View>
 
-              {/* Form Section */}
               <View style={screenStyles.authFormContainer}>
                 <View style={screenStyles.authCard}>
                   <Input

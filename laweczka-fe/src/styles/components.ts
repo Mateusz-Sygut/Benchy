@@ -1,9 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { colors } from './colors';
 
-// Component-specific styles
 export const componentStyles = StyleSheet.create({
-  // Button styles
   button: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -13,7 +11,7 @@ export const componentStyles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonPrimary: {
-    backgroundColor: colors.primary[900],
+    backgroundColor: colors.primary[600],
   },
   buttonDanger: {
     backgroundColor: colors.error,
@@ -21,7 +19,7 @@ export const componentStyles = StyleSheet.create({
   buttonOutline: {
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: colors.primary[900],
+    borderColor: colors.primary[600],
   },
   buttonDisabled: {
     backgroundColor: colors.background.disabled,
@@ -33,7 +31,7 @@ export const componentStyles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonTextOutline: {
-    color: colors.primary[900],
+    color: colors.primary[600],
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -42,7 +40,6 @@ export const componentStyles = StyleSheet.create({
     marginRight: 8,
   },
   
-  // Input styles
   inputContainer: {
     marginBottom: 16,
   },
@@ -88,7 +85,6 @@ export const componentStyles = StyleSheet.create({
   },
   
   
-  // Map styles
   mapContainer: {
     flex: 1,
   },
@@ -99,7 +95,7 @@ export const componentStyles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: colors.primary[900],
+    backgroundColor: colors.primary[600],
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -112,7 +108,6 @@ export const componentStyles = StyleSheet.create({
     elevation: 5,
   },
   
-  // Loading styles
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -124,7 +119,6 @@ export const componentStyles = StyleSheet.create({
     color: colors.text.secondary,
   },
   
-  // ScrollingBenchesHeader styles
   scrollingHeaderContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -176,117 +170,11 @@ export const componentStyles = StyleSheet.create({
     fontStyle: 'italic',
   },
   
-  // StarRating styles
   starRatingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   starRatingStar: {
     marginHorizontal: 2,
-  },
-  
-  // SearchModal styles
-  searchModalContainer: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  searchModalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
-  },
-  searchModalCloseButton: {
-    padding: 5,
-  },
-  searchModalHeaderTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  searchModalPlaceholder: {
-    width: 34,
-  },
-  searchModalSearchContainer: {
-    padding: 20,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
-  },
-  searchModalSearchInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-  },
-  searchModalSearchIcon: {
-    marginRight: 10,
-  },
-  searchModalSearchInput: {
-    flex: 1,
-    paddingVertical: 12,
-    fontSize: 16,
-    color: '#333',
-  },
-  searchModalClearButton: {
-    padding: 5,
-  },
-  searchModalSearchButton: {
-    backgroundColor: '#22c55e',
-    borderRadius: 12,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  searchModalSearchButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  searchModalResultsList: {
-    flex: 1,
-  },
-  searchModalEmptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 40,
-  },
-  searchModalEmptyText: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 24,
-  },
-  searchModalResultItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  searchModalResultIcon: {
-    marginRight: 15,
-  },
-  searchModalResultContent: {
-    flex: 1,
-  },
-  searchModalResultTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
-  },
-  searchModalResultDescription: {
-    fontSize: 14,
-    color: '#666',
-    lineHeight: 20,
   },
 });

@@ -2,10 +2,9 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
 import { Button } from '../components/common/Button';
 import { ExpoMap } from '../components/common/ExpoMap';
-import SearchModal from '../components/common/SearchModal';
 import supabase from '../lib/supabase';
 import { Bench } from '../types/database';
 import MapView from 'react-native-maps';
@@ -16,8 +15,8 @@ import { colors } from '../styles/colors';
 
 const MapScreen = () => {
   const navigation = useNavigation<any>();
+  const route = useRoute<any>();
   const [benches, setBenches] = useState<Bench[]>([]);
-  const [searchModalVisible, setSearchModalVisible] = useState(false);
   const mapRef = useRef<MapView>(null);
   const { t } = useTranslation();
 
@@ -26,6 +25,22 @@ const MapScreen = () => {
       loadBenches();
     }, [])
   );
+
+  React.useEffect(() => {
+    const focusBench = route.params?.focusBench;
+    if (focusBench && mapRef.current) {
+      mapRef.current.animateCamera({
+        center: {
+          latitude: focusBench.latitude,
+          longitude: focusBench.longitude,
+        },
+        pitch: 45,
+        heading: 0,
+        altitude: 1000,
+        zoom: 16,
+      }, { duration: 1500 });
+    }
+  }, [route.params?.focusBench]);
 
   const loadBenches = async () => {
     try {
@@ -58,13 +73,6 @@ const MapScreen = () => {
     navigation.navigate('AddBench');
   };
 
-  const handleSearch = () => {
-    setSearchModalVisible(true);
-  };
-
-  const handleSearchResult = (query: string) => {
-    Alert.alert(t('search.result'), `${t('search.searchingFor')} ${query}`);
-  };
 
   const handleLocationButtonClick = async () => {
     try {
@@ -81,11 +89,16 @@ const MapScreen = () => {
       };
       
       if (mapRef.current) {
-        mapRef.current.animateToRegion({
-          ...newLocation,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }, 1000);
+        mapRef.current.animateCamera({
+          center: {
+            latitude: newLocation.latitude,
+            longitude: newLocation.longitude,
+          },
+          pitch: 45,
+          heading: 0,
+          altitude: 1000,
+          zoom: 16,
+        }, { duration: 1000 });
       }
     } catch (error) {
       console.error('Error getting location:', error);
@@ -103,13 +116,6 @@ const MapScreen = () => {
 
       <View style={screenStyles.mapScreenControlButtonsContainer}>
         <TouchableOpacity
-          onPress={handleSearch}
-          style={screenStyles.mapScreenControlButton}
-        >
-          <Ionicons name="search" size={24} color={colors.text.white} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
           onPress={handleLocationButtonClick}
           style={screenStyles.mapScreenControlButton}
         >
@@ -123,12 +129,6 @@ const MapScreen = () => {
           <Ionicons name="add-circle" size={24} color={colors.text.white} />
         </TouchableOpacity>
       </View>
-
-      <SearchModal
-        visible={searchModalVisible}
-        onClose={() => setSearchModalVisible(false)}
-        onSearch={handleSearchResult}
-      />
     </View>
   );
 };

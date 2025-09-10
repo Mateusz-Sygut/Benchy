@@ -2,6 +2,8 @@ import { supabase } from './supabase';
 import { Bench } from '../types/database';
 import { reverseGeocode, formatCityForDisplay } from './geocoding';
 
+const geocodingCache = new Map<string, string>();
+
 export interface RecentBench {
   id: string;
   name: string;
@@ -36,7 +38,7 @@ export const getRecentBenches = async (
     }
 
     const recentBenches: RecentBench[] = await Promise.all(
-      data.map(async (bench) => {
+      data.slice(0, 3).map(async (bench) => {
         const createdAt = new Date(bench.created_at);
         const now = new Date();
         const diffInMinutes = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60));
@@ -54,19 +56,74 @@ export const getRecentBenches = async (
           timeAgo = `${days} ${t('time.daysAgo')}`;
         }
 
-        const geocodingResult = await reverseGeocode(bench.latitude, bench.longitude, t);
-        const city = formatCityForDisplay(geocodingResult, t);
-
-        return {
-          id: bench.id,
-          name: bench.description || t('geocoding.noName'),
-          city,
-          addedAt: timeAgo,
-        };
+        // Fast geocoding for first 3 benches with cache
+        const cacheKey = `${bench.latitude.toFixed(4)},${bench.longitude.toFixed(4)}`;
+        
+        if (geocodingCache.has(cacheKey)) {
+          // Use cached result
+          const city = geocodingCache.get(cacheKey)!;
+          return {
+            id: bench.id,
+            name: bench.description || t('geocoding.noName'),
+            city,
+            addedAt: timeAgo,
+          };
+        }
+        
+        try {
+          const geocodingResult = await reverseGeocode(bench.latitude, bench.longitude, t);
+          const city = formatCityForDisplay(geocodingResult, t);
+          
+          // Cache the result
+          geocodingCache.set(cacheKey, city);
+          
+          return {
+            id: bench.id,
+            name: bench.description || t('geocoding.noName'),
+            city,
+            addedAt: timeAgo,
+          };
+        } catch (error) {
+          // Fallback to coordinates if geocoding fails
+          const city = `${bench.latitude.toFixed(4)}, ${bench.longitude.toFixed(4)}`;
+          return {
+            id: bench.id,
+            name: bench.description || t('geocoding.noName'),
+            city,
+            addedAt: timeAgo,
+          };
+        }
       })
     );
 
-    return recentBenches;
+    // Add remaining benches with coordinates only (no geocoding)
+    const remainingBenches = data.slice(3).map((bench) => {
+      const createdAt = new Date(bench.created_at);
+      const now = new Date();
+      const diffInMinutes = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60));
+      
+      let timeAgo: string;
+      if (diffInMinutes < 1) {
+        timeAgo = t('time.justNow');
+      } else if (diffInMinutes < 60) {
+        timeAgo = `${diffInMinutes} ${t('time.minutesAgo')}`;
+      } else if (diffInMinutes < 1440) {
+        const hours = Math.floor(diffInMinutes / 60);
+        timeAgo = `${hours} ${t('time.hoursAgo')}`;
+      } else {
+        const days = Math.floor(diffInMinutes / 1440);
+        timeAgo = `${days} ${t('time.daysAgo')}`;
+      }
+
+      return {
+        id: bench.id,
+        name: bench.description || t('geocoding.noName'),
+        city: `${bench.latitude.toFixed(4)}, ${bench.longitude.toFixed(4)}`,
+        addedAt: timeAgo,
+      };
+    });
+
+    return [...recentBenches, ...remainingBenches];
   } catch (error) {
     console.error('Error in getRecentBenches:', error);
     return [];

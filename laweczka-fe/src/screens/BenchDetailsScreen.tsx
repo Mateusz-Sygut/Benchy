@@ -137,7 +137,6 @@ const BenchDetailsScreen = ({ route }: any) => {
 
   return (
     <ScrollView style={screenStyles.benchDetailsContainer} contentContainerStyle={screenStyles.benchDetailsScrollContent}>
-      {/* Bench Info */}
       <View style={screenStyles.benchDetailsBenchInfo}>
         <Text style={screenStyles.benchDetailsIcon}>{getBenchIcon(bench.image_type)}</Text>
         <View style={screenStyles.benchDetailsBenchDetails}>
@@ -168,7 +167,6 @@ const BenchDetailsScreen = ({ route }: any) => {
         </View>
       </View>
 
-      {/* Add Rating */}
       <View style={screenStyles.benchDetailsSection}>
         <Text style={screenStyles.benchDetailsSectionTitle}>
           {t('benchDetails.addRating')}
@@ -203,7 +201,6 @@ const BenchDetailsScreen = ({ route }: any) => {
         </View>
       </View>
 
-      {/* Ratings List */}
       <View style={screenStyles.benchDetailsSection}>
         <Text style={screenStyles.benchDetailsSectionTitle}>
           {t('benchDetails.userRatings')} ({ratings.length})
