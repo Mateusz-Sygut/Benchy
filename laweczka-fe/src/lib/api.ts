@@ -1,6 +1,8 @@
 import { supabase } from './supabase';
-import { Bench } from '../types/database';
+import { Bench, Database } from '../types/database';
 import { reverseGeocode, formatCityForDisplay } from './geocoding';
+
+type BenchRow = Database['public']['Tables']['benches']['Row'];
 
 const geocodingCache = new Map<string, string>();
 
@@ -26,7 +28,7 @@ export const getRecentBenches = async (
         longitude
       `)
       .order('created_at', { ascending: false })
-      .limit(limit);
+      .limit(limit) as { data: Pick<BenchRow, 'id' | 'description' | 'created_at' | 'latitude' | 'longitude'>[] | null; error: any };
 
     if (error) {
       console.error('Error fetching recent benches:', error);
@@ -56,11 +58,9 @@ export const getRecentBenches = async (
           timeAgo = `${days} ${t('time.daysAgo')}`;
         }
 
-        // Fast geocoding for first 3 benches with cache
         const cacheKey = `${bench.latitude.toFixed(4)},${bench.longitude.toFixed(4)}`;
         
         if (geocodingCache.has(cacheKey)) {
-          // Use cached result
           const city = geocodingCache.get(cacheKey)!;
           return {
             id: bench.id,
@@ -74,7 +74,6 @@ export const getRecentBenches = async (
           const geocodingResult = await reverseGeocode(bench.latitude, bench.longitude, t);
           const city = formatCityForDisplay(geocodingResult, t);
           
-          // Cache the result
           geocodingCache.set(cacheKey, city);
           
           return {
@@ -84,7 +83,6 @@ export const getRecentBenches = async (
             addedAt: timeAgo,
           };
         } catch (error) {
-          // Fallback to coordinates if geocoding fails
           const city = `${bench.latitude.toFixed(4)}, ${bench.longitude.toFixed(4)}`;
           return {
             id: bench.id,
@@ -96,7 +94,6 @@ export const getRecentBenches = async (
       })
     );
 
-    // Add remaining benches with coordinates only (no geocoding)
     const remainingBenches = data.slice(3).map((bench) => {
       const createdAt = new Date(bench.created_at);
       const now = new Date();

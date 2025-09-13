@@ -1,7 +1,7 @@
-# 🪑 ŁaweczkApp (Benchy) - Smart Bench Discovery App
+# 🪑 ŁawAppka (Benchy) - Smart Bench Discovery App
 
 [![React Native](https://img.shields.io/badge/React%20Native-0.79.5-blue.svg)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-53.0.20-blue.svg)](https://expo.dev/)
+[![Expo](https://img.shields.io/badge/Expo-54.0.0-blue.svg)](https://expo.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-green.svg)](https://supabase.com/)
 
@@ -48,7 +48,7 @@ Laweczka/
 ## 🛠️ **Technologies**
 
 ### **Frontend (`laweczka-fe`)**
-- **React Native** + **Expo** - Mobile framework
+- **React Native** + **Expo SDK 54** - Mobile framework
 - **TypeScript** - Type safety
 - **React Navigation** - Navigation between screens
 - **react-native-maps** - Google/Apple Maps
@@ -58,6 +58,7 @@ Laweczka/
 - **react-i18next** - Internationalization
 - **react-native-safe-area-context** - Safe area handling
 - **@expo/vector-icons** - Icons
+- **EAS Build** - Production builds and publishing
 - **Centralized Styling System** - Organized StyleSheet architecture
 
 ### **Backend (`laweczka-be`)**
@@ -164,7 +165,7 @@ Translations in: `laweczka-fe/src/i18n/locales/`
 - **Location** - Location access
 - **Camera** - Bench photos (planned)
 
-## 🚀 **Deployment**
+## 🚀 **Deployment & Publishing**
 
 ### **Development**
 ```bash
@@ -172,14 +173,73 @@ cd laweczka-fe
 npx expo start
 ```
 
-### **Production Build**
+### **Production Build (EAS Build)**
 ```bash
-# Android
-eas build --platform android
+# Install EAS CLI
+npm install -g @expo/eas-cli
 
-# iOS  
-eas build --platform ios
+# Login to Expo
+eas login
+
+# Configure build
+eas build:configure
+
+# Build for platforms
+eas build --platform android  # Google Play Store
+eas build --platform ios      # App Store
 ```
+
+### **📱 Store Publishing Plans**
+
+#### **Google Play Store**
+- ✅ **Package Name**: `com.laweczka.app`
+- ✅ **Permissions**: Location, Camera, Storage
+- ✅ **Google Maps API**: Required for Android maps
+- 🔄 **Status**: Ready for EAS Build
+- 📋 **Requirements**: 
+  - Google Maps API Key
+  - App signing key
+  - Store listing materials
+
+#### **Apple App Store**
+- ✅ **Bundle ID**: `com.laweczka.app`
+- ✅ **Permissions**: Location, Camera
+- ✅ **Apple Maps**: Native iOS maps support
+- 🔄 **Status**: Ready for EAS Build
+- 📋 **Requirements**:
+  - Apple Developer Account ($99/year)
+  - App Store Connect setup
+  - Store listing materials
+
+### **🔧 EAS Build Configuration**
+```json
+// eas.json (auto-generated)
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  }
+}
+```
+
+### **📋 Publishing Checklist**
+- [ ] Google Maps API Key configured
+- [ ] App icons and splash screens
+- [ ] Privacy policy (✅ Created)
+- [ ] Store descriptions (PL/EN)
+- [ ] Screenshots for stores
+- [ ] App signing certificates
+- [ ] Store developer accounts
 
 ## 🎨 **Styling Architecture**
 
