@@ -93,7 +93,7 @@ const ScrollingBenchesHeader: React.FC = () => {
         </Text>
         <Animated.View style={{ opacity: fadeAnim }}>
           <Text style={componentStyles.scrollingHeaderBenchText}>
-            "{currentBench.name}" w {currentBench.city}
+            "{currentBench.name}" {t('header.in')} {currentBench.city}
           </Text>
           <Text style={componentStyles.scrollingHeaderTimeText}>
             {currentBench.addedAt}

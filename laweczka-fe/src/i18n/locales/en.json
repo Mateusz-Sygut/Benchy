@@ -15,13 +15,13 @@
     "username": "Username"
   },
   "app": {
-    "name": "Benchy"
+    "name": "ŁawAppka"
   },
   "auth": {
     "login": "Sign In",
     "register": "Sign Up",
     "logout": "Sign Out",
-    "loginTitle": "Welcome to Benchy!",
+    "loginTitle": "Welcome to ŁawAppka!",
     "loginSubtitle": "Find and rate benches in your city",
     "registerTitle": "Join the community!",
     "registerSubtitle": "Help others find the best benches",
@@ -78,19 +78,6 @@
     "addError": "Failed to add bench",
     "saving": "Saving..."
   },
-  "benchDetails": {
-    "addRating": "Add your rating",
-    "userRatings": "User ratings",
-    "addedBy": "Added by",
-    "selectRating": "Please select a rating",
-    "addComment": "Please add a comment",
-    "commentPlaceholder": "Write a comment about this bench...",
-    "ratingAdded": "Your rating has been added",
-    "ratingError": "Failed to add rating",
-    "adding": "Adding...",
-    "addRatingButton": "Add Rating",
-    "beFirst": "Be the first!"
-  },
   "profile": {
     "myBenches": "My Benches",
     "myBenchesSubtitle": "Benches you added",
@@ -128,10 +115,14 @@
     "centering": "Centering on your location...",
     "notReady": "Location function not ready yet...",
     "permissionDenied": "Permission to access location was denied",
-    "locationError": "Failed to get location"
+    "locationError": "Failed to get location",
+    "currentLocation": "Current location",
+    "gettingLocation": "Getting location...",
+    "wait": "Wait..."
   },
   "header": {
-    "latestBench": "Latest bench added:"
+    "latestBench": "Latest bench added:",
+    "in": "in"
   },
   "geocoding": {
     "unknownCity": "Unknown city",
@@ -154,6 +145,77 @@
     "failedToLoadData": "An error occurred while loading data",
     "failedToAddBench": "Failed to add bench",
     "failedToAddRating": "Failed to add rating"
+  },
+  "benchDetails": {
+    "addRating": "Add your rating",
+    "userRatings": "User ratings",
+    "addedBy": "Added by",
+    "selectRating": "Please select a rating",
+    "addComment": "Please add a comment",
+    "commentPlaceholder": "Write a comment about this bench...",
+    "ratingAdded": "Your rating has been added",
+    "ratingError": "Failed to add rating",
+    "adding": "Adding...",
+    "addRatingButton": "Add Rating",
+    "beFirst": "Be the first!",
+    "ratings": "ratings",
+    "addedOn": "Added on",
+    "user": "User"
+  },
+  "rarity": {
+    "common": "Common",
+    "normal": "Normal", 
+    "rare": "Rare",
+    "unique": "Unique",
+    "anomalous": "Anomalous"
+  },
+  "locations": {
+    "park": "Park",
+    "city": "City",
+    "forest": "Forest",
+    "water": "Water"
+  },
+  "tags": {
+    "peaceful": "Peaceful",
+    "crowded": "Crowded",
+    "quiet": "Quiet",
+    "loud": "Loud",
+    "wellMaintained": "Well Maintained",
+    "poorlyMaintained": "Poorly Maintained",
+    "homeless": "Homeless",
+    "comfortable": "Comfortable",
+    "uncomfortable": "Uncomfortable",
+    "shaded": "Shaded",
+    "sunny": "Sunny"
+  },
+  "achievements": {
+    "firstBench": "First Bench",
+    "benchCreator": "Bench Creator",
+    "benchMaster": "Bench Master",
+    "sitter": "Sitter",
+    "benchPhilosopher": "Bench Philosopher",
+    "rater": "Rater",
+    "critic": "Critic"
+  },
+  "titles": {
+    "novice": "Novice",
+    "benchCreator": "Bench Creator",
+    "benchMaster": "Bench Master",
+    "benchPhilosopher": "Bench Philosopher",
+    "sittingCritic": "Sitting Critic",
+    "anomaly": "Anomaly"
+  },
+  "favorites": {
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "myFavorites": "My Favorites",
+    "noFavorites": "No favorite benches yet"
+  },
+  "swipe": {
+    "achievements": "Achievements",
+    "myBenches": "My Benches",
+    "favorites": "Favorites",
+    "addBench": "Add Bench"
   }
 }
 

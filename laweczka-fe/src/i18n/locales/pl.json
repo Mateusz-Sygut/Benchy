@@ -15,13 +15,13 @@
     "username": "Nazwa użytkownika"
   },
   "app": {
-    "name": "Ławeczka"
+    "name": "ŁawAppka"
   },
   "auth": {
     "login": "Zaloguj się",
     "register": "Zarejestruj się",
     "logout": "Wyloguj się",
-    "loginTitle": "Witaj w Ławeczka!",
+    "loginTitle": "Witaj w ŁawAppka!",
     "loginSubtitle": "Znajdź i oceń ławeczki w Twoim mieście",
     "registerTitle": "Dołącz do społeczności!",
     "registerSubtitle": "Pomóż innym znaleźć najlepsze ławeczki",
@@ -91,7 +91,71 @@
     "ratingError": "Nie udało się dodać oceny",
     "adding": "Dodawanie...",
     "addRatingButton": "Dodaj ocenę",
-    "beFirst": "Bądź pierwszy!"
+    "beFirst": "Bądź pierwszy!",
+    "ratings": "ocen",
+    "addedOn": "Dodane",
+    "user": "Użytkownik"
+  },
+  "rarity": {
+    "common": "Ordynarna",
+    "normal": "Normalna",
+    "rare": "Rzadka",
+    "unique": "Unikatowa",
+    "anomalous": "Anomalna"
+  },
+  "benchTypes": {
+    "metal": "Metalowa",
+    "wooden": "Drewniana",
+    "stone": "Kamienna",
+    "designer": "Dizajnerska"
+  },
+  "locations": {
+    "park": "Park",
+    "city": "Miasto",
+    "forest": "Las",
+    "water": "Woda"
+  },
+  "tags": {
+    "peaceful": "Spokojna",
+    "crowded": "Zatłoczona",
+    "quiet": "Cicha",
+    "loud": "Głośna",
+    "wellMaintained": "Zadbana",
+    "poorlyMaintained": "Niezadbana",
+    "homeless": "Żul",
+    "comfortable": "Wygodna",
+    "uncomfortable": "Niewygodna",
+    "shaded": "Zacieniona",
+    "sunny": "Słoneczna"
+  },
+  "achievements": {
+    "firstBench": "Pierwsza Ławeczka",
+    "benchCreator": "Ławeczkarz",
+    "benchMaster": "Mistrz Ławeczek",
+    "sitter": "Siedzący",
+    "benchPhilosopher": "Ławeczkowy Filozof",
+    "rater": "Oceniacz",
+    "critic": "Krytyk"
+  },
+  "titles": {
+    "novice": "Nowicjusz",
+    "benchCreator": "Ławeczkarz",
+    "benchMaster": "Mistrz Ławeczek",
+    "benchPhilosopher": "Filozof Ławeczkowy",
+    "sittingCritic": "Krytyk Siedzenia",
+    "anomaly": "Anomalia"
+  },
+  "favorites": {
+    "addToFavorites": "Dodaj do ulubionych",
+    "removeFromFavorites": "Usuń z ulubionych",
+    "myFavorites": "Moje Ulubione",
+    "noFavorites": "Brak ulubionych ławeczek"
+  },
+  "swipe": {
+    "achievements": "Osiągnięcia",
+    "myBenches": "Moje Ławeczki",
+    "favorites": "Ulubione",
+    "addBench": "Dodaj Ławeczkę"
   },
   "profile": {
     "myBenches": "Moje ławeczki",
@@ -106,14 +170,6 @@
     "givenRatings": "Dane oceny",
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
     "user": "Użytkownik"
-  },
-  "benchTypes": {
-    "wooden_classic": "Drewniana klasyczna",
-    "metal_modern": "Metalowa nowoczesna",
-    "stone_bench": "Kamienna ławka",
-    "park_bench": "Ławka parkowa",
-    "concrete_bench": "Betonowa ławka",
-    "picnic_table": "Stół piknikowy"
   },
   "search": {
     "title": "Szukaj ławeczek",
@@ -130,10 +186,14 @@
     "centering": "Centruję na Twojej lokalizacji...",
     "notReady": "Funkcja lokalizacji nie jest jeszcze gotowa...",
     "permissionDenied": "Odmowa dostępu do lokalizacji",
-    "locationError": "Nie udało się pobrać lokalizacji"
+    "locationError": "Nie udało się pobrać lokalizacji",
+    "currentLocation": "Aktualna lokalizacja",
+    "gettingLocation": "Pobieranie lokalizacji...",
+    "wait": "Czekaj..."
   },
   "header": {
-    "latestBench": "Ostatnio dodana ławka:"
+    "latestBench": "Ostatnio dodana ławka:",
+    "in": "w"
   },
   "geocoding": {
     "unknownCity": "Nieznane miasto",

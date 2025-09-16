@@ -3,13 +3,14 @@ import { View, Text, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
-import { Bench } from '../../types/database';
+import { ExtendedBench } from '../../types/database';
 import { componentStyles } from '../../styles/components';
 import { colors } from '../../styles/colors';
+import { getRarityColor } from '../../styles/glassmorphism';
 
 interface ExpoMapProps {
-  benches: Bench[];
-  onMarkerPress?: (bench: Bench) => void;
+  benches: ExtendedBench[];
+  onMarkerPress?: (bench: ExtendedBench) => void;
   mapRef?: React.RefObject<MapView | null>;
 }
 
@@ -128,7 +129,7 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
             }}
             title={bench.name}
             description={bench.description || t('bench.noDescription')}
-            pinColor={colors.primary[600]}
+            pinColor={getRarityColor(bench.rarity?.level || 1)}
             onPress={() => onMarkerPress?.(bench)}
           />
         ))}

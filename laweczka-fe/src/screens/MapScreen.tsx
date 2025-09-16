@@ -6,17 +6,20 @@ import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/nativ
 import { Button } from '../components/common/Button';
 import { ExpoMap } from '../components/common/ExpoMap';
 import supabase from '../lib/supabase';
-import { Bench } from '../types/database';
+import { ExtendedBench } from '../types/database';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
+import { glassmorphismStyles } from '../styles/glassmorphism';
 
 const MapScreen = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
-  const [benches, setBenches] = useState<Bench[]>([]);
+  const [benches, setBenches] = useState<ExtendedBench[]>([]);
+  const [nearbyBenches, setNearbyBenches] = useState<ExtendedBench[]>([]);
+  const [activeBenchTab, setActiveBenchTab] = useState<'myBenches' | 'favorites' | 'addBench'>('myBenches');
   const mapRef = useRef<MapView>(null);
   const { t } = useTranslation();
 
@@ -46,7 +49,12 @@ const MapScreen = () => {
     try {
       const { data, error } = await supabase
         .from('benches')
-        .select('*')
+        .select(`
+          *,
+          rarity:rarity(*),
+          bench_type:bench_types(*),
+          location:locations(*)
+        `)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -54,24 +62,27 @@ const MapScreen = () => {
         return;
       }
 
-      const convertedBenches = (data || []).map(bench => ({
+      const convertedBenches = (data || []).map((bench: any) => ({
         ...bench,
         description: bench.description || undefined,
-        average_rating: bench.average_rating || undefined
+        average_rating: bench.average_rating || undefined,
+        rarity: bench.rarity,
+        bench_type: bench.bench_type,
+        location: bench.location,
+        tags: bench.tags || [],
+        is_favorite: bench.is_favorite || false,
       }));
       setBenches(convertedBenches);
+      setNearbyBenches(convertedBenches.slice(0, 10)); // Show first 10 as nearby
     } catch (error) {
       console.error('Error loading benches:', error);
     }
   };
 
-  const handleMarkerPress = (bench: Bench) => {
+  const handleMarkerPress = (bench: ExtendedBench) => {
     navigation.navigate('BenchDetails', { benchId: bench.id });
   };
 
-  const handleAddBench = () => {
-    navigation.navigate('AddBench');
-  };
 
 
   const handleLocationButtonClick = async () => {
@@ -107,29 +118,22 @@ const MapScreen = () => {
   };
 
   return (
-    <View style={screenStyles.mapScreenContainer}>
-      <ExpoMap 
-        benches={benches} 
-        onMarkerPress={handleMarkerPress}
-        mapRef={mapRef}
-      />
+      <View style={screenStyles.mapScreenContainer}>
+        <ExpoMap 
+          benches={benches} 
+          onMarkerPress={handleMarkerPress}
+          mapRef={mapRef}
+        />
 
-      <View style={screenStyles.mapScreenControlButtonsContainer}>
-        <TouchableOpacity
-          onPress={handleLocationButtonClick}
-          style={screenStyles.mapScreenControlButton}
-        >
-          <Ionicons name="locate" size={24} color={colors.text.white} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleAddBench}
-          style={screenStyles.mapScreenControlButton}
-        >
-          <Ionicons name="add-circle" size={24} color={colors.text.white} />
-        </TouchableOpacity>
+        <View style={screenStyles.mapScreenControlButtonsContainer}>
+          <TouchableOpacity
+            onPress={handleLocationButtonClick}
+            style={screenStyles.mapScreenControlButton}
+          >
+            <Ionicons name="locate" size={24} color={colors.text.white} />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
   );
 };
 

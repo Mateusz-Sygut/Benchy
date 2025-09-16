@@ -1,20 +1,40 @@
-# 🪑 ŁawAppka (Benchy) - Smart Bench Discovery App
+# 🪑 ŁawAppka - Smart Bench Discovery App
 
 [![React Native](https://img.shields.io/badge/React%20Native-0.79.5-blue.svg)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-54.0.0-blue.svg)](https://expo.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-green.svg)](https://supabase.com/)
 
-**ŁAWECZKApp** is a smart mobile application for adding, discovering and rating benches in your area. Find the perfect place to rest, add new benches, and rate the ones you already know!
+**ŁawAppka** is a revolutionary mobile application with **glassmorphism design** and **panel-based navigation** for discovering, adding, and rating benches in your area. Experience the future of bench discovery with click panels, rarity system, achievements, and beautiful glassmorphism UI!
 
 ## 🚀 **Features**
 
-- 📍 **Interactive Maps** - See all benches in your area
-- ➕ **Add Benches** - Add new resting places
+### **🎨 Revolutionary Design**
+- 🌟 **Glassmorphism UI** - Beautiful glass-like elements with transparency
+- 📱 **Panel Navigation** - Click panels for different sections
+- 🎯 **Drag Handles** - Intuitive arrow buttons for panel access
+- 🌈 **Rarity System** - 5 rarity levels with unique colors
+
+### **🏆 Gamification System**
+- 🏅 **Achievements** - Automatic unlocking system
+- 🎖️ **Titles** - Assignable titles
+- 🪙 **Tokens** - 3-tier achievement rewards
+- 📊 **User Stats** - Track your bench contributions
+
+### **📍 Core Functionality**
+- 🗺️ **Interactive Maps** - See all benches with rarity colors
+- ➕ **Smart Bench Adding** - Types, locations, tags (max 4)
 - ⭐ **Rating System** - Rate benches and see average ratings
-- 🔍 **Bench Details** - Check description, location, and ratings
+- 🔍 **Bench Details** - Complete information with rarity
+- ❤️ **Favorites** - Save your favorite benches
 - 🌍 **Multi-language** - Polish and English
 - 👤 **Authentication** - Secure login and registration
+
+### **🎮 Navigation System**
+- 👈 **Left Panel** - Achievements, tasks, profile
+- 👉 **Right Panel** - Your benches, favorites, add bench
+- ⬆️ **Bottom Panel** - Nearby benches list
+- 🎯 **Click Navigation** - Simple arrow buttons for panel access
 
 ## 📁 **Project Structure**
 
@@ -25,23 +45,30 @@ Laweczka/
 │   │   ├── screens/         # App screens
 │   │   │   └── auth/        # Authentication screens
 │   │   ├── components/      # UI components
-│   │   │   └── common/      # Common components
-│   │   ├── navigation/      # Navigation
-│   │   ├── i18n/           # Translations
+│   │   │   ├── common/      # Common components
+│   │   │   ├── navigation/  # Panel navigation system
+│   │   │   └── panels/      # Panel components (User, Bench, Nearby)
+│   │   ├── hooks/           # Custom hooks (useAchievements)
+│   │   ├── navigation/      # App navigation
+│   │   ├── i18n/           # Translations (EN/PL)
 │   │   ├── types/          # TypeScript types
-│   │   ├── lib/            # Libraries (Supabase)
+│   │   ├── lib/            # Libraries (Supabase, API)
 │   │   ├── contexts/       # React contexts
 │   │   └── styles/         # Centralized styling system
 │   │       ├── colors.ts   # Color palette
 │   │       ├── common.ts   # Common styles
 │   │       ├── components.ts # Component styles
-│   │       └── screens.ts  # Screen styles
+│   │       ├── screens.ts  # Screen styles
+│   │       ├── glassmorphism.ts # Glassmorphism & panel styles
+│   │       └── animations.ts # Animation styles
 │   ├── app.json            # Expo configuration
 │   └── package.json        # Dependencies
 │
 └── 🔧 laweczka-be/          # Backend - Supabase
     └── supabase/
         ├── migrations/     # SQL migrations
+        │   ├── 001_initial_schema.sql
+        │   └── 004_simple_lawappka.sql # Complete feature set
         └── config.toml     # Supabase configuration
 ```
 
@@ -51,6 +78,7 @@ Laweczka/
 - **React Native** + **Expo SDK 54** - Mobile framework
 - **TypeScript** - Type safety
 - **React Navigation** - Navigation between screens
+- **Panel Navigation System** - Custom click-based panel navigation
 - **react-native-maps** - Google/Apple Maps
 - **expo-location** - Geolocation
 - **expo-localization** - Localization
@@ -59,13 +87,16 @@ Laweczka/
 - **react-native-safe-area-context** - Safe area handling
 - **@expo/vector-icons** - Icons
 - **EAS Build** - Production builds and publishing
+- **Glassmorphism Design System** - Modern glass-like UI
 - **Centralized Styling System** - Organized StyleSheet architecture
 
 ### **Backend (`laweczka-be`)**
 - **Supabase** - Backend-as-a-Service
-- **PostgreSQL** - Database
+- **PostgreSQL** - Database with advanced features
 - **Row Level Security (RLS)** - Security
 - **Real-time subscriptions** - Live updates
+- **Database Triggers** - Automatic achievement unlocking
+- **Advanced Schema** - Rarity, achievements, titles, favorites
 
 ## 🚀 **Quick Start**
 
@@ -93,31 +124,66 @@ npx expo start
 - 🌐 **Web** - Press `w` in terminal
 - 📱 **Development Build** - For full map functionality
 
-## 📱 **App Screens**
+## 📱 **App Screens & Navigation**
 
 ### **🔐 Authentication**
 - **Login** - User login with email/password
 - **Register** - New account registration
 
-### **🗺️ Main App**
-- **Map** - Interactive map with benches and user location
+### **🗺️ Main App - Panel Navigation**
+- **Map Screen** - Interactive map with benches and rarity colors
+- **Left Panel** - Achievements, tasks, user profile
+- **Right Panel** - Your benches, favorites, add bench
+- **Bottom Panel** - Nearby benches list
+
+### **📋 Detailed Screens**
 - **Bench List** - List of all benches with ratings
-- **Add Bench** - Add new bench with location
-- **Bench Details** - Bench details, ratings, and comments
-- **Profile** - User profile and settings
+- **Add Bench** - Smart bench adding with types, locations, tags
+- **Bench Details** - Complete bench information with rarity
+- **Profile** - User profile, stats, and settings
 - **Loading** - Loading screen
 
-## 🗄️ **Database**
+## 🗄️ **Database Schema**
 
-### **Tables**
-- **`benches`** - Bench information (id, name, description, latitude, longitude, user_id, average_rating)
-- **`ratings`** - User ratings (id, bench_id, user_id, rating, comment)
+### **Core Tables**
+- **`benches`** - Bench information with rarity, types, locations, tags
+- **`ratings`** - User ratings and comments
 - **`auth.users`** - User profiles (handled by Supabase Auth)
 
-### **Security**
+### **New Feature Tables**
+- **`rarity`** - 5 rarity levels with colors (Ordynarna, Normalna, Rzadka, Unikatowa, Anomalna)
+- **`bench_types`** - Bench types (Metalowa, Drewniana, Kamienna, Dizajnerska)
+- **`locations`** - Location types (Park, Miasto, Las, Woda)
+- **`tags`** - Bench tags (Spokojna, Zatłoczona, Cicha, Głośna, etc.)
+- **`achievements`** - Achievement definitions with requirements
+- **`user_achievements`** - User's unlocked achievements
+- **`titles`** - LoL-style titles
+- **`user_titles`** - User's unlocked titles
+- **`favorites`** - User's favorite benches
+- **`user_profiles`** - Extended user statistics
+
+### **Security & Automation**
 - **Row Level Security (RLS)** - Access control
 - **Policies** - Data access rules
-- **Triggers** - Automatic average rating calculation
+- **Smart Rarity System** - Intelligent rarity assignment
+- **Automatic Rating Updates** - Real-time average calculation
+- **Database Triggers** - Automatic achievement unlocking
+- **Functions** - User stats updates
+
+### **🎲 Smart Rarity System**
+The rarity system automatically assigns rarity levels based on existing benches:
+
+**🔄 Dynamic Logic:**
+- **Normal ↔ Rare**: If one is 1+ more than the other, assign the opposite
+- **Unique**: Requires 5+ more benches than any other rarity
+- **Common**: Requires 5+ more benches than any other rarity  
+- **Anomalous**: Triggered when Unique and Common are equal
+- **Fallback**: Alternates between Normal and Rare
+
+**📊 Example Scenarios:**
+- 10 Normal, 9 Rare → Next bench gets **Rare**
+- 15 Unique, 10 Normal → Next bench gets **Unique** (5+ difference)
+- 8 Unique, 8 Common → Next bench gets **Anomalous** (equal counts)
 
 ## 🌍 **Internationalization**
 
@@ -129,8 +195,23 @@ Translations in: `laweczka-fe/src/i18n/locales/`
 
 ## 🎨 **Design System**
 
-### **Colors**
-- **Primary**: `#2e7d32` (Green)
+### **🌟 Glassmorphism Design**
+- **Glass Containers** - Transparent elements with blur effects
+- **Panel Backgrounds** - Colored glass panels (left: blue, right: red, bottom: green)
+- **Drag Handles** - Green glass arrow buttons
+- **Transparency** - `rgba()` colors with opacity
+- **Borders** - Subtle white borders for glass effect
+- **Shadows** - Depth and elevation
+
+### **🌈 Rarity Color System**
+- **Ordynarna** (Common): `#808080` (Gray)
+- **Normalna** (Normal): `#00FF00` (Green)
+- **Rzadka** (Rare): `#0080FF` (Blue)
+- **Unikatowa** (Unique): `#FF8000` (Orange)
+- **Anomalna** (Anomalous): `#FF0080` (Pink)
+
+### **🎯 Core Colors**
+- **Primary**: `#7cb342` (Green) - Updated for glassmorphism
 - **Background**: `#ffffff` (White)
 - **Text**: `#333333` (Dark gray)
 - **Success**: `#4caf50` (Green)
@@ -138,12 +219,15 @@ Translations in: `laweczka-fe/src/i18n/locales/`
 - **Error**: `#f44336` (Red)
 - **Rating**: `#ffd700` (Gold)
 
-### **Components**
-- **Button** - Buttons with gradient and variants
-- **Input** - Text fields with icons
+### **🧩 Components**
+- **PanelNavigator** - Main navigation system
+- **UserPanel** - Left panel with achievements
+- **BenchPanel** - Right panel with bench options
+- **NearbyBenchesPanel** - Bottom panel with nearby benches
+- **Button** - Glassmorphism buttons
+- **Input** - Glassmorphism text fields
 - **StarRating** - Star rating system
-- **ExpoMap** - Map component with user location
-- **SearchModal** - Search functionality
+- **ExpoMap** - Map with rarity-colored pins
 - **ScrollingBenchesHeader** - Animated header
 
 ## 🔧 **Configuration**
@@ -192,7 +276,7 @@ eas build --platform ios      # App Store
 ### **📱 Store Publishing Plans**
 
 #### **Google Play Store**
-- ✅ **Package Name**: `com.laweczka.app`
+- ✅ **Package Name**: `com.lawappka.app` (Updated)
 - ✅ **Permissions**: Location, Camera, Storage
 - ✅ **Google Maps API**: Required for Android maps
 - 🔄 **Status**: Ready for EAS Build
@@ -202,7 +286,7 @@ eas build --platform ios      # App Store
   - Store listing materials
 
 #### **Apple App Store**
-- ✅ **Bundle ID**: `com.laweczka.app`
+- ✅ **Bundle ID**: `com.lawappka.app` (Updated)
 - ✅ **Permissions**: Location, Camera
 - ✅ **Apple Maps**: Native iOS maps support
 - 🔄 **Status**: Ready for EAS Build
@@ -243,44 +327,85 @@ eas build --platform ios      # App Store
 
 ## 🎨 **Styling Architecture**
 
-The app uses a **centralized styling system** for better maintainability and consistency:
+The app uses a **centralized styling system** with **glassmorphism design** for better maintainability and modern aesthetics:
 
 ### **Style Organization**
 ```
 src/styles/
-├── colors.ts      # Color palette and theme
-├── common.ts      # Common styles (containers, layouts)
-├── components.ts  # Reusable component styles
-├── screens.ts     # Screen-specific styles
-└── animations.ts  # Animation styles and configurations
+├── colors.ts         # Color palette and theme
+├── common.ts         # Common styles (containers, layouts)
+├── components.ts     # Reusable component styles
+├── screens.ts        # Screen-specific styles
+├── glassmorphism.ts  # Glassmorphism & panel styles
+└── animations.ts     # Animation styles and configurations
 ```
 
+### **🌟 Glassmorphism Features**
+- ✅ **Glass Containers** - Transparent elements with blur
+- ✅ **Panel Styles** - Colored glass backgrounds
+- ✅ **Drag Handles** - Glass arrow buttons
+- ✅ **Rarity Colors** - Dynamic color system
+- ✅ **Transparency** - `rgba()` color system
+- ✅ **Borders & Shadows** - Depth and elevation
+
 ### **Benefits**
+- ✅ **Modern Design** - Glassmorphism aesthetic
 - ✅ **Consistent Design** - Unified color palette and spacing
 - ✅ **Easy Maintenance** - All styles in one place
 - ✅ **Type Safety** - TypeScript support for all styles
 - ✅ **Reusability** - Shared styles across components
 - ✅ **Performance** - StyleSheet.create optimization
-- ✅ **Animated Effects** - Centralized animation configurations
-- ✅ **Plant Animations** - Living, feng shui-inspired effects
+- ✅ **Panel Navigation** - Specialized panel styles
 
 ### **Usage Example**
 ```typescript
 import { screenStyles } from '../styles/screens';
 import { componentStyles } from '../styles/components';
+import { glassmorphismStyles } from '../styles/glassmorphism';
+import { panelNavigatorStyles } from '../styles/glassmorphism';
 import { colors } from '../styles/colors';
-import { animationStyles, animationConfigs } from '../styles/animations';
 
-// In component
-<View style={screenStyles.authContainer}>
-  <Button style={componentStyles.buttonPrimary} />
+// Glassmorphism components
+<View style={glassmorphismStyles.glassContainer}>
+  <Button style={glassmorphismStyles.glassButton} />
 </View>
 
-// Animation components
-<PlantAnimations variant="login" />
-<BackgroundPlants />
-<ParticleEffects />
+// Panel navigation
+<PanelNavigator
+  leftPanel={<UserPanel />}
+  rightPanel={<BenchPanel />}
+  bottomPanel={<NearbyBenchesPanel />}
+>
+  <MapScreen />
+</PanelNavigator>
 ```
+
+## 🚀 **Recent Major Updates**
+
+### **🎨 Glassmorphism Design Revolution**
+- **Complete UI Overhaul** - Modern glassmorphism design
+- **Panel Navigation System** - Revolutionary click-based navigation
+- **Glass Components** - Transparent elements with blur effects
+- **Rarity Color System** - 5-level rarity with unique colors
+
+### **🏆 Gamification System**
+- **Achievement System** - Automatic unlocking with database triggers
+- **Title System** - Assignable titles
+- **Token Rewards** - 3-tier achievement tokens
+- **User Statistics** - Comprehensive tracking
+
+### **🗄️ Advanced Database**
+- **Extended Schema** - Rarity, achievements, titles, favorites
+- **Smart Rarity System** - Intelligent rarity assignment based on existing benches
+- **Automatic Rating Updates** - Real-time average rating calculation
+- **Advanced Features** - Bench types, locations, tags
+- **Performance Optimized** - Indexes and RLS policies
+
+### **🧹 Code Cleanup**
+- **Removed Unused Code** - Gesture handlers, bounce animations
+- **Simplified Navigation** - Click-based panel system
+- **Clean Architecture** - Organized components and styles
+- **Type Safety** - Full TypeScript coverage
 
 ## 🤝 **Contributing**
 
@@ -314,4 +439,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**ŁAWECZKA** - Find the perfect place to rest! 🪑✨
+**ŁawAppka** - Experience the future of bench discovery with glassmorphism design, panel navigation, and gamification! 🪑✨🌟

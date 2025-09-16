@@ -7,11 +7,12 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
+import { useAchievements } from '../hooks/useAchievements';
 import { StarRating } from '../components/common/StarRating';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
-import { Database } from '../types/database';
+import { Database, RatingInsert } from '../types/database';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
 
@@ -22,6 +23,7 @@ const BenchDetailsScreen = ({ route }: any) => {
   const { benchId } = route.params;
   const { user } = useAuth();
   const { t } = useTranslation();
+  const { updateUserStats } = useAchievements();
   const [bench, setBench] = useState<Bench | null>(null);
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [userRating, setUserRating] = useState(0);
@@ -83,20 +85,25 @@ const BenchDetailsScreen = ({ route }: any) => {
 
     setLoading(true);
     try {
+      const ratingData: RatingInsert = {
+        bench_id: benchId,
+        user_id: user.id,
+        rating: userRating,
+        comment: userComment.trim(),
+      };
+
       const { error } = await supabase
         .from('ratings')
-        .upsert({
-          bench_id: benchId,
-          user_id: user.id,
-          rating: userRating,
-          comment: userComment.trim(),
-        });
+        .upsert([ratingData] as any);
 
       if (error) {
         console.error('Error submitting rating:', error);
         Alert.alert(t('common.error'), t('errors.failedToAddRating'));
         return;
       }
+
+      // Update user stats for achievements
+      await updateUserStats('rating_given');
 
       Alert.alert(t('common.success'), t('benchDetails.ratingAdded'));
       setUserRating(0);
@@ -155,14 +162,14 @@ const BenchDetailsScreen = ({ route }: any) => {
               size={20}
             />
             <Text style={screenStyles.benchDetailsRatingText}>
-              {(bench.average_rating || 0).toFixed(1)} ({ratings.length} ocen)
+              {(bench.average_rating || 0).toFixed(1)} ({ratings.length} {t('benchDetails.ratings')})
             </Text>
           </View>
           <Text style={screenStyles.benchDetailsLocation}>
             📍 {bench.latitude.toFixed(4)}, {bench.longitude.toFixed(4)}
           </Text>
           <Text style={screenStyles.benchDetailsAddedBy}>
-            Dodane {formatDate(bench.created_at)}
+            {t('benchDetails.addedOn')} {formatDate(bench.created_at)}
           </Text>
         </View>
       </View>
@@ -215,7 +222,7 @@ const BenchDetailsScreen = ({ route }: any) => {
             ]}>
               <View style={screenStyles.benchDetailsRatingHeader}>
                 <Text style={screenStyles.benchDetailsRatingUser}>
-                  Użytkownik
+                  {t('benchDetails.user')}
                 </Text>
                 <View style={screenStyles.benchDetailsRatingInfo}>
                   <StarRating 
