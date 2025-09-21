@@ -358,10 +358,10 @@ export type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
 
 // Extended types with relations
 export type ExtendedBench = Bench & {
-  rarity: Rarity;
+  rarity: Rarity | null;
   bench_type: BenchType | null;
   location: Location | null;
-  tags: Tag[];
+  tags?: Tag[];
   is_favorite: boolean;
 };
 
@@ -370,4 +370,7 @@ export type ExtendedUserProfile = UserProfile & {
   unlocked_titles: Title[];
   achievements: (UserAchievement & { achievement: Achievement })[];
 };
+
+// Update types
+export type BenchUpdate = Database['public']['Tables']['benches']['Update'];
 

@@ -5,13 +5,17 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { glassmorphismStyles, panelStyles } from '../../styles/glassmorphism';
 import { colors } from '../../styles/colors';
-import { Bench } from '../../types/database';
+import { ExtendedBench } from '../../types/database';
 import supabase from '../../lib/supabase';
 
-export const NearbyBenchesPanel: React.FC = () => {
+interface NearbyBenchesPanelProps {
+  onBenchPress?: (bench: ExtendedBench) => void;
+}
+
+export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchPress }) => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
-  const [nearbyBenches, setNearbyBenches] = useState<Bench[]>([]);
+  const [nearbyBenches, setNearbyBenches] = useState<ExtendedBench[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,7 +27,12 @@ export const NearbyBenchesPanel: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('benches')
-        .select('*')
+        .select(`
+          *,
+          rarity:rarity_id(id, name, level, color, description, created_at),
+          bench_type:bench_type_id(id, name, icon, created_at),
+          location:location_id(id, name, icon, created_at)
+        `)
         .order('created_at', { ascending: false })
         .limit(10);
 
@@ -40,49 +49,61 @@ export const NearbyBenchesPanel: React.FC = () => {
     }
   };
 
-  const handleBenchPress = (bench: Bench) => {
-    navigation.navigate('BenchDetails', { benchId: bench.id });
+  const handleBenchPress = (bench: ExtendedBench) => {
+    if (onBenchPress) {
+      onBenchPress(bench);
+    } else {
+      // Fallback - jeśli nie ma funkcji, otwórz szczegóły
+      navigation.navigate('BenchDetails', { benchId: bench.id });
+    }
   };
 
-  const renderBenchItem = ({ item: bench }: { item: Bench }) => (
+  const renderBenchItem = ({ item: bench }: { item: ExtendedBench }) => (
     <TouchableOpacity 
       style={panelStyles.benchCard}
       onPress={() => handleBenchPress(bench)}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={panelStyles.benchIconContainer}>
-          <Ionicons name="location" size={20} color={colors.primary[400]} />
+      <View>
+        <View style={panelStyles.benchCardHeader}>
+          <Text style={[panelStyles.benchName, panelStyles.benchCardTitle]} numberOfLines={1}>
+            {bench.name || bench.description || t('bench.unnamedBench')}
+          </Text>
+          <Ionicons name="chevron-forward" size={panelStyles.benchCardChevron.fontSize} color={panelStyles.benchCardChevron.color} />
         </View>
-        <View style={{ marginLeft: 15, flex: 1 }}>
-          <Text style={panelStyles.benchName} numberOfLines={1}>
-            {bench.name}
-          </Text>
-          <Text style={panelStyles.benchDescription} numberOfLines={2}>
-            {bench.description || t('bench.noDescription')}
-          </Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
-            <Ionicons name="star" size={14} color={colors.warning[500]} />
-            <Text style={panelStyles.benchRating}>
-              {bench.average_rating ? bench.average_rating.toFixed(1) : '0.0'}
+        
+        {/* Rarity i ocena pod tytułem */}
+        <View style={panelStyles.benchCardRarityContainer}>
+          {/* Rzadkość */}
+          <View style={[
+            panelStyles.benchCardRarityBadge,
+            { backgroundColor: bench.rarity?.color ? `${bench.rarity.color}30` : 'rgba(124, 179, 66, 0.3)' }
+          ]}>
+            <Text style={[
+              panelStyles.benchCardRarityText,
+              { color: bench.rarity?.color || colors.primary[400] }
+            ]}>
+              {bench.rarity?.name ? t(`rarity.${bench.rarity.name}`) : t('rarity.normal')}
             </Text>
-            <Text style={panelStyles.benchDistance}>• 0.5 km</Text>
+          </View>
+          
+          {/* Ocena */}
+          <View style={panelStyles.benchCardRatingContainer}>
+            <Ionicons name="star" size={panelStyles.benchCardRatingIcon.fontSize} color={panelStyles.benchCardRatingIcon.color} />
+            <Text style={[panelStyles.benchRating, panelStyles.benchCardRatingText]}>
+              {bench.average_rating ? bench.average_rating.toFixed(1) : t('bench.noRating')}
+            </Text>
           </View>
         </View>
-        <Ionicons name="chevron-forward" size={16} color={colors.text.secondary} />
+        
       </View>
     </TouchableOpacity>
   );
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ padding: 20, paddingBottom: 10 }}>
-        <Text style={glassmorphismStyles.cardTitle}>{t('nearby.title')}</Text>
-        <Text style={glassmorphismStyles.cardSubtitle}>{t('nearby.subtitle')}</Text>
-      </View>
-      
+    <View style={panelStyles.nearbyBenchesContainer}>
       <ScrollView 
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
+        style={panelStyles.nearbyBenchesScrollView}
+        contentContainerStyle={panelStyles.nearbyBenchesContentContainer}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl

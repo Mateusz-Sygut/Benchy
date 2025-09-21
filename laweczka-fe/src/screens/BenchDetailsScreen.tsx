@@ -12,7 +12,7 @@ import { StarRating } from '../components/common/StarRating';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
-import { Database, RatingInsert } from '../types/database';
+import { Database, RatingInsert, BenchUpdate } from '../types/database';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
 
@@ -29,10 +29,31 @@ const BenchDetailsScreen = ({ route }: any) => {
   const [userRating, setUserRating] = useState(0);
   const [userComment, setUserComment] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedRarity, setSelectedRarity] = useState<string | null>(null);
+  const [rarities, setRarities] = useState<any[]>([]);
 
   useEffect(() => {
     loadBenchDetails();
+    loadRarities();
   }, [benchId]);
+
+  const loadRarities = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('rarity')
+        .select('*')
+        .order('level', { ascending: true });
+
+      if (error) {
+        console.error('Error loading rarities:', error);
+        return;
+      }
+
+      setRarities(data || []);
+    } catch (error) {
+      console.error('Error loading rarities:', error);
+    }
+  };
 
   const loadBenchDetails = async () => {
     try {
@@ -112,6 +133,36 @@ const BenchDetailsScreen = ({ route }: any) => {
     } catch (error) {
       console.error('Error submitting rating:', error);
       Alert.alert(t('common.error'), t('errors.failedToAddRating'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const submitRarity = async () => {
+    if (!selectedRarity || !bench) {
+      Alert.alert(t('common.error'), t('benchDetails.selectRarity'));
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await (supabase as any)
+        .from('benches')
+        .update({ rarity_id: selectedRarity })
+        .eq('id', bench.id);
+
+      if (error) {
+        console.error('Error updating rarity:', error);
+        Alert.alert(t('common.error'), t('errors.failedToUpdateRarity'));
+        return;
+      }
+
+      Alert.alert(t('common.success'), t('benchDetails.rarityUpdated'));
+      setSelectedRarity(null);
+      loadBenchDetails();
+    } catch (error) {
+      console.error('Error updating rarity:', error);
+      Alert.alert(t('common.error'), t('errors.failedToUpdateRarity'));
     } finally {
       setLoading(false);
     }
@@ -205,6 +256,33 @@ const BenchDetailsScreen = ({ route }: any) => {
               disabled={loading}
             />
           </View>
+        </View>
+      </View>
+
+      <View style={screenStyles.benchDetailsSection}>
+        <Text style={screenStyles.benchDetailsSectionTitle}>
+          {t('benchDetails.setRarity')}
+        </Text>
+        <View style={screenStyles.benchDetailsRarityContainer}>
+          {rarities.map((rarity) => (
+            <Button
+              key={rarity.id}
+              title={rarity.name}
+              onPress={() => setSelectedRarity(rarity.id)}
+              style={[
+                screenStyles.benchDetailsRarityButton,
+                selectedRarity === rarity.id && screenStyles.benchDetailsRarityButtonSelected
+              ]}
+            />
+          ))}
+        </View>
+        <View style={screenStyles.benchDetailsSubmitButton}>
+          <Button
+            title={loading ? t('benchDetails.updating') : t('benchDetails.updateRarityButton')}
+            onPress={submitRarity}
+            loading={loading}
+            disabled={loading || !selectedRarity}
+          />
         </View>
       </View>
 

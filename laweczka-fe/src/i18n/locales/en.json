@@ -54,7 +54,9 @@
     "addNew": "Add new bench",
     "noDescription": "No description",
     "addedBy": "by user",
-    "total": "benches"
+    "total": "benches",
+    "unnamedBench": "Unnamed bench",
+    "noRating": "0.0"
   },
   "benchList": {
     "noBenches": "No benches",
@@ -144,7 +146,8 @@
     "failedToLoadBench": "Failed to load bench details",
     "failedToLoadData": "An error occurred while loading data",
     "failedToAddBench": "Failed to add bench",
-    "failedToAddRating": "Failed to add rating"
+    "failedToAddRating": "Failed to add rating",
+    "failedToUpdateRarity": "Failed to update rarity"
   },
   "benchDetails": {
     "addRating": "Add your rating",
@@ -160,14 +163,24 @@
     "beFirst": "Be the first!",
     "ratings": "ratings",
     "addedOn": "Added on",
-    "user": "User"
+    "user": "User",
+    "setRarity": "Set Rarity",
+    "selectRarity": "Please select a rarity",
+    "rarityUpdated": "Rarity has been updated",
+    "updating": "Updating...",
+    "updateRarityButton": "Update Rarity"
   },
   "rarity": {
     "common": "Common",
     "normal": "Normal", 
     "rare": "Rare",
     "unique": "Unique",
-    "anomalous": "Anomalous"
+    "anomalous": "Anomalous",
+    "common.description": "Most commonly found benches",
+    "normal.description": "Standard benches",
+    "rare.description": "Rarely found benches",
+    "unique.description": "Very rare benches",
+    "anomalous.description": "Extremely rare benches"
   },
   "locations": {
     "park": "Park",
@@ -186,7 +199,16 @@
     "comfortable": "Comfortable",
     "uncomfortable": "Uncomfortable",
     "shaded": "Shaded",
-    "sunny": "Sunny"
+    "sunny": "Sunny",
+    "warm": "Warm",
+    "cold": "Cold",
+    "covered": "Covered",
+    "open": "Open",
+    "scenic": "Scenic",
+    "central": "Central",
+    "remote": "Remote",
+    "accessible": "Accessible",
+    "inaccessible": "Inaccessible"
   },
   "achievements": {
     "firstBench": "First Bench",
@@ -195,7 +217,24 @@
     "sitter": "Sitter",
     "benchPhilosopher": "Bench Philosopher",
     "rater": "Rater",
-    "critic": "Critic"
+    "critic": "Critic",
+    "collector": "Collector",
+    "expert": "Expert",
+    "master": "Master",
+    "judge": "Judge",
+    "favorite": "Favorite",
+    "connoisseur": "Connoisseur",
+    "specialist": "Specialist",
+    "firstBench.description": "Add your first bench",
+    "collector.description": "Add 10 benches",
+    "expert.description": "Add 50 benches",
+    "master.description": "Add 100 benches",
+    "rater.description": "Rate 10 benches",
+    "critic.description": "Rate 50 benches",
+    "judge.description": "Rate 100 benches",
+    "favorite.description": "Add 10 benches to favorites",
+    "connoisseur.description": "Add 50 benches to favorites",
+    "specialist.description": "Add 100 benches to favorites"
   },
   "titles": {
     "novice": "Novice",
@@ -203,7 +242,18 @@
     "benchMaster": "Bench Master",
     "benchPhilosopher": "Bench Philosopher",
     "sittingCritic": "Sitting Critic",
-    "anomaly": "Anomaly"
+    "anomaly": "Anomaly",
+    "benchUser": "Bench User",
+    "collector": "Collector",
+    "expert": "Expert",
+    "master": "Master",
+    "legend": "Legend",
+    "novice.description": "Beginner user",
+    "benchUser.description": "Experienced user",
+    "collector.description": "Bench collector",
+    "expert.description": "Bench expert",
+    "master.description": "Bench master",
+    "legend.description": "Bench legend"
   },
   "favorites": {
     "addToFavorites": "Add to favorites",

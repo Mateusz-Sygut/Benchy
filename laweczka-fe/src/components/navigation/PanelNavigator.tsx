@@ -239,15 +239,6 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
           ]}
         >
           <View style={panelNavigatorStyles.bottomPanelBackground} />
-          <View style={panelNavigatorStyles.panelHeader}>
-            <Text style={panelNavigatorStyles.panelTitle}>{t('swipe.favorites')}</Text>
-            <TouchableOpacity 
-              onPress={() => animateBottomPanel(false)}
-              style={{ padding: 10 }}
-            >
-              <Ionicons name="close" size={24} color="#fff" />
-            </TouchableOpacity>
-          </View>
           {bottomPanel}
         </Animated.View>
       )}

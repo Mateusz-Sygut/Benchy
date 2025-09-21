@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,15 @@ import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
 import { glassmorphismStyles } from '../styles/glassmorphism';
 
-const MapScreen = () => {
+interface MapScreenProps {
+  onBenchPress?: (bench: ExtendedBench) => void;
+}
+
+export interface MapScreenRef {
+  focusOnBench: (bench: ExtendedBench) => void;
+}
+
+const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, ref) => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const [benches, setBenches] = useState<ExtendedBench[]>([]);
@@ -45,15 +53,34 @@ const MapScreen = () => {
     }
   }, [route.params?.focusBench]);
 
+  const focusOnBench = (bench: ExtendedBench) => {
+    if (mapRef.current) {
+      mapRef.current.animateCamera({
+        center: {
+          latitude: bench.latitude,
+          longitude: bench.longitude,
+        },
+        pitch: 45,
+        heading: 0,
+        altitude: 1000,
+        zoom: 16,
+      }, { duration: 1500 });
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    focusOnBench,
+  }));
+
   const loadBenches = async () => {
     try {
       const { data, error } = await supabase
         .from('benches')
         .select(`
           *,
-          rarity:rarity(*),
-          bench_type:bench_types(*),
-          location:locations(*)
+          rarity:rarity_id(id, name, level, color, description, created_at),
+          bench_type:bench_type_id(id, name, icon, created_at),
+          location:location_id(id, name, icon, created_at)
         `)
         .order('created_at', { ascending: false });
 
@@ -135,7 +162,8 @@ const MapScreen = () => {
         </View>
       </View>
   );
-};
+});
 
+MapScreen.displayName = 'MapScreen';
 
 export default MapScreen;

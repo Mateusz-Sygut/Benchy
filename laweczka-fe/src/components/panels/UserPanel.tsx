@@ -22,7 +22,7 @@ export const UserPanel: React.FC = () => {
             <Ionicons name="person" size={30} color={colors.text.white} />
           </View>
           <View style={{ marginLeft: 15 }}>
-            <Text style={glassmorphismStyles.cardTitle}>{user?.email || 'User'}</Text>
+            <Text style={glassmorphismStyles.cardTitle}>{user?.email || t('profile.user')}</Text>
             <Text style={glassmorphismStyles.cardSubtitle}>
               {userProfile?.selected_title_id ? 
                 t('titles.novice') : 

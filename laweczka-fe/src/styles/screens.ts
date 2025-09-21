@@ -640,4 +640,19 @@ export const screenStyles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 32,
   },
+  benchDetailsRarityContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginBottom: 16,
+  },
+  benchDetailsRarityButton: {
+    flex: 1,
+    minWidth: '45%',
+    marginHorizontal: 5,
+  },
+  benchDetailsRarityButtonSelected: {
+    backgroundColor: colors.primary[500],
+    borderColor: colors.primary[600],
+  },
 });

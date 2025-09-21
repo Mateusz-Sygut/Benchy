@@ -56,7 +56,9 @@
   "bench": {
     "addNew": "Dodaj ławeczke",
     "noDescription": "Brak opisu",
-    "total": "ławeczek"
+    "total": "ławeczek",
+    "unnamedBench": "Bezimienna ławeczka",
+    "noRating": "0.0"
   },
   "benchList": {
     "noBenches": "Brak ławeczek",
@@ -94,14 +96,24 @@
     "beFirst": "Bądź pierwszy!",
     "ratings": "ocen",
     "addedOn": "Dodane",
-    "user": "Użytkownik"
+    "user": "Użytkownik",
+    "setRarity": "Ustaw rzadkość",
+    "selectRarity": "Proszę wybrać rzadkość",
+    "rarityUpdated": "Rzadkość została zaktualizowana",
+    "updating": "Aktualizowanie...",
+    "updateRarityButton": "Zaktualizuj rzadkość"
   },
   "rarity": {
     "common": "Ordynarna",
     "normal": "Normalna",
     "rare": "Rzadka",
     "unique": "Unikatowa",
-    "anomalous": "Anomalna"
+    "anomalous": "Anomalna",
+    "common.description": "Najczęściej spotykane ławeczki",
+    "normal.description": "Standardowe ławeczki",
+    "rare.description": "Rzadko spotykane ławeczki",
+    "unique.description": "Bardzo rzadkie ławeczki",
+    "anomalous.description": "Niezwykle rzadkie ławeczki"
   },
   "benchTypes": {
     "metal": "Metalowa",
@@ -126,7 +138,16 @@
     "comfortable": "Wygodna",
     "uncomfortable": "Niewygodna",
     "shaded": "Zacieniona",
-    "sunny": "Słoneczna"
+    "sunny": "Słoneczna",
+    "warm": "Ciepła",
+    "cold": "Zimna",
+    "covered": "Zadaszona",
+    "open": "Otwarta",
+    "scenic": "Widokowa",
+    "central": "Centralna",
+    "remote": "Odległa",
+    "accessible": "Dostępna",
+    "inaccessible": "Niedostępna"
   },
   "achievements": {
     "firstBench": "Pierwsza Ławeczka",
@@ -135,7 +156,24 @@
     "sitter": "Siedzący",
     "benchPhilosopher": "Ławeczkowy Filozof",
     "rater": "Oceniacz",
-    "critic": "Krytyk"
+    "critic": "Krytyk",
+    "collector": "Kolekcjoner",
+    "expert": "Ekspert",
+    "master": "Mistrz",
+    "judge": "Sędzia",
+    "favorite": "Ulubieniec",
+    "connoisseur": "Koneser",
+    "specialist": "Znawca",
+    "firstBench.description": "Dodaj swoją pierwszą ławkę",
+    "collector.description": "Dodaj 10 ławek",
+    "expert.description": "Dodaj 50 ławek",
+    "master.description": "Dodaj 100 ławek",
+    "rater.description": "Oceń 10 ławek",
+    "critic.description": "Oceń 50 ławek",
+    "judge.description": "Oceń 100 ławek",
+    "favorite.description": "Dodaj 10 ławek do ulubionych",
+    "connoisseur.description": "Dodaj 50 ławek do ulubionych",
+    "specialist.description": "Dodaj 100 ławek do ulubionych"
   },
   "titles": {
     "novice": "Nowicjusz",
@@ -143,7 +181,18 @@
     "benchMaster": "Mistrz Ławeczek",
     "benchPhilosopher": "Filozof Ławeczkowy",
     "sittingCritic": "Krytyk Siedzenia",
-    "anomaly": "Anomalia"
+    "anomaly": "Anomalia",
+    "benchUser": "Ławkowicz",
+    "collector": "Kolekcjoner",
+    "expert": "Ekspert",
+    "master": "Mistrz",
+    "legend": "Legenda",
+    "novice.description": "Początkujący użytkownik",
+    "benchUser.description": "Doświadczony użytkownik",
+    "collector.description": "Zbieracz ławek",
+    "expert.description": "Ekspert od ławek",
+    "master.description": "Mistrz ławek",
+    "legend.description": "Legenda ławek"
   },
   "favorites": {
     "addToFavorites": "Dodaj do ulubionych",
@@ -215,6 +264,7 @@
     "failedToLoadBench": "Nie udało się załadować szczegółów ławeczki",
     "failedToLoadData": "Wystąpił błąd podczas ładowania danych",
     "failedToAddBench": "Nie udało się dodać ławeczki",
-    "failedToAddRating": "Nie udało się dodać oceny"
+    "failedToAddRating": "Nie udało się dodać oceny",
+    "failedToUpdateRarity": "Nie udało się zaktualizować rzadkości"
   }
 }
