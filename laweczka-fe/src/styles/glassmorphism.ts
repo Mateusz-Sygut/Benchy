@@ -414,7 +414,7 @@ export const panelStyles = StyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 8,
-    backgroundColor: colors.success[500],
+    backgroundColor: colors.success,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -521,7 +521,7 @@ export const panelStyles = StyleSheet.create({
   },
   benchCardRatingIcon: {
     fontSize: 14,
-    color: colors.warning[500],
+    color: colors.warning,
   },
   benchCardRatingText: {
     fontSize: 12,

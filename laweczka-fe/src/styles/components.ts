@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from './colors';
+import { colors, shadows } from './colors';
 
 export const componentStyles = StyleSheet.create({
   button: {
@@ -27,14 +27,14 @@ export const componentStyles = StyleSheet.create({
   buttonText: {
     color: colors.text.white,
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: 'bold' as 'bold',
+    textAlign: 'center' as 'center',
   },
   buttonTextOutline: {
     color: colors.primary[600],
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: 'bold' as 'bold',
+    textAlign: 'center' as 'center',
   },
   buttonIcon: {
     marginRight: 8,
@@ -71,11 +71,11 @@ export const componentStyles = StyleSheet.create({
   },
   inputMultiline: {
     minHeight: 80,
-    textAlignVertical: 'top',
+    textAlignVertical: 'top' as 'top',
   },
   inputError: {
     borderColor: colors.error,
-    backgroundColor: '#fff5f5',
+    backgroundColor: colors.gray[50],
   },
   inputErrorText: {
     color: colors.error,
@@ -101,11 +101,7 @@ export const componentStyles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    ...shadows.medium,
   },
   
   loadingContainer: {
@@ -128,11 +124,7 @@ export const componentStyles = StyleSheet.create({
     borderRadius: 24,
     marginHorizontal: 16,
     marginTop: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadows.medium,
   },
   scrollingHeaderIconContainer: {
     marginRight: 14,
@@ -144,17 +136,17 @@ export const componentStyles = StyleSheet.create({
     flex: 1,
   },
   scrollingHeaderMainText: {
-    color: '#ffffff',
+    color: colors.text.white,
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: '600' as '600',
     opacity: 0.85,
     letterSpacing: 0.5,
-    textTransform: 'uppercase',
+    textTransform: 'uppercase' as 'uppercase',
   },
   scrollingHeaderBenchText: {
-    color: '#ffffff',
+    color: colors.text.white,
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: '700' as '700',
     marginTop: 3,
     letterSpacing: 0.3,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
@@ -162,12 +154,12 @@ export const componentStyles = StyleSheet.create({
     textShadowRadius: 2,
   },
   scrollingHeaderTimeText: {
-    color: '#ffffff',
+    color: colors.text.white,
     fontSize: 12,
     opacity: 0.75,
     marginTop: 2,
-    fontWeight: '500',
-    fontStyle: 'italic',
+    fontWeight: '500' as '500',
+    fontStyle: 'italic' as 'italic',
   },
   
   starRatingContainer: {

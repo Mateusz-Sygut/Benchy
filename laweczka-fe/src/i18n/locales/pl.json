@@ -46,9 +46,6 @@
   "map": {
     "locationError": "Nie udało się uzyskać dostępu do lokalizacji",
     "addBench": "Dodaj ławeczkę",
-    "ratePlaces": "Oceniaj miejsca",
-    "comment": "Komentuj",
-    "total": "ławeczek",
     "viewMode2D": "Widok 2D",
     "viewMode3D": "Widok 3D",
     "toggleViewMode": "Przełącz widok mapy"
@@ -56,6 +53,7 @@
   "bench": {
     "addNew": "Dodaj ławeczke",
     "noDescription": "Brak opisu",
+    "addedBy": "dodana przez",
     "total": "ławeczek",
     "unnamedBench": "Bezimienna ławeczka",
     "noRating": "0.0"
@@ -116,10 +114,12 @@
     "anomalous.description": "Niezwykle rzadkie ławeczki"
   },
   "benchTypes": {
-    "metal": "Metalowa",
-    "wooden": "Drewniana",
-    "stone": "Kamienna",
-    "designer": "Dizajnerska"
+    "wooden_classic": "Klasyczna drewniana",
+    "metal_modern": "Nowoczesna metalowa",
+    "stone_bench": "Kamienna ławka",
+    "park_bench": "Ławka parkowa",
+    "concrete_bench": "Betonowa ławka",
+    "picnic_table": "Stół piknikowy"
   },
   "locations": {
     "park": "Park",

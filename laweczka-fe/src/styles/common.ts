@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from './colors';
+import { colors, shadows } from './colors';
 
 export const commonStyles = StyleSheet.create({
   container: {
@@ -18,22 +18,18 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadows.medium,
   },
   
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as 'bold',
     color: colors.text.primary,
     marginBottom: 16,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as 'bold',
     color: colors.primary[600],
     marginBottom: 16,
   },

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from './colors';
+import { colors, shadows } from './colors';
 
 export const screenStyles = StyleSheet.create({
   authBackground: {
@@ -33,10 +33,10 @@ export const screenStyles = StyleSheet.create({
   },
   authTitle: {
     fontSize: 36,
-    fontWeight: '700',
+    fontWeight: '700' as '700',
     color: colors.text.white,
     marginBottom: 16,
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 6,
@@ -45,12 +45,12 @@ export const screenStyles = StyleSheet.create({
   authDescription: {
     fontSize: 18,
     color: 'rgba(255, 255, 255, 0.9)',
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
     lineHeight: 26,
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
-    fontWeight: '500',
+    fontWeight: '500' as '500',
     maxWidth: 280,
   },
   authFormContainer: {
@@ -63,11 +63,7 @@ export const screenStyles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.98)',
     borderRadius: 20,
     padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.15,
-    shadowRadius: 24,
-    elevation: 8,
+    ...shadows.button,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
   },
@@ -79,11 +75,7 @@ export const screenStyles = StyleSheet.create({
     marginBottom: 16,
     paddingVertical: 14,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadows.medium,
   },
   authSecondaryButton: {
     borderRadius: 12,
@@ -96,26 +88,18 @@ export const screenStyles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadows.medium,
   },
   addBenchSectionCard: {
     backgroundColor: colors.background.primary,
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadows.medium,
   },
   addBenchSectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as 'bold',
     color: colors.primary[600],
     marginBottom: 16,
   },
@@ -124,7 +108,7 @@ export const screenStyles = StyleSheet.create({
   },
   addBenchTextInput: {
     minHeight: 80,
-    textAlignVertical: 'top',
+    textAlignVertical: 'top' as 'top',
   },
   addBenchGrid: {
     flexDirection: 'row',
@@ -152,9 +136,9 @@ export const screenStyles = StyleSheet.create({
   },
   addBenchName: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '600' as '600',
     color: colors.text.primary,
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
   },
   addBenchCheckmark: {
     position: 'absolute',
@@ -180,7 +164,7 @@ export const screenStyles = StyleSheet.create({
   addBenchInfoText: {
     fontSize: 14,
     color: colors.primary[600],
-    fontWeight: '600',
+    fontWeight: '600' as '600',
     marginBottom: 2,
   },
   addBenchInfoSubtext: {
@@ -191,11 +175,7 @@ export const screenStyles = StyleSheet.create({
     backgroundColor: colors.primary[600],
     paddingVertical: 16,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 8,
+    ...shadows.button,
   },
   
   benchDetailsContainer: {
@@ -206,24 +186,20 @@ export const screenStyles = StyleSheet.create({
     paddingBottom: 30,
   },
   benchDetailsLoading: {
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
     marginTop: 50,
     fontSize: 16,
-    color: '#6b7280',
+    color: colors.text.secondary,
   },
   benchDetailsBenchInfo: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.primary,
     marginHorizontal: 16,
     marginTop: 16,
     padding: 20,
     borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadows.medium,
   },
   benchDetailsIcon: {
     fontSize: 60,
@@ -231,7 +207,7 @@ export const screenStyles = StyleSheet.create({
     backgroundColor: colors.gradient.lighter,
     padding: 12,
     borderRadius: 50,
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
     width: 80,
     height: 80,
     lineHeight: 56,
@@ -241,13 +217,13 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsBenchName: {
     fontSize: 22,
-    fontWeight: 'bold',
-    color: '#1f2937',
+    fontWeight: 'bold' as 'bold',
+    color: colors.text.primary,
     marginBottom: 8,
   },
   benchDetailsDescription: {
     fontSize: 16,
-    color: '#6b7280',
+    color: colors.text.secondary,
     marginBottom: 12,
     lineHeight: 22,
   },
@@ -258,34 +234,30 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsRatingText: {
     fontSize: 16,
-    color: '#6b7280',
+    color: colors.text.secondary,
     marginLeft: 8,
   },
   benchDetailsLocation: {
     fontSize: 14,
-    color: '#9ca3af',
+    color: colors.text.disabled,
     marginBottom: 4,
   },
   benchDetailsAddedBy: {
     fontSize: 14,
-    color: '#9ca3af',
+    color: colors.text.disabled,
   },
   benchDetailsSection: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.primary,
     marginHorizontal: 16,
     marginTop: 16,
     padding: 20,
     borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
+    ...shadows.medium,
   },
   benchDetailsSectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1f2937',
+    fontWeight: 'bold' as 'bold',
+    color: colors.text.primary,
     marginBottom: 16,
   },
   benchDetailsRatingForm: {
@@ -304,12 +276,12 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsNoRatings: {
     fontSize: 16,
-    color: '#6b7280',
-    textAlign: 'center',
-    fontStyle: 'italic',
+    color: colors.text.secondary,
+    textAlign: 'center' as 'center',
+    fontStyle: 'italic' as 'italic',
   },
   benchDetailsRatingItem: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: colors.gray[50],
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
@@ -322,8 +294,8 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsRatingUser: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1f2937',
+    fontWeight: '600' as '600',
+    color: colors.text.primary,
   },
   benchDetailsRatingInfo: {
     flexDirection: 'row',
@@ -331,19 +303,19 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsRatingDate: {
     fontSize: 14,
-    color: '#6b7280',
+    color: colors.text.secondary,
     marginLeft: 8,
   },
   benchDetailsRatingComment: {
     fontSize: 14,
-    color: '#4b5563',
+    color: colors.text.primary,
     lineHeight: 20,
   },
   
   // MapScreen styles
   mapScreenContainer: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: colors.gray[100],
   },
   mapScreenControlButtonsContainer: {
     position: 'absolute',
@@ -357,14 +329,7 @@ export const screenStyles = StyleSheet.create({
     backgroundColor: 'rgba(124, 179, 66, 0.65)',
     borderRadius: 30,
     padding: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    elevation: 8,
+    ...shadows.button,
     alignItems: 'center',
     justifyContent: 'center',
     width: 60,
@@ -376,7 +341,7 @@ export const screenStyles = StyleSheet.create({
   // BenchListScreen styles
   benchListContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background.secondary,
   },
   benchListSearchContainer: {
     padding: 16,
@@ -389,11 +354,7 @@ export const screenStyles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 6,
+    ...shadows.large,
     borderWidth: 1,
     borderColor: 'rgba(46, 125, 50, 0.1)',
   },
@@ -418,17 +379,13 @@ export const screenStyles = StyleSheet.create({
     padding: 16,
   },
   benchListBenchCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.primary,
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadows.medium,
   },
   benchListBenchIconContainer: {
     width: 50,
@@ -438,11 +395,7 @@ export const screenStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    ...shadows.small,
   },
   benchListBenchIcon: {
     fontSize: 24,
@@ -452,8 +405,8 @@ export const screenStyles = StyleSheet.create({
   },
   benchListBenchDescription: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: '600' as '600',
+    color: colors.text.primary,
     marginBottom: 8,
   },
   benchListBenchMeta: {
@@ -468,17 +421,17 @@ export const screenStyles = StyleSheet.create({
   },
   benchListRatingText: {
     fontSize: 14,
-    color: '#666',
+    color: colors.text.secondary,
     marginLeft: 4,
   },
   benchListUsernameText: {
     fontSize: 12,
-    color: '#999',
-    fontStyle: 'italic',
+    color: colors.text.disabled,
+    fontStyle: 'italic' as 'italic',
   },
   benchListLocationText: {
     fontSize: 12,
-    color: '#999',
+    color: colors.text.disabled,
   },
   benchListEmptyContainer: {
     flex: 1,
@@ -497,15 +450,15 @@ export const screenStyles = StyleSheet.create({
   },
   benchListEmptyTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: 'bold' as 'bold',
+    color: colors.text.primary,
     marginBottom: 12,
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
   },
   benchListEmptyText: {
     fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
+    color: colors.text.secondary,
+    textAlign: 'center' as 'center',
     lineHeight: 24,
     marginBottom: 30,
   },
@@ -522,7 +475,7 @@ export const screenStyles = StyleSheet.create({
   // ProfileScreen styles
   profileContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background.secondary,
   },
   profileHeader: {
     paddingTop: 20,
@@ -544,8 +497,8 @@ export const screenStyles = StyleSheet.create({
   },
   profileUserName: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
+    fontWeight: 'bold' as 'bold',
+    color: colors.text.white,
     marginBottom: 4,
   },
   profileUserEmail: {
@@ -553,7 +506,7 @@ export const screenStyles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.8)',
   },
   profileStatsCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.primary,
     marginHorizontal: 16,
     marginTop: -16,
     borderRadius: 16,
@@ -562,41 +515,33 @@ export const screenStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadows.medium,
   },
   profileStatItem: {
     alignItems: 'center',
   },
   profileStatNumber: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#22c55e',
+    fontWeight: 'bold' as 'bold',
+    color: colors.success,
     marginBottom: 4,
   },
   profileStatLabel: {
     fontSize: 14,
-    color: '#6b7280',
-    textAlign: 'center',
+    color: colors.text.secondary,
+    textAlign: 'center' as 'center',
   },
   profileStatDivider: {
     width: 1,
     height: 40,
-    backgroundColor: '#e5e7eb',
+    backgroundColor: colors.gray[200],
   },
   profileMenuCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.background.primary,
     marginHorizontal: 16,
     marginTop: 16,
     borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    ...shadows.medium,
   },
   profileMenuItem: {
     paddingVertical: 16,
@@ -606,7 +551,7 @@ export const screenStyles = StyleSheet.create({
   },
   profileMenuItemBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
+    borderBottomColor: colors.gray[100],
   },
   profileMenuItemContent: {
     flexDirection: 'row',
@@ -627,13 +572,13 @@ export const screenStyles = StyleSheet.create({
   },
   profileMenuTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1f2937',
+    fontWeight: '600' as '600',
+    color: colors.text.primary,
     marginBottom: 2,
   },
   profileMenuSubtitle: {
     fontSize: 14,
-    color: '#6b7280',
+    color: colors.text.secondary,
   },
   profileLogoutContainer: {
     marginHorizontal: 16,

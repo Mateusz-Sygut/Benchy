@@ -30,8 +30,7 @@ export const colors = {
   error: '#f44336',
   info: '#2196f3',
   
-  rating: '#ffd700',
-  star: '#FFD700',
+  star: '#ffd700',
   gradient: {
     light: '#e8f5e8',
     lighter: '#f1f8e9',
@@ -54,4 +53,35 @@ export const colors = {
 
 export type ColorKey = keyof typeof colors;
 export type ColorShade = keyof typeof colors.primary;
+
+export const shadows = {
+  small: {
+    shadowColor: colors.gray[900],
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  medium: {
+    shadowColor: colors.gray[900],
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  large: {
+    shadowColor: colors.gray[900],
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  button: {
+    shadowColor: colors.gray[900],
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+} as const;
 
