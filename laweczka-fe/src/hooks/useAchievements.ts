@@ -86,6 +86,8 @@ export const useAchievements = () => {
             return profile.total_ratings_given >= achievement.requirement_value;
           case 'time_spent':
             return profile.total_time_spent >= achievement.requirement_value;
+          case 'favorite_count':
+            return (profile.total_favorites ?? 0) >= achievement.requirement_value;
           default:
             return false;
         }

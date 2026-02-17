@@ -299,6 +299,7 @@ export interface Database {
           total_benches_created: number;
           total_time_spent: number;
           total_ratings_given: number;
+          total_favorites: number;
           created_at: string;
           updated_at: string;
         };
@@ -310,6 +311,7 @@ export interface Database {
           total_benches_created?: number;
           total_time_spent?: number;
           total_ratings_given?: number;
+          total_favorites?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -321,6 +323,7 @@ export interface Database {
           total_benches_created?: number;
           total_time_spent?: number;
           total_ratings_given?: number;
+          total_favorites?: number;
           created_at?: string;
           updated_at?: string;
         };

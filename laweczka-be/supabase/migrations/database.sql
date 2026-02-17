@@ -1,11 +1,3 @@
--- ========================================
--- 004_simple_lawappka.sql
--- Complete database schema for Lawappka
--- ========================================
-
--- Step 0: Clean existing data (to avoid conflicts)
--- Delete existing data in correct order (due to foreign key constraints)
--- Only delete if tables exist
 DO $$ 
 BEGIN
     IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'benches') THEN
@@ -49,14 +41,13 @@ BEGIN
     END IF;
 END $$;
 
--- Step 1: Create tables
 CREATE TABLE IF NOT EXISTS public.rarity (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT UNIQUE NOT NULL,
     level INTEGER UNIQUE NOT NULL,
     color TEXT NOT NULL,
     description TEXT NOT NULL,
-    rarity_level INTEGER NOT NULL,
+    rarity_level INTEGER NOT NULL DEFAULT 1,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -98,11 +89,15 @@ CREATE TABLE IF NOT EXISTS public.user_profiles (
     level INTEGER DEFAULT 1,
     experience_points INTEGER DEFAULT 0,
     selected_title_id UUID,
+    avatar_url TEXT,
+    total_benches_created INTEGER DEFAULT 0,
+    total_time_spent INTEGER DEFAULT 0,
+    total_ratings_given INTEGER DEFAULT 0,
+    total_favorites INTEGER DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Add missing columns if they don't exist
 DO $$ 
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'display_name') THEN
@@ -119,6 +114,21 @@ BEGIN
     END IF;
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'selected_title_id') THEN
         ALTER TABLE public.user_profiles ADD COLUMN selected_title_id UUID;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'avatar_url') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN avatar_url TEXT;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_benches_created') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN total_benches_created INTEGER DEFAULT 0;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_time_spent') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN total_time_spent INTEGER DEFAULT 0;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_ratings_given') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN total_ratings_given INTEGER DEFAULT 0;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_favorites') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN total_favorites INTEGER DEFAULT 0;
     END IF;
 END $$;
 
@@ -140,7 +150,6 @@ CREATE TABLE IF NOT EXISTS public.benches (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Add missing columns if they don't exist
 DO $$ 
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'benches' AND column_name = 'name') THEN
@@ -192,7 +201,6 @@ CREATE TABLE IF NOT EXISTS public.achievements (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Add missing columns if they don't exist
 DO $$ 
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'achievements' AND column_name = 'points') THEN
@@ -232,7 +240,6 @@ CREATE TABLE IF NOT EXISTS public.titles (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Add missing columns if they don't exist
 DO $$ 
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'titles' AND column_name = 'icon') THEN
@@ -251,7 +258,6 @@ CREATE TABLE IF NOT EXISTS public.user_titles (
     UNIQUE(user_id, title_id)
 );
 
--- Step 2: Insert data
 INSERT INTO public.rarity (name, level, color, description) VALUES
 ('common', 1, '#808080', 'rarity.common.description'),
 ('normal', 2, '#00FF00', 'rarity.normal.description'),
@@ -289,16 +295,16 @@ INSERT INTO public.tags (name, category) VALUES
 ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO public.achievements (name, description, icon, points, category, requirement_type, requirement_value, requirement_target, token_tier) VALUES
-('firstBench', 'achievements.firstBench.description', '🪑', 10, 'bench', 'count', 1, 'benches', 1),
-('collector', 'achievements.collector.description', '📚', 50, 'bench', 'count', 10, 'benches', 2),
-('expert', 'achievements.expert.description', '🏆', 200, 'bench', 'count', 50, 'benches', 3),
-('master', 'achievements.master.description', '👑', 500, 'bench', 'count', 100, 'benches', 4),
-('rater', 'achievements.rater.description', '⭐', 25, 'rating', 'count', 10, 'ratings', 1),
-('critic', 'achievements.critic.description', '📝', 100, 'rating', 'count', 50, 'ratings', 2),
-('judge', 'achievements.judge.description', '⚖️', 250, 'rating', 'count', 100, 'ratings', 3),
-('favorite', 'achievements.favorite.description', '❤️', 30, 'favorite', 'count', 10, 'favorites', 1),
-('connoisseur', 'achievements.connoisseur.description', '💎', 150, 'favorite', 'count', 50, 'favorites', 2),
-('specialist', 'achievements.specialist.description', '🎯', 400, 'favorite', 'count', 100, 'favorites', 3)
+('firstBench', 'achievements.firstBench.description', '🪑', 10, 'bench', 'bench_count', 1, 'benches', 1),
+('collector', 'achievements.collector.description', '📚', 50, 'bench', 'bench_count', 10, 'benches', 2),
+('expert', 'achievements.expert.description', '🏆', 200, 'bench', 'bench_count', 50, 'benches', 3),
+('master', 'achievements.master.description', '👑', 500, 'bench', 'bench_count', 100, 'benches', 4),
+('rater', 'achievements.rater.description', '⭐', 25, 'rating', 'rating_count', 10, 'ratings', 1),
+('critic', 'achievements.critic.description', '📝', 100, 'rating', 'rating_count', 50, 'ratings', 2),
+('judge', 'achievements.judge.description', '⚖️', 250, 'rating', 'rating_count', 100, 'ratings', 3),
+('favorite', 'achievements.favorite.description', '❤️', 30, 'favorite', 'favorite_count', 10, 'favorites', 1),
+('connoisseur', 'achievements.connoisseur.description', '💎', 150, 'favorite', 'favorite_count', 50, 'favorites', 2),
+('specialist', 'achievements.specialist.description', '🎯', 400, 'favorite', 'favorite_count', 100, 'favorites', 3)
 ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO public.titles (name, description, icon, rarity_level) VALUES
@@ -310,7 +316,6 @@ INSERT INTO public.titles (name, description, icon, rarity_level) VALUES
 ('legend', 'titles.legend.description', '🌟', 6)
 ON CONFLICT (name) DO NOTHING;
 
--- Step 3: Enable Row Level Security
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.benches ENABLE ROW LEVEL SECURITY;
@@ -319,8 +324,6 @@ ALTER TABLE public.favorites ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_achievements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_titles ENABLE ROW LEVEL SECURITY;
 
--- Step 4: Create RLS policies
--- Drop existing policies first to avoid conflicts
 DROP POLICY IF EXISTS "Users can read all users" ON public.users;
 DROP POLICY IF EXISTS "Users can update own profile" ON public.users;
 DROP POLICY IF EXISTS "User profiles can be read by all" ON public.user_profiles;
@@ -342,91 +345,69 @@ DROP POLICY IF EXISTS "Users can insert own achievements" ON public.user_achieve
 DROP POLICY IF EXISTS "User titles can be read by all" ON public.user_titles;
 DROP POLICY IF EXISTS "Users can insert own titles" ON public.user_titles;
 
--- Users can read all users
 CREATE POLICY "Users can read all users" ON public.users
     FOR SELECT USING (true);
 
--- Users can update their own profile
 CREATE POLICY "Users can update own profile" ON public.users
     FOR UPDATE USING (auth.uid() = id);
 
--- User profiles can be read by all
 CREATE POLICY "User profiles can be read by all" ON public.user_profiles
     FOR SELECT USING (true);
 
--- Users can update their own profile
 CREATE POLICY "Users can update own user profile" ON public.user_profiles
     FOR UPDATE USING (auth.uid() = user_id);
 
--- Users can insert their own profile
 CREATE POLICY "Users can insert own user profile" ON public.user_profiles
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- Benches can be read by all
 CREATE POLICY "Benches can be read by all" ON public.benches
     FOR SELECT USING (true);
 
--- Users can insert their own benches
 CREATE POLICY "Users can insert own benches" ON public.benches
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- Users can update their own benches
 CREATE POLICY "Users can update own benches" ON public.benches
     FOR UPDATE USING (auth.uid() = user_id);
 
--- Allow system to update average_rating (for triggers)
 CREATE POLICY "System can update average rating" ON public.benches
     FOR UPDATE USING (true);
 
--- Users can delete their own benches
 CREATE POLICY "Users can delete own benches" ON public.benches
     FOR DELETE USING (auth.uid() = user_id);
 
--- Ratings can be read by all
 CREATE POLICY "Ratings can be read by all" ON public.ratings
     FOR SELECT USING (true);
 
--- Users can insert their own ratings
 CREATE POLICY "Users can insert own ratings" ON public.ratings
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- Users can update their own ratings
 CREATE POLICY "Users can update own ratings" ON public.ratings
     FOR UPDATE USING (auth.uid() = user_id);
 
--- Users can delete their own ratings
 CREATE POLICY "Users can delete own ratings" ON public.ratings
     FOR DELETE USING (auth.uid() = user_id);
 
--- Favorites can be read by all
 CREATE POLICY "Favorites can be read by all" ON public.favorites
     FOR SELECT USING (true);
 
--- Users can insert their own favorites
 CREATE POLICY "Users can insert own favorites" ON public.favorites
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- Users can delete their own favorites
 CREATE POLICY "Users can delete own favorites" ON public.favorites
     FOR DELETE USING (auth.uid() = user_id);
 
--- User achievements can be read by all
 CREATE POLICY "User achievements can be read by all" ON public.user_achievements
     FOR SELECT USING (true);
 
--- Users can insert their own achievements
 CREATE POLICY "Users can insert own achievements" ON public.user_achievements
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- User titles can be read by all
 CREATE POLICY "User titles can be read by all" ON public.user_titles
     FOR SELECT USING (true);
 
--- Users can insert their own titles
 CREATE POLICY "Users can insert own titles" ON public.user_titles
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- Step 5: Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_benches_user_id ON public.benches(user_id);
 CREATE INDEX IF NOT EXISTS idx_benches_rarity_id ON public.benches(rarity_id);
 CREATE INDEX IF NOT EXISTS idx_benches_bench_type_id ON public.benches(bench_type_id);
@@ -441,11 +422,8 @@ CREATE INDEX IF NOT EXISTS idx_user_achievements_achievement_id ON public.user_a
 CREATE INDEX IF NOT EXISTS idx_user_titles_user_id ON public.user_titles(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_titles_title_id ON public.user_titles(title_id);
 
--- Step 6: Create functions for automatic updates
--- Drop existing functions first to avoid conflicts
 DROP FUNCTION IF EXISTS update_updated_at_column() CASCADE;
 
--- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -454,7 +432,6 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Create triggers for updated_at
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON public.users
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
@@ -467,12 +444,9 @@ CREATE TRIGGER update_benches_updated_at BEFORE UPDATE ON public.benches
 CREATE TRIGGER update_ratings_updated_at BEFORE UPDATE ON public.ratings
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Step 7: Smart Rarity System
--- Drop existing function first to avoid return type conflicts
 DROP FUNCTION IF EXISTS calculate_smart_rarity() CASCADE;
 DROP FUNCTION IF EXISTS set_smart_rarity() CASCADE;
 
--- Function to calculate smart rarity based on existing bench counts
 CREATE OR REPLACE FUNCTION calculate_smart_rarity()
 RETURNS TEXT AS $$
 DECLARE
@@ -486,22 +460,18 @@ DECLARE
     second_max_count INTEGER;
     rarity_name TEXT;
 BEGIN
-    -- Count benches by rarity
     SELECT COUNT(*) INTO normal_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'normal');
     SELECT COUNT(*) INTO rare_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'rare');
     SELECT COUNT(*) INTO unique_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'unique');
     SELECT COUNT(*) INTO common_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'common');
     SELECT COUNT(*) INTO anomalous_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'anomalous');
     
-    -- Calculate total
     total_count := normal_count + rare_count + unique_count + common_count + anomalous_count;
     
-    -- If no benches exist, default to normal
     IF total_count = 0 THEN
         RETURN 'normal';
     END IF;
     
-    -- Find max and second max counts
     SELECT MAX(count) INTO max_count FROM (
         SELECT normal_count as count UNION ALL
         SELECT rare_count as count UNION ALL
@@ -518,7 +488,6 @@ BEGIN
         SELECT anomalous_count as count
     ) counts WHERE count < max_count;
     
-    -- Smart rarity logic
     IF max_count = normal_count AND second_max_count = rare_count AND max_count - second_max_count >= 1 THEN
         RETURN 'normal';
     ELSIF max_count = rare_count AND second_max_count = normal_count AND max_count - second_max_count >= 1 THEN
@@ -535,56 +504,45 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to set smart rarity
 CREATE OR REPLACE FUNCTION set_smart_rarity()
 RETURNS TRIGGER AS $$
 DECLARE
     rarity_name TEXT;
     rarity_id UUID;
 BEGIN
-    -- Calculate smart rarity
     rarity_name := calculate_smart_rarity();
     
-    -- Get rarity ID
     SELECT id INTO rarity_id FROM public.rarity WHERE name = rarity_name;
     
-    -- Set rarity_id
     NEW.rarity_id := rarity_id;
     
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger to automatically set smart rarity
 CREATE TRIGGER set_smart_rarity_trigger
     BEFORE INSERT ON public.benches
     FOR EACH ROW
     EXECUTE FUNCTION set_smart_rarity();
 
--- Step 8: Automatic Rating Updates
--- Drop existing function first to avoid conflicts
 DROP FUNCTION IF EXISTS update_bench_average_rating() CASCADE;
 
--- Function to update bench average rating
 CREATE OR REPLACE FUNCTION update_bench_average_rating()
 RETURNS TRIGGER AS $$
 DECLARE
     target_bench_id UUID;
     avg_rating DECIMAL(3, 2);
 BEGIN
-    -- Get bench_id from the trigger
     IF TG_OP = 'DELETE' THEN
         target_bench_id := OLD.bench_id;
     ELSE
         target_bench_id := NEW.bench_id;
     END IF;
     
-    -- Calculate average rating
     SELECT AVG(rating)::DECIMAL(3, 2) INTO avg_rating
     FROM public.ratings
     WHERE ratings.bench_id = target_bench_id;
     
-    -- Update bench average rating
     UPDATE public.benches
     SET average_rating = COALESCE(avg_rating, 0.0)
     WHERE id = target_bench_id;
@@ -593,13 +551,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger to automatically update bench average rating
 CREATE TRIGGER update_bench_rating_trigger
     AFTER INSERT OR UPDATE OR DELETE ON public.ratings
     FOR EACH ROW
     EXECUTE FUNCTION update_bench_average_rating();
 
--- Step 9: Create views for easier querying
 CREATE OR REPLACE VIEW public.bench_details AS
 SELECT 
     b.id,
@@ -639,7 +595,6 @@ LEFT JOIN public.users u ON b.user_id = u.id
 LEFT JOIN public.user_profiles up ON u.id = up.user_id
 LEFT JOIN public.favorites f ON b.id = f.bench_id AND f.user_id = auth.uid();
 
--- Step 10: Grant permissions
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.benches TO authenticated;
@@ -648,3 +603,44 @@ GRANT INSERT, UPDATE, DELETE ON public.favorites TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_profiles TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_achievements TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_titles TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.handle_new_auth_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (id, email, username)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    COALESCE(NEW.raw_user_meta_data->>'username', split_part(NEW.email, '@', 1))
+  )
+  ON CONFLICT (id) DO NOTHING;
+
+  INSERT INTO public.user_profiles (user_id, total_benches_created, total_ratings_given, total_time_spent)
+  SELECT NEW.id, 0, 0, 0
+  WHERE NOT EXISTS (SELECT 1 FROM public.user_profiles WHERE user_id = NEW.id);
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_auth_user();
+
+CREATE OR REPLACE FUNCTION public.update_user_total_favorites()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE public.user_profiles SET total_favorites = total_favorites + 1 WHERE user_id = NEW.user_id;
+  ELSIF TG_OP = 'DELETE' THEN
+    UPDATE public.user_profiles SET total_favorites = GREATEST(0, total_favorites - 1) WHERE user_id = OLD.user_id;
+  END IF;
+  RETURN COALESCE(NEW, OLD);
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+DROP TRIGGER IF EXISTS on_favorites_change ON public.favorites;
+CREATE TRIGGER on_favorites_change
+  AFTER INSERT OR DELETE ON public.favorites
+  FOR EACH ROW EXECUTE FUNCTION public.update_user_total_favorites();
