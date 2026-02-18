@@ -1,8 +1,8 @@
 # 🪑 ŁawAppka - Smart Bench Discovery App
 
-[![React Native](https://img.shields.io/badge/React%20Native-0.79.5-blue.svg)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-54.0.0-blue.svg)](https://expo.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81.4-blue.svg)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-54.0.7-blue.svg)](https://expo.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Latest-green.svg)](https://supabase.com/)
 
 **ŁawAppka** is a revolutionary mobile application with **glassmorphism design** and **panel-based navigation** for discovering, adding, and rating benches in your area. Experience the future of bench discovery with click panels, rarity system, achievements, and beautiful glassmorphism UI!
