@@ -170,7 +170,7 @@ const AddBenchScreen = ({ navigation }: any) => {
     } else if (selectedTags.length < 4) {
       setSelectedTags([...selectedTags, tagName]);
     } else {
-      Alert.alert(t('common.error'), 'Maksymalnie 4 tagi na ławeczkę');
+      Alert.alert(t('common.error'), t('addBench.maxTags'));
     }
   };
 

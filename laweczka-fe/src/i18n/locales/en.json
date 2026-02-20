@@ -78,7 +78,8 @@
     "selectType": "Please select bench type",
     "benchAdded": "Bench has been added to the map",
     "addError": "Failed to add bench",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "maxTags": "Maximum 4 tags per bench"
   },
   "profile": {
     "myBenches": "My Benches",
@@ -92,7 +93,8 @@
     "addedBenches": "Added benches",
     "givenRatings": "Given ratings",
     "logoutConfirm": "Are you sure you want to sign out?",
-    "user": "User"
+    "user": "User",
+    "timeSpentMin": "min"
   },
   "benchTypes": {
     "wooden_classic": "Classic Wooden",
@@ -211,6 +213,8 @@
     "inaccessible": "Inaccessible"
   },
   "achievements": {
+    "title": "Achievements",
+    "unlocked": "unlocked",
     "firstBench": "First Bench",
     "benchCreator": "Bench Creator",
     "benchMaster": "Bench Master",
@@ -266,6 +270,25 @@
     "myBenches": "My Benches",
     "favorites": "Favorites",
     "addBench": "Add Bench"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "subtitle": "Complete tasks to unlock achievements",
+    "addFirstBench": "Add your first bench",
+    "rateBench": "Rate a bench",
+    "addFavorite": "Add to favorites"
+  },
+  "stats": {
+    "title": "Statistics",
+    "subtitle": "Your results in the app",
+    "myBenches": "My benches",
+    "favorites": "Favorites",
+    "ratings": "Ratings"
+  },
+  "nearby": {
+    "title": "Nearby",
+    "noBenches": "No benches nearby",
+    "noBenchesText": "Come closer to see benches in your area"
   }
 }
 

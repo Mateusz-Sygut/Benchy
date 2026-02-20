@@ -78,7 +78,8 @@
     "selectType": "Proszę wybrać typ ławeczki",
     "benchAdded": "Ławeczka została dodana do mapy",
     "addError": "Nie udało się dodać ławeczki",
-    "saving": "Zapisywanie..."
+    "saving": "Zapisywanie...",
+    "maxTags": "Maksymalnie 4 tagi na ławeczkę"
   },
   "benchDetails": {
     "addRating": "Dodaj swoją ocenę",
@@ -150,6 +151,8 @@
     "inaccessible": "Niedostępna"
   },
   "achievements": {
+    "title": "Osiągnięcia",
+    "unlocked": "odblokowanych",
     "firstBench": "Pierwsza Ławeczka",
     "benchCreator": "Ławeczkarz",
     "benchMaster": "Mistrz Ławeczek",
@@ -206,6 +209,25 @@
     "favorites": "Ulubione",
     "addBench": "Dodaj Ławeczkę"
   },
+  "tasks": {
+    "title": "Zadania",
+    "subtitle": "Wykonaj zadania, aby odblokować osiągnięcia",
+    "addFirstBench": "Dodaj pierwszą ławeczkę",
+    "rateBench": "Oceń ławeczkę",
+    "addFavorite": "Dodaj do ulubionych"
+  },
+  "stats": {
+    "title": "Statystyki",
+    "subtitle": "Twoje wyniki w aplikacji",
+    "myBenches": "Moje ławeczki",
+    "favorites": "Ulubione",
+    "ratings": "Oceny"
+  },
+  "nearby": {
+    "title": "W pobliżu",
+    "noBenches": "Brak ławeczek w pobliżu",
+    "noBenchesText": "Podejdź bliżej, aby zobaczyć ławeczki w Twojej okolicy"
+  },
   "profile": {
     "myBenches": "Moje ławeczki",
     "myBenchesSubtitle": "Ławeczki które dodałeś",
@@ -218,7 +240,8 @@
     "addedBenches": "Dodane ławeczki",
     "givenRatings": "Dane oceny",
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
-    "user": "Użytkownik"
+    "user": "Użytkownik",
+    "timeSpentMin": "min"
   },
   "search": {
     "title": "Szukaj ławeczek",

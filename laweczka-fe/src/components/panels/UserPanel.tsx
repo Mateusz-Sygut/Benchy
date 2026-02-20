@@ -43,7 +43,7 @@ export const UserPanel: React.FC = () => {
           </View>
           <View style={panelStyles.statItem}>
             <Text style={panelStyles.statNumber}>{userProfile?.total_time_spent || 0}</Text>
-            <Text style={panelStyles.statLabel}>min</Text>
+            <Text style={panelStyles.statLabel}>{t('profile.timeSpentMin')}</Text>
               </View>
         </View>
       </View>
