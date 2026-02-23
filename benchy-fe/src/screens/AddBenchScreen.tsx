@@ -52,19 +52,16 @@ const AddBenchScreen = ({ navigation }: any) => {
 
   const loadFormData = async () => {
     try {
-      // Load bench types
       const { data: benchTypesData } = await supabase
         .from('bench_types')
         .select('*')
         .order('name');
 
-      // Load locations
       const { data: locationsData } = await supabase
         .from('locations')
         .select('*')
         .order('name');
 
-      // Load tags
       const { data: tagsData } = await supabase
         .from('tags')
         .select('*')
@@ -134,7 +131,6 @@ const AddBenchScreen = ({ navigation }: any) => {
         bench_type_id: selectedBenchType,
         location_id: selectedLocation,
         tags: selectedTags.length > 0 ? selectedTags : null,
-        // rarity_id will be set by database trigger or default
       };
 
       const { data, error } = await supabase
@@ -148,7 +144,6 @@ const AddBenchScreen = ({ navigation }: any) => {
         return;
       }
 
-      // Update user stats for achievements
       await updateUserStats('bench_created');
 
       Alert.alert(
@@ -238,7 +233,7 @@ const AddBenchScreen = ({ navigation }: any) => {
             </View>
 
             <View style={[screenStyles.addBenchSectionCard, glassmorphismStyles.glassCard]}>
-              <Text style={screenStyles.addBenchSectionTitle}>Okolica</Text>
+              <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.surroundings')}</Text>
               <View style={screenStyles.addBenchGrid}>
                 {locations.map((location) => (
                   <TouchableOpacity
@@ -268,7 +263,7 @@ const AddBenchScreen = ({ navigation }: any) => {
 
             <View style={[screenStyles.addBenchSectionCard, glassmorphismStyles.glassCard]}>
               <Text style={screenStyles.addBenchSectionTitle}>
-                Tagi ({selectedTags.length}/4)
+                {t('addBench.tagsCount', { count: selectedTags.length })}
               </Text>
               <View style={screenStyles.addBenchGrid}>
                 {tags.map((tag) => (

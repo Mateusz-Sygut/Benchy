@@ -347,7 +347,6 @@ export type Rating = Database['public']['Tables']['ratings']['Row'] & {
 export type BenchInsert = Database['public']['Tables']['benches']['Insert'];
 export type RatingInsert = Database['public']['Tables']['ratings']['Insert'];
 
-// New types for ŁawAppka features
 export type Rarity = Database['public']['Tables']['rarity']['Row'];
 export type BenchType = Database['public']['Tables']['bench_types']['Row'];
 export type Location = Database['public']['Tables']['locations']['Row'];
@@ -359,7 +358,6 @@ export type Title = Database['public']['Tables']['titles']['Row'];
 export type UserTitle = Database['public']['Tables']['user_titles']['Row'];
 export type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
 
-// Extended types with relations
 export type ExtendedBench = Bench & {
   rarity: Rarity | null;
   bench_type: BenchType | null;
@@ -374,6 +372,5 @@ export type ExtendedUserProfile = UserProfile & {
   achievements: (UserAchievement & { achievement: Achievement })[];
 };
 
-// Update types
 export type BenchUpdate = Database['public']['Tables']['benches']['Update'];
 

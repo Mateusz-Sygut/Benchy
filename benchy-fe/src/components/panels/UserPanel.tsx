@@ -15,7 +15,6 @@ export const UserPanel: React.FC = () => {
 
   return (
     <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
-      {/* User Profile Section */}
       <View style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
           <View style={panelStyles.avatarContainer}>
@@ -48,7 +47,6 @@ export const UserPanel: React.FC = () => {
         </View>
       </View>
 
-      {/* Achievements Section */}
       <View style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}>
         <Text style={glassmorphismStyles.cardTitle}>{t('achievements.title')}</Text>
         <Text style={glassmorphismStyles.cardSubtitle}>
@@ -79,7 +77,6 @@ export const UserPanel: React.FC = () => {
         </ScrollView>
       </View>
 
-      {/* Tasks Section */}
       <View style={[glassmorphismStyles.glassCard]}>
         <Text style={glassmorphismStyles.cardTitle}>{t('tasks.title')}</Text>
         <Text style={glassmorphismStyles.cardSubtitle}>{t('tasks.subtitle')}</Text>

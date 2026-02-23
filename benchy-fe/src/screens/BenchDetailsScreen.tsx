@@ -123,7 +123,6 @@ const BenchDetailsScreen = ({ route }: any) => {
         return;
       }
 
-      // Update user stats for achievements
       await updateUserStats('rating_given');
 
       Alert.alert(t('common.success'), t('benchDetails.ratingAdded'));

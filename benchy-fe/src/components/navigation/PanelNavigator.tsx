@@ -31,15 +31,12 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
   const [showRightPanel, setShowRightPanel] = useState(false);
   const [showBottomPanel, setShowBottomPanel] = useState(false);
 
-  // Animation values
   const leftPanelTranslateX = useRef(new Animated.Value(-screenWidth)).current;
   const rightPanelTranslateX = useRef(new Animated.Value(screenWidth)).current;
   const bottomPanelTranslateY = useRef(new Animated.Value(screenHeight)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
-  
 
   const animateLeftPanel = (show: boolean) => {
-    // Don't animate if already in the desired state
     if (show === showLeftPanel) {
       return;
     }
@@ -61,7 +58,6 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
   };
 
   const animateRightPanel = (show: boolean) => {
-    // Don't animate if already in the desired state
     if (show === showRightPanel) {
       return;
     }
@@ -83,7 +79,6 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
   };
 
   const animateBottomPanel = (show: boolean) => {
-    // Don't animate if already in the desired state
     if (show === showBottomPanel) {
       return;
     }
@@ -135,12 +130,10 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
 
   return (
     <View style={{ flex: 1 }}>
-      {/* Main content */}
       <View style={{ flex: 1 }}>
         {children}
       </View>
 
-      {/* Drag handles */}
       <TouchableOpacity 
         style={[panelNavigatorStyles.dragHandle, panelNavigatorStyles.dragHandleLeft]}
         onPress={() => animateLeftPanel(true)}
@@ -162,7 +155,6 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
         <Ionicons name="chevron-up" size={24} color={colors.text.white} />
       </TouchableOpacity>
 
-      {/* Overlay */}
       {(showLeftPanel || showRightPanel || showBottomPanel) && (
         <Animated.View 
           style={[
@@ -178,7 +170,6 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
         </Animated.View>
       )}
 
-      {/* Left Panel */}
       {leftPanel && showLeftPanel && (
         <Animated.View 
           style={[
@@ -203,7 +194,6 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
         </Animated.View>
       )}
 
-      {/* Right Panel */}
       {rightPanel && showRightPanel && (
         <Animated.View 
           style={[
@@ -228,7 +218,6 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
         </Animated.View>
       )}
 
-      {/* Bottom Panel */}
       {bottomPanel && showBottomPanel && (
         <Animated.View 
           style={[

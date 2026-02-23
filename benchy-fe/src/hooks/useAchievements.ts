@@ -13,7 +13,6 @@ export const useAchievements = () => {
     if (!user) return;
 
     try {
-      // Load user profile
       const { data: profile } = await supabase
         .from('user_profiles')
         .select('*')
@@ -24,7 +23,6 @@ export const useAchievements = () => {
         setUserProfile(profile);
       }
 
-      // Load achievements
       const { data: achievementsData } = await supabase
         .from('achievements')
         .select('*');
@@ -33,7 +31,6 @@ export const useAchievements = () => {
         setAchievements(achievementsData);
       }
 
-      // Load unlocked achievements
       const { data: userAchievementsData } = await supabase
         .from('user_achievements')
         .select('*')
@@ -51,7 +48,6 @@ export const useAchievements = () => {
     if (!user) return;
 
     try {
-      // Get user profile
       const { data: profile } = await supabase
         .from('user_profiles')
         .select('*')
@@ -60,14 +56,12 @@ export const useAchievements = () => {
 
       if (!profile) return;
 
-      // Get all achievements
       const { data: achievements } = await supabase
         .from('achievements')
         .select('*') as any;
 
       if (!achievements) return;
 
-      // Get user's unlocked achievements
       const { data: userAchievements } = await supabase
         .from('user_achievements')
         .select('achievement_id')
@@ -75,7 +69,6 @@ export const useAchievements = () => {
 
       const unlockedAchievementIds = userAchievements?.map((ua: any) => ua.achievement_id) || [];
 
-      // Check which achievements should be unlocked
       const achievementsToUnlock = achievements.filter((achievement: any) => {
         if (unlockedAchievementIds.includes(achievement.id)) return false;
 
@@ -93,7 +86,6 @@ export const useAchievements = () => {
         }
       });
 
-      // Unlock new achievements
       if (achievementsToUnlock.length > 0) {
         const newUserAchievements = achievementsToUnlock.map((achievement: any) => ({
           user_id: user.id,
@@ -103,11 +95,6 @@ export const useAchievements = () => {
         await supabase
           .from('user_achievements')
           .insert(newUserAchievements as any);
-
-        // Show notification for new achievements
-        achievementsToUnlock.forEach((achievement: any) => {
-          // Here you could show a toast notification
-        });
       }
     } catch (error) {
       console.error('Error checking achievements:', error);
@@ -125,7 +112,6 @@ export const useAchievements = () => {
         .single() as any;
 
       if (!profile) {
-        // Create new profile
         await supabase
           .from('user_profiles')
           .insert({
@@ -135,7 +121,6 @@ export const useAchievements = () => {
             total_time_spent: type === 'time_spent' ? value : 0,
           } as any);
       } else {
-        // Update existing profile
         const updates: any = {};
         if (type === 'bench_created') {
           updates.total_benches_created = profile.total_benches_created + value;
@@ -151,7 +136,6 @@ export const useAchievements = () => {
           .eq('user_id', user.id);
       }
 
-      // Check achievements after updating stats
       await checkAchievements();
     } catch (error) {
       console.error('Error updating user stats:', error);

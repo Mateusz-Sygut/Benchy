@@ -5,7 +5,7 @@
     "cancel": "Anuluj",
     "delete": "Usuń",
     "edit": "Edytuj",
-    "back": "Wstecz",
+    "back": "Wróć",
     "close": "Zamknij",
     "ok": "OK",
     "error": "Błąd",
@@ -79,7 +79,10 @@
     "benchAdded": "Ławeczka została dodana do mapy",
     "addError": "Nie udało się dodać ławeczki",
     "saving": "Zapisywanie...",
-    "maxTags": "Maksymalnie 4 tagi na ławeczkę"
+    "maxTags": "Maksymalnie 4 tagi na ławeczkę",
+    "surroundings": "Okolica",
+    "tags": "Tagi",
+    "tagsCount": "Tagi ({{count}}/4)"
   },
   "benchDetails": {
     "addRating": "Dodaj swoją ocenę",

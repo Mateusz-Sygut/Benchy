@@ -79,7 +79,10 @@
     "benchAdded": "Bench has been added to the map",
     "addError": "Failed to add bench",
     "saving": "Saving...",
-    "maxTags": "Maximum 4 tags per bench"
+    "maxTags": "Maximum 4 tags per bench",
+    "surroundings": "Surroundings",
+    "tags": "Tags",
+    "tagsCount": "Tags ({{count}}/4)"
   },
   "profile": {
     "myBenches": "My Benches",

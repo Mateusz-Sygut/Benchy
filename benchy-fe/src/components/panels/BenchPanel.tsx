@@ -14,17 +14,12 @@ export const BenchPanel: React.FC = () => {
     navigation.navigate('AddBench');
   };
 
-  const handleMyBenches = () => {
-    // Navigate to user's benches
-  };
+  const handleMyBenches = () => {};
 
-  const handleFavorites = () => {
-    // Navigate to favorites
-  };
+  const handleFavorites = () => {};
 
   return (
     <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
-      {/* Add Bench Section */}
       <TouchableOpacity 
         style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}
         onPress={handleAddBench}
@@ -41,7 +36,6 @@ export const BenchPanel: React.FC = () => {
         </View>
       </TouchableOpacity>
 
-      {/* My Benches Section */}
       <TouchableOpacity 
         style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}
         onPress={handleMyBenches}
@@ -58,7 +52,6 @@ export const BenchPanel: React.FC = () => {
         </View>
       </TouchableOpacity>
 
-      {/* Favorites Section */}
       <TouchableOpacity 
         style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}
         onPress={handleFavorites}
@@ -75,7 +68,6 @@ export const BenchPanel: React.FC = () => {
         </View>
       </TouchableOpacity>
 
-      {/* Quick Stats */}
       <View style={[glassmorphismStyles.glassCard]}>
         <Text style={glassmorphismStyles.cardTitle}>{t('stats.title')}</Text>
         <Text style={glassmorphismStyles.cardSubtitle}>{t('stats.subtitle')}</Text>

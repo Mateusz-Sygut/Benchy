@@ -4,7 +4,6 @@ import { colors } from './colors';
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export const glassmorphismStyles = StyleSheet.create({
-  // Base glassmorphism container
   glassContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 20,
@@ -20,7 +19,6 @@ export const glassmorphismStyles = StyleSheet.create({
     elevation: 8,
   },
 
-  // Dark glassmorphism variant
   glassContainerDark: {
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
     borderRadius: 20,
@@ -36,7 +34,6 @@ export const glassmorphismStyles = StyleSheet.create({
     elevation: 8,
   },
 
-  // Glassmorphism card
   glassCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: 20,
@@ -63,7 +60,6 @@ export const glassmorphismStyles = StyleSheet.create({
     fontSize: 14,
   },
 
-  // Glassmorphism button
   glassButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderRadius: 12,
@@ -81,7 +77,6 @@ export const glassmorphismStyles = StyleSheet.create({
     elevation: 4,
   },
 
-  // Glassmorphism input
   glassInput: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 12,
@@ -93,7 +88,6 @@ export const glassmorphismStyles = StyleSheet.create({
     fontSize: 16,
   },
 
-  // Glassmorphism modal
   glassModal: {
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     borderRadius: 20,
@@ -111,7 +105,6 @@ export const glassmorphismStyles = StyleSheet.create({
     elevation: 12,
   },
 
-  // Glassmorphism header
   glassHeader: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderBottomWidth: 1,
@@ -120,7 +113,6 @@ export const glassmorphismStyles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  // Glassmorphism navigation
   glassNavigation: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderTopWidth: 1,
@@ -129,7 +121,6 @@ export const glassmorphismStyles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  // Glassmorphism overlay
   glassOverlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     position: 'absolute',
@@ -139,7 +130,6 @@ export const glassmorphismStyles = StyleSheet.create({
     bottom: 0,
   },
 
-  // Glassmorphism sidebar
   glassSidebar: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRightWidth: 1,
@@ -156,7 +146,6 @@ export const glassmorphismStyles = StyleSheet.create({
     elevation: 8,
   },
 
-  // Glassmorphism rarity colors
   rarityCommon: {
     backgroundColor: 'rgba(128, 128, 128, 0.3)',
     borderColor: 'rgba(128, 128, 128, 0.5)',
@@ -178,7 +167,6 @@ export const glassmorphismStyles = StyleSheet.create({
     borderColor: 'rgba(255, 0, 128, 0.5)',
   },
 
-  // Edge indicators
   edgeIndicator: {
     position: 'absolute',
     width: 2,
@@ -215,20 +203,17 @@ export const glassmorphismStyles = StyleSheet.create({
 
 });
 
-// Helper function to get rarity color
 export const getRarityColor = (rarityLevel: number): string => {
   switch (rarityLevel) {
-    case 1: return '#808080'; // Common - Gray
-    case 2: return '#00FF00'; // Normal - Green
-    case 3: return '#0080FF'; // Rare - Blue
-    case 4: return '#FF8000'; // Unique - Orange
-    case 5: return '#FF0080'; // Anomalous - Pink
+    case 1: return '#808080';
+    case 2: return '#00FF00';
+    case 3: return '#0080FF';
+    case 4: return '#FF8000';
+    case 5: return '#FF0080';
     default: return '#808080';
   }
 };
 
-
-// Panel Navigator Styles
 export const panelNavigatorStyles = StyleSheet.create({
   overlay: {
     position: 'absolute',
@@ -298,7 +283,7 @@ export const panelNavigatorStyles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 15,
-    paddingTop: 50, // Dodaj padding dla status bar
+    paddingTop: 50,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
@@ -307,7 +292,6 @@ export const panelNavigatorStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
-  // Bouncy drag handles
   dragHandle: {
     position: 'absolute',
     backgroundColor: 'rgba(124, 179, 66, 0.65)',
@@ -342,7 +326,6 @@ export const panelNavigatorStyles = StyleSheet.create({
   },
 });
 
-// Panel-specific styles
 export const panelStyles = StyleSheet.create({
   avatarContainer: {
     width: 50,
@@ -544,7 +527,6 @@ export const panelStyles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 20,
   },
-  // NearbyBenchesPanel specific styles
   nearbyBenchesContainer: {
     flex: 1,
   },

@@ -311,8 +311,7 @@ export const screenStyles = StyleSheet.create({
     color: colors.text.primary,
     lineHeight: 20,
   },
-  
-  // MapScreen styles
+
   mapScreenContainer: {
     flex: 1,
     backgroundColor: colors.gray[100],
@@ -337,8 +336,7 @@ export const screenStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(124, 179, 66, 0.65)',
   },
-  
-  // BenchListScreen styles
+
   benchListContainer: {
     flex: 1,
     backgroundColor: colors.background.secondary,
@@ -471,8 +469,7 @@ export const screenStyles = StyleSheet.create({
   benchListEmptyContentContainer: {
     flex: 1,
   },
-  
-  // ProfileScreen styles
+
   profileContainer: {
     flex: 1,
     backgroundColor: colors.background.secondary,

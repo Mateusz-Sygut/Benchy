@@ -24,6 +24,7 @@ const AppNavigator = () => {
         component={AddBenchScreen} 
         options={{
           title: t('navigation.addBench'),
+          headerBackTitle: t('common.back'),
           headerStyle: commonStyles.mainHeaderStyle,
           headerTintColor: colors.text.white,
         }}
@@ -33,6 +34,7 @@ const AppNavigator = () => {
         component={BenchDetailsScreen} 
         options={{
           title: t('navigation.benchDetails'),
+          headerBackTitle: t('common.back'),
           headerStyle: commonStyles.mainHeaderStyle,
           headerTintColor: colors.text.white,
         }}

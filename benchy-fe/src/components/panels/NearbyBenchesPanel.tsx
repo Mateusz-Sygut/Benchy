@@ -53,7 +53,6 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
     if (onBenchPress) {
       onBenchPress(bench);
     } else {
-      // Fallback - jeśli nie ma funkcji, otwórz szczegóły
       navigation.navigate('BenchDetails', { benchId: bench.id });
     }
   };
@@ -70,10 +69,8 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
           </Text>
           <Ionicons name="chevron-forward" size={panelStyles.benchCardChevron.fontSize} color={panelStyles.benchCardChevron.color} />
         </View>
-        
-        {/* Rarity i ocena pod tytułem */}
+
         <View style={panelStyles.benchCardRarityContainer}>
-          {/* Rzadkość */}
           <View style={[
             panelStyles.benchCardRarityBadge,
             { backgroundColor: bench.rarity?.color ? `${bench.rarity.color}30` : 'rgba(124, 179, 66, 0.3)' }
@@ -85,8 +82,7 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
               {bench.rarity?.name ? t(`rarity.${bench.rarity.name}`) : t('rarity.normal')}
             </Text>
           </View>
-          
-          {/* Ocena */}
+
           <View style={panelStyles.benchCardRatingContainer}>
             <Ionicons name="star" size={panelStyles.benchCardRatingIcon.fontSize} color={panelStyles.benchCardRatingIcon.color} />
             <Text style={[panelStyles.benchRating, panelStyles.benchCardRatingText]}>

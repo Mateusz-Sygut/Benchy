@@ -100,7 +100,7 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
         is_favorite: bench.is_favorite || false,
       }));
       setBenches(convertedBenches);
-      setNearbyBenches(convertedBenches.slice(0, 10)); // Show first 10 as nearby
+      setNearbyBenches(convertedBenches.slice(0, 10));
     } catch (error) {
       console.error('Error loading benches:', error);
     }
