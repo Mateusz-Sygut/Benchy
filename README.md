@@ -39,8 +39,8 @@
 ## 📁 **Project Structure**
 
 ```
-Laweczka/
-├── 📱 laweczka-fe/          # Frontend - React Native App
+Benchy/
+├── 📱 benchy-fe/            # Frontend - React Native App
 │   ├── src/
 │   │   ├── screens/         # App screens
 │   │   │   └── auth/        # Authentication screens
@@ -64,7 +64,7 @@ Laweczka/
 │   ├── app.json            # Expo configuration
 │   └── package.json        # Dependencies
 │
-└── 🔧 laweczka-be/          # Backend - Supabase
+└── 🔧 benchy-be/            # Backend - Supabase
     └── supabase/
         ├── migrations/     # SQL migrations
         │   ├── 001_initial_schema.sql
@@ -74,7 +74,7 @@ Laweczka/
 
 ## 🛠️ **Technologies**
 
-### **Frontend (`laweczka-fe`)**
+### **Frontend (`benchy-fe`)**
 - **React Native** + **Expo SDK 54** - Mobile framework
 - **TypeScript** - Type safety
 - **React Navigation** - Navigation between screens
@@ -90,7 +90,7 @@ Laweczka/
 - **Glassmorphism Design System** - Modern glass-like UI
 - **Centralized Styling System** - Organized StyleSheet architecture
 
-### **Backend (`laweczka-be`)**
+### **Backend (`benchy-be`)**
 - **Supabase** - Backend-as-a-Service
 - **PostgreSQL** - Database with advanced features
 - **Row Level Security (RLS)** - Security
@@ -103,18 +103,18 @@ Laweczka/
 ### **1. Clone Repository**
 ```bash
 git clone <repository-url>
-cd Laweczka
+cd Benchy
 ```
 
 ### **2. Backend Setup (Supabase)**
 ```bash
-cd laweczka-be
+cd benchy-be
 # Follow instructions in README.md
 ```
 
 ### **3. Frontend Setup**
 ```bash
-cd laweczka-fe
+cd benchy-fe
 npm install
 npx expo start
 ```
@@ -191,7 +191,7 @@ App supports:
 - 🇵🇱 **Polish** (default)
 - 🇬🇧 **English**
 
-Translations in: `laweczka-fe/src/i18n/locales/`
+Translations in: `benchy-fe/src/i18n/locales/`
 
 ## 🎨 **Design System**
 
@@ -253,7 +253,7 @@ Translations in: `laweczka-fe/src/i18n/locales/`
 
 ### **Development**
 ```bash
-cd laweczka-fe
+cd benchy-fe
 npx expo start
 ```
 
@@ -435,7 +435,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 - 🐛 **Issues**: [GitHub Issues](link-to-issues)
 - 💬 **Discussions**: [GitHub Discussions](link-to-discussions)
-- 📧 **Email**: [contact@laweczka.app](mailto:contact@laweczka.app) (...not yet)
+- 📧 **Email**: [contact@benchy.app](mailto:contact@benchy.app) (...not yet)
 
 ---
 
