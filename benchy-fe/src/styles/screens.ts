@@ -128,6 +128,28 @@ export const screenStyles = StyleSheet.create({
   addBenchInputContainer: {
     marginBottom: 0,
   },
+  addBenchLocationOptions: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 12,
+  },
+  addBenchLocationOption: {
+    flex: 1,
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: colors.gray[300],
+  },
+  addBenchLocationOptionIcon: {
+    marginBottom: 8,
+  },
+  addBenchLocationOptionTitle: {
+    fontSize: 15,
+    fontWeight: '600' as '600',
+    color: colors.text.primary,
+    marginBottom: 4,
+  },
   addBenchTextInput: {
     minHeight: 80,
     textAlignVertical: 'top' as 'top',

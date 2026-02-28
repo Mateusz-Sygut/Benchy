@@ -17,6 +17,7 @@ import supabase from '../lib/supabase';
 import { BenchInsert, BenchType, Location as LocationType, Tag } from '../types/database';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
+import { LocationMapPicker } from '../components/common/LocationMapPicker';
 import { screenStyles } from '../styles/screens';
 import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
@@ -29,6 +30,8 @@ const AddBenchScreen = ({ navigation }: any) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [userLocation, setUserLocation] = useState<{latitude: number, longitude: number} | null>(null);
+  const [locationSource, setLocationSource] = useState<'gps' | 'map' | null>(null);
+  const [showMapPicker, setShowMapPicker] = useState(false);
   const [benchTypes, setBenchTypes] = useState<BenchType[]>([]);
   const [locations, setLocations] = useState<LocationType[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
@@ -46,7 +49,6 @@ const AddBenchScreen = ({ navigation }: any) => {
   ];
 
   useEffect(() => {
-    getCurrentLocation();
     loadFormData();
   }, []);
 
@@ -92,6 +94,7 @@ const AddBenchScreen = ({ navigation }: any) => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
+      setLocationSource('gps');
     } catch (error) {
       console.error('Error getting location:', error);
       Alert.alert(t('common.error'), t('location.locationError'));
@@ -117,7 +120,7 @@ const AddBenchScreen = ({ navigation }: any) => {
     setLoading(true);
     try {
       if (!userLocation) {
-        Alert.alert(t('common.error'), t('errors.locationFailed'));
+        Alert.alert(t('common.error'), t('addBench.selectLocation'));
         return;
       }
 
@@ -191,17 +194,49 @@ const AddBenchScreen = ({ navigation }: any) => {
             </View>
 
             <View style={screenStyles.addBenchSectionCard}>
-              <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.locationInfo')}</Text>
-              {userLocation ? (
-                <Text style={screenStyles.addBenchInfoText}>
-                  📍 {userLocation.latitude.toFixed(6)}, {userLocation.longitude.toFixed(6)}
-                </Text>
-              ) : (
-                <Text style={screenStyles.addBenchInfoText}>
-                  {t('common.loading')}...
+              <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.locationMethod')}</Text>
+              <Text style={screenStyles.addBenchInfoSubtext}>{t('addBench.locationInfo')}</Text>
+              <View style={screenStyles.addBenchLocationOptions}>
+                <TouchableOpacity
+                  style={[screenStyles.addBenchLocationOption, glassmorphismStyles.glassContainer]}
+                  onPress={async () => {
+                    await getCurrentLocation();
+                  }}
+                >
+                  <View style={screenStyles.addBenchLocationOptionIcon}>
+                    <Ionicons name="locate" size={28} color={colors.primary[600]} />
+                  </View>
+                  <Text style={screenStyles.addBenchLocationOptionTitle}>{t('addBench.yourLocation')}</Text>
+                  <Text style={screenStyles.addBenchInfoSubtext}>{t('addBench.yourLocationDesc')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[screenStyles.addBenchLocationOption, glassmorphismStyles.glassContainer]}
+                  onPress={() => setShowMapPicker(true)}
+                >
+                  <View style={screenStyles.addBenchLocationOptionIcon}>
+                    <Ionicons name="map" size={28} color={colors.primary[600]} />
+                  </View>
+                  <Text style={screenStyles.addBenchLocationOptionTitle}>{t('addBench.pickOnMap')}</Text>
+                  <Text style={screenStyles.addBenchInfoSubtext}>{t('addBench.pickOnMapDesc')}</Text>
+                </TouchableOpacity>
+              </View>
+              {userLocation && (
+                <Text style={[screenStyles.addBenchInfoText, { marginTop: 12 }]}>
+                  ✓ {locationSource === 'gps' ? t('addBench.locationSetGps') : t('addBench.locationSetMap')}
                 </Text>
               )}
             </View>
+
+            <LocationMapPicker
+              visible={showMapPicker}
+              initialLat={userLocation?.latitude}
+              initialLon={userLocation?.longitude}
+              onConfirm={(lat, lon) => {
+                setUserLocation({ latitude: lat, longitude: lon });
+                setLocationSource('map');
+              }}
+              onClose={() => setShowMapPicker(false)}
+            />
 
             <View style={screenStyles.addBenchSectionCard}>
               <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.benchType')}</Text>
@@ -288,23 +323,6 @@ const AddBenchScreen = ({ navigation }: any) => {
                     )}
                   </TouchableOpacity>
                 ))}
-              </View>
-            </View>
-
-            <View style={screenStyles.addBenchInfoCard}>
-              <View style={screenStyles.addBenchInfoIconContainer}>
-                <Ionicons name="location" size={20} color={colors.primary[900]} />
-              </View>
-              <View style={screenStyles.addBenchLocationInfo}>
-                <Text style={screenStyles.addBenchInfoText}>
-                  {userLocation 
-                    ? `📍 ${userLocation.latitude.toFixed(4)}, ${userLocation.longitude.toFixed(4)}`
-                    : t('location.gettingLocation')
-                  }
-                </Text>
-                <Text style={screenStyles.addBenchInfoSubtext}>
-                  {userLocation ? t('location.currentLocation') : t('location.wait')}
-                </Text>
               </View>
             </View>
 
