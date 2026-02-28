@@ -16,7 +16,6 @@ import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
 import { Bench } from '../types/database';
 import { screenStyles } from '../styles/screens';
-import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
 
 const BenchListScreen = () => {

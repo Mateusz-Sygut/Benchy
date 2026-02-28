@@ -14,7 +14,6 @@ import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
 import { Database, RatingInsert, BenchUpdate } from '../types/database';
 import { screenStyles } from '../styles/screens';
-import { commonStyles } from '../styles/common';
 
 type Bench = Database['public']['Tables']['benches']['Row'];
 type Rating = Database['public']['Tables']['ratings']['Row'];

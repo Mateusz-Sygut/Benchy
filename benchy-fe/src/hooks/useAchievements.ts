@@ -142,34 +142,6 @@ export const useAchievements = () => {
     }
   };
 
-  const unlockTitle = async (titleId: string) => {
-    if (!user) return;
-
-    try {
-      await supabase
-        .from('user_titles')
-        .insert({
-          user_id: user.id,
-          title_id: titleId,
-        } as any);
-    } catch (error) {
-      console.error('Error unlocking title:', error);
-    }
-  };
-
-  const selectTitle = async (titleId: string) => {
-    if (!user) return;
-
-    try {
-      await (supabase as any)
-        .from('user_profiles')
-        .update({ selected_title_id: titleId })
-        .eq('user_id', user.id);
-    } catch (error) {
-      console.error('Error selecting title:', error);
-    }
-  };
-
   useEffect(() => {
     loadData();
   }, [user]);
@@ -180,7 +152,5 @@ export const useAchievements = () => {
     unlockedAchievements,
     checkAchievements,
     updateUserStats,
-    unlockTitle,
-    selectTitle,
   };
 };

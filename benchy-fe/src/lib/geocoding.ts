@@ -1,4 +1,4 @@
-export interface GeocodingResult {
+interface GeocodingResult {
   city: string;
   country: string;
   fullAddress: string;

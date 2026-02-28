@@ -17,6 +17,10 @@
   "app": {
     "name": "ŁawAppka"
   },
+  "nickname": {
+    "adjectives": ["Bystry", "Cichy", "Dzielny", "Figlarny", "Górski", "Jasny", "Koci", "Letni", "Mądry", "Nocny", "Ostrożny", "Pogodny", "Ranny", "Słoneczny", "Tajemniczy", "Uśpiony", "Wesoły", "Zwinny", "Bursztynowy", "Śmiały", "Spokojny", "Zmierzchowy", "Echo", "Mroźny", "Blask", "Mglisty", "Nieśmiały", "Żywiołowy", "Głęboki", "Jasnogrzywy", "Kocurołak", "Lśniący"],
+    "nouns": ["Ławkowicz", "Wędrowiec", "Słonecznik", "Podróżnik", "Marzyciel", "Odkrywca", "Strażnik", "Włóczęga", "Spacerowicz", "Ławka", "Benchek", "Ławkarz", "Sowa", "Lis", "Niedźwiedź", "Jastrząb", "Wilk", "Ryś", "Jeleń", "Kruk"]
+  },
   "auth": {
     "login": "Zaloguj się",
     "register": "Zarejestruj się",
@@ -34,7 +38,8 @@
     "accountCreated": "Konto zostało utworzone. Sprawdź swoją skrzynkę email w celu weryfikacji.",
     "loginError": "Błąd logowania",
     "registerError": "Błąd rejestracji",
-    "unexpectedError": "Wystąpił nieoczekiwany błąd"
+    "unexpectedError": "Wystąpił nieoczekiwany błąd",
+    "randomNickname": "Losuj"
   },
   "navigation": {
     "map": "Mapa",

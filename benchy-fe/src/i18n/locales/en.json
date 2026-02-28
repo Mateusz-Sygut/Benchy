@@ -17,6 +17,10 @@
   "app": {
     "name": "ŁawAppka"
   },
+  "nickname": {
+    "adjectives": ["Swift", "Quiet", "Brave", "Playful", "Mountain", "Bright", "Catlike", "Summer", "Wise", "Night", "Cautious", "Cheerful", "Early", "Sunny", "Mysterious", "Sleepy", "Merry", "Nimble", "Amber", "Bold", "Calm", "Dusk", "Echo", "Frost", "Glow", "Hazy", "Shy", "Eager", "Deep", "Fair", "Owlish", "Shiny"],
+    "nouns": ["Bench Sitter", "Wanderer", "Sunflower", "Traveler", "Dreamer", "Explorer", "Guardian", "Wayfarer", "Stroller", "Bench", "Benchie", "Bench Fan", "Owl", "Fox", "Bear", "Hawk", "Wolf", "Lynx", "Stag", "Raven"]
+  },
   "auth": {
     "login": "Sign In",
     "register": "Sign Up",
@@ -34,7 +38,8 @@
     "accountCreated": "Account created. Please check your email for verification.",
     "loginError": "Login error",
     "registerError": "Registration error",
-    "unexpectedError": "An unexpected error occurred"
+    "unexpectedError": "An unexpected error occurred",
+    "randomNickname": "Random"
   },
   "navigation": {
     "map": "Map",

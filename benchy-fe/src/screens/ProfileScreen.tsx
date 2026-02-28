@@ -11,9 +11,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
+import { getDisplayName } from '../lib/displayName';
 import { Button } from '../components/common/Button';
 import { screenStyles } from '../styles/screens';
-import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
 
 const ProfileScreen = () => {
@@ -80,7 +80,7 @@ const ProfileScreen = () => {
               </LinearGradient>
             </View>
             <Text style={screenStyles.profileUserName}>
-              {user?.user_metadata?.username || t('profile.user')}
+              {getDisplayName(user ?? null) || t('profile.user')}
             </Text>
             <Text style={screenStyles.profileUserEmail}>
               {user?.email}

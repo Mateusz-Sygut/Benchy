@@ -313,7 +313,7 @@ interface AnimationSystemProps {
   customElements?: AnimationElementProps[];
 }
 
-export const AnimationSystem: React.FC<AnimationSystemProps> = ({ 
+const AnimationSystem: React.FC<AnimationSystemProps> = ({ 
   type, 
   isVisible = true, 
   customElements 
@@ -448,5 +448,3 @@ export const AnimatedBackground: React.FC = () => (
 export const RandomLeaves: React.FC = () => (
   <AnimationSystem type="random" />
 );
-
-export default AnimationSystem;

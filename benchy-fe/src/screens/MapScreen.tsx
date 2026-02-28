@@ -10,9 +10,7 @@ import { ExtendedBench } from '../types/database';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import { screenStyles } from '../styles/screens';
-import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
-import { glassmorphismStyles } from '../styles/glassmorphism';
 
 interface MapScreenProps {
   onBenchPress?: (bench: ExtendedBench) => void;

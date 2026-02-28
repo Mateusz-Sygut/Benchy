@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import { getDisplayName } from '../../lib/displayName';
 import { useAchievements } from '../../hooks/useAchievements';
 import { glassmorphismStyles, panelStyles } from '../../styles/glassmorphism';
 import { colors } from '../../styles/colors';
@@ -21,7 +22,7 @@ export const UserPanel: React.FC = () => {
             <Ionicons name="person" size={30} color={colors.text.white} />
           </View>
           <View style={{ marginLeft: 15 }}>
-            <Text style={glassmorphismStyles.cardTitle}>{user?.email || t('profile.user')}</Text>
+            <Text style={glassmorphismStyles.cardTitle}>{getDisplayName(user ?? null) || t('profile.user')}</Text>
             <Text style={glassmorphismStyles.cardSubtitle}>
               {userProfile?.selected_title_id ? 
                 t('titles.novice') : 

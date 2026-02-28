@@ -70,6 +70,28 @@ export const screenStyles = StyleSheet.create({
   authInputContainer: {
     marginBottom: 12,
   },
+  authUsernameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 12,
+  },
+  authUsernameInput: {
+    flex: 1,
+    marginBottom: 0,
+  },
+  authRandomNicknameButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    backgroundColor: colors.primary[100],
+    justifyContent: 'center',
+  },
+  authRandomNicknameButtonText: {
+    color: colors.primary[700],
+    fontWeight: '600',
+    fontSize: 14,
+  },
   authButton: {
     marginTop: 8,
     marginBottom: 16,

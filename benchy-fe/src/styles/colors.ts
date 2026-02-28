@@ -51,9 +51,6 @@ export const colors = {
   },
 } as const;
 
-export type ColorKey = keyof typeof colors;
-export type ColorShade = keyof typeof colors.primary;
-
 export const shadows = {
   small: {
     shadowColor: colors.gray[900],

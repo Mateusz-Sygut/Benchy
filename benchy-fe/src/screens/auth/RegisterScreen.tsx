@@ -8,10 +8,12 @@ import {
   ImageBackground,
   StatusBar,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import { generateRandomNickname } from '../../lib/displayName';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { screenStyles } from '../../styles/screens';
@@ -104,16 +106,27 @@ const RegisterScreen = ({ navigation }: any) => {
 
               <View style={screenStyles.authFormContainer}>
                 <View style={screenStyles.authCard}>
-                  <Input
-                    placeholder={t('common.username')}
-                    value={username}
-                    onChangeText={setUsername}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    icon="person-outline"
-                    containerStyle={screenStyles.authInputContainer}
-                  />
-                  
+                  <View style={screenStyles.authUsernameRow}>
+                    <Input
+                      placeholder={t('common.username')}
+                      value={username}
+                      onChangeText={setUsername}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      icon="person-outline"
+                      containerStyle={[screenStyles.authInputContainer, screenStyles.authUsernameInput]}
+                    />
+                    <TouchableOpacity
+                      style={screenStyles.authRandomNicknameButton}
+                      onPress={() => setUsername(generateRandomNickname())}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={screenStyles.authRandomNicknameButtonText}>
+                        {t('auth.randomNickname')}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+
                   <Input
                     placeholder={t('common.email')}
                     value={email}
