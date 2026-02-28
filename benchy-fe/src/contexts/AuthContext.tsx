@@ -4,7 +4,6 @@ import { User, Session } from '@supabase/supabase-js';
 
 interface AuthContextType {
   user: User | null;
-  session: Session | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<any>;
   signUp: (email: string, password: string, username: string) => Promise<any>;
@@ -61,7 +60,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const value = {
     user,
-    session,
     loading,
     signIn,
     signUp,

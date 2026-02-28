@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { Bench, Database } from '../types/database';
+import { Database } from '../types/database';
 import { reverseGeocode, formatCityForDisplay } from './geocoding';
 
 type BenchRow = Database['public']['Tables']['benches']['Row'];

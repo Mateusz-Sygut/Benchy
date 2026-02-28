@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { glassmorphismStyles, panelNavigatorStyles } from '../../styles/glassmorphism';
+import { panelNavigatorStyles } from '../../styles/glassmorphism';
 import { colors } from '../../styles/colors';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');

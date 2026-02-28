@@ -12,7 +12,7 @@ import { StarRating } from '../components/common/StarRating';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
-import { Database, RatingInsert, BenchUpdate } from '../types/database';
+import { Database, RatingInsert } from '../types/database';
 import { screenStyles } from '../styles/screens';
 
 type Bench = Database['public']['Tables']['benches']['Row'];

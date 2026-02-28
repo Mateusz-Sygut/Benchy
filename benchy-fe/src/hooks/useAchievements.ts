@@ -150,7 +150,6 @@ export const useAchievements = () => {
     userProfile,
     achievements,
     unlockedAchievements,
-    checkAchievements,
     updateUserStats,
   };
 };

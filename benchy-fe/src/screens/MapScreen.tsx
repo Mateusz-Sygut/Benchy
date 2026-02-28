@@ -1,9 +1,8 @@
 import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
-import { Button } from '../components/common/Button';
 import { ExpoMap } from '../components/common/ExpoMap';
 import supabase from '../lib/supabase';
 import { ExtendedBench } from '../types/database';
