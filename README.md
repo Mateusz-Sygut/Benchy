@@ -23,12 +23,13 @@
 
 ### **📍 Core Functionality**
 - 🗺️ **Interactive Maps** - See all benches with rarity colors
-- ➕ **Smart Bench Adding** - Types, locations, tags (max 4)
+- ➕ **Smart Bench Adding** - Types, locations, tags (max 4); **location choice**: use your GPS or pick a spot on the map
 - ⭐ **Rating System** - Rate benches and see average ratings
 - 🔍 **Bench Details** - Complete information with rarity
 - ❤️ **Favorites** - Save your favorite benches
 - 🌍 **Multi-language** - Polish and English
-- 👤 **Authentication** - Secure login and registration
+- 👤 **Authentication** - Secure login and registration; optional random nickname on signup (“Losuj”)
+- 🏷️ **Display names** - Username or generated nickname (PL/EN)
 
 ### **🎮 Navigation System**
 - 👈 **Left Panel** - Achievements, tasks, profile
@@ -45,14 +46,14 @@ Benchy/
 │   │   ├── screens/         # App screens
 │   │   │   └── auth/        # Authentication screens
 │   │   ├── components/      # UI components
-│   │   │   ├── common/      # Common components
+│   │   │   ├── common/      # Common (Button, Input, ExpoMap, LocationMapPicker, etc.)
 │   │   │   ├── navigation/  # Panel navigation system
 │   │   │   └── panels/      # Panel components (User, Bench, Nearby)
 │   │   ├── hooks/           # Custom hooks (useAchievements)
 │   │   ├── navigation/      # App navigation
 │   │   ├── i18n/           # Translations (EN/PL)
 │   │   ├── types/          # TypeScript types
-│   │   ├── lib/            # Libraries (Supabase, API)
+│   │   ├── lib/            # Libraries (Supabase, API, displayName, geocoding)
 │   │   ├── contexts/       # React contexts
 │   │   └── styles/         # Centralized styling system
 │   │       ├── colors.ts   # Color palette
@@ -128,7 +129,7 @@ npx expo start
 
 ### **🔐 Authentication**
 - **Login** - User login with email/password
-- **Register** - New account registration
+- **Register** - New account registration; optional to generate a random nickname (translated PL/EN)
 
 ### **🗺️ Main App - Panel Navigation**
 - **Map Screen** - Interactive map with benches and rarity colors
@@ -138,7 +139,7 @@ npx expo start
 
 ### **📋 Detailed Screens**
 - **Bench List** - List of all benches with ratings
-- **Add Bench** - Smart bench adding with types, locations, tags
+- **Add Bench** - Add bench with types, surroundings, tags; **location**: “Your location” (GPS) or “Pick on map” (tap-to-select, centered on your position; fallback Tokyo)
 - **Bench Details** - Complete bench information with rarity
 - **Profile** - User profile, stats, and settings
 - **Loading** - Loading screen
@@ -191,7 +192,7 @@ App supports:
 - 🇵🇱 **Polish** (default)
 - 🇬🇧 **English**
 
-Translations in: `benchy-fe/src/i18n/locales/`
+Translations in: `benchy-fe/src/i18n/locales/`. Includes UI strings and **nickname word lists** (adjectives/nouns for generated display names).
 
 ## 🎨 **Design System**
 
@@ -228,6 +229,7 @@ Translations in: `benchy-fe/src/i18n/locales/`
 - **Input** - Glassmorphism text fields
 - **StarRating** - Star rating system
 - **ExpoMap** - Map with rarity-colored pins
+- **LocationMapPicker** - Modal map to pick bench location (tap/drag marker; centers on user or Hachikō statue fallback)
 - **ScrollingBenchesHeader** - Animated header
 
 ## 🔧 **Configuration**
@@ -401,8 +403,18 @@ import { colors } from '../styles/colors';
 - **Advanced Features** - Bench types, locations, tags
 - **Performance Optimized** - Indexes and RLS policies
 
+### **📍 Location & Add Bench**
+- **Location choice** - When adding a bench: “Your location” (GPS) or “Pick on map” (tap to set marker, draggable)
+- **Map picker** - Modal map centered on user location; fallback region: Hachikō statue, Tokyo
+- **Clear feedback** - UI shows whether location was set via GPS or map
+
+### **🏷️ Display names & i18n**
+- **Nicknames** - If user has no username, app shows a generated nickname (adjective + noun from translations)
+- **PL/EN nicknames** - Word lists in `nickname.adjectives` / `nickname.nouns`; same index, different language
+- **Register** - “Random” button to fill username with a random nickname
+
 ### **🧹 Code Cleanup**
-- **Removed Unused Code** - Gesture handlers, bounce animations
+- **Removed Unused Code** - Unused imports/exports, gesture handlers, dead functions
 - **Simplified Navigation** - Click-based panel system
 - **Clean Architecture** - Organized components and styles
 - **Type Safety** - Full TypeScript coverage
