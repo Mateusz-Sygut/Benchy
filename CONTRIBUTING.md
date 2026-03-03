@@ -12,21 +12,22 @@ Thank you for your interest in contributing to Benchy! This document provides gu
 
 ### Development Setup
 
-1. **Fork and clone**
+1. **Fork and clone (monorepo)**
    ```bash
-   git clone https://github.com/your-username/benchy-app.git
-   cd benchy-app
+   git clone <your-fork-url>
+   cd Benchy
    ```
 
-2. **Install dependencies**
+2. **Install frontend dependencies**
    ```bash
+   cd benchy-fe
    npm install
    ```
 
 3. **Set up environment**
-   - Copy `app.json.example` to `app.json`
-   - Add your API keys and tokens
-   - Follow the setup instructions in README.md
+- Copy `app.json.example` to `app.json` in `benchy-fe/`
+- Add your Supabase URL and anon key (see `README.md` for details)
+- Follow the setup instructions in `README.md`
 
 4. **Create a branch**
    ```bash
@@ -48,10 +49,10 @@ Thank you for your interest in contributing to Benchy! This document provides gu
 - Optimize for performance
 
 ### Styling
-- Use NativeWind (Tailwind CSS) for styling
-- Follow the established design system
-- Ensure accessibility compliance
-- Test on different screen sizes
+- Use the centralized styling system in `src/styles/` (colors, components, screens, glassmorphism, animations)
+- Follow the established glassmorphism design (panels, drag handles, rarity colors)
+- Ensure accessibility compliance (contrast, touch targets, readable text)
+- Test on different screen sizes and platforms (iOS/Android)
 
 ### Code Style
 - Use ESLint and Prettier
@@ -143,7 +144,7 @@ What actually happened
 - OS: [e.g. iOS 16.0, Android 13]
 - Device: [e.g. iPhone 14, Samsung Galaxy S23]
 - App Version: [e.g. 1.0.0]
-- Expo SDK: [e.g. 49.0.0]
+- Expo SDK: [e.g. 54.0.7]
 
 ## Additional Context
 Screenshots, logs, or any other relevant information
@@ -177,9 +178,15 @@ Screenshots, mockups, or examples
 ## 🚀 Release Process
 
 ### Version Bumping
-- **Patch** (1.0.1) - Bug fixes
+In Benchy we follow **semantic versioning** and keep versions in:
+- `benchy-fe/package.json` → `"version"`
+- `benchy-fe/app.json` (or `app.json.example`) → `"expo.version"`
+
+- **Patch** (1.0.2) - Bug fixes, small improvements
 - **Minor** (1.1.0) - New features, backward compatible
-- **Major** (2.0.0) - Breaking changes
+- **Major** (2.0.0) - Breaking changes or big rewrites
+
+Always bump both `package.json` and `app.json` to the **same version** when preparing a release.
 
 ### Release Checklist
 - [ ] All tests pass
