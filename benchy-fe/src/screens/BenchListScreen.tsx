@@ -158,6 +158,21 @@ const BenchListScreen = () => {
     </View>
   );
 
+  const renderSkeleton = () => (
+    <View style={screenStyles.benchListEmptyContainer}>
+      {[1, 2, 3].map((i) => (
+        <View key={i} style={screenStyles.benchListSkeletonCard}>
+          <View style={screenStyles.benchListSkeletonIcon} />
+          <View style={{ flex: 1 }}>
+            <View style={[screenStyles.benchListSkeletonLine, { width: '80%' }]} />
+            <View style={[screenStyles.benchListSkeletonLine, { width: '50%', marginTop: 8 }]} />
+          </View>
+        </View>
+      ))}
+      <Text style={screenStyles.benchListSkeletonHint}>{t('common.loading')}</Text>
+    </View>
+  );
+
   const renderEmptyState = () => (
     <View style={screenStyles.benchListEmptyContainer}>
       <LinearGradient
@@ -173,7 +188,7 @@ const BenchListScreen = () => {
         <Text style={screenStyles.benchListEmptyText}>
           {searchQuery ? t('benchList.noSearchResultsText') : t('benchList.noBenchesText')}
         </Text>
-        {!searchQuery && (
+        {!searchQuery && !loading && (
           <Button
             title={t('benchList.addFirstBench')}
             onPress={() => navigation.navigate('AddBench')}
@@ -202,7 +217,7 @@ const BenchListScreen = () => {
               tintColor={colors.primary[900]}
             />
           }
-          ListEmptyComponent={renderEmptyState}
+          ListEmptyComponent={filteredBenches.length === 0 ? () => (loading ? renderSkeleton() : renderEmptyState()) : null}
           contentContainerStyle={filteredBenches.length === 0 ? screenStyles.benchListEmptyContentContainer : screenStyles.benchListListContent}
           showsVerticalScrollIndicator={false}
         />

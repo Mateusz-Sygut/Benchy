@@ -65,8 +65,20 @@ export const UserPanel: React.FC = () => {
                   !isUnlocked && panelStyles.achievementCardLocked
                 ]}
               >
+                {!isUnlocked && (
+                  <View style={panelStyles.achievementLockIcon}>
+                    <Ionicons name="lock-closed" size={12} color={colors.text.secondary} />
+                  </View>
+                )}
                 <Text style={panelStyles.achievementIcon}>{achievement.icon}</Text>
-                <Text style={panelStyles.achievementName}>{achievement.name}</Text>
+                <Text style={panelStyles.achievementName}>
+                  {t(`achievements.${achievement.name}`) || achievement.name}
+                </Text>
+                {!isUnlocked && achievement.description && (
+                  <Text style={panelStyles.achievementCardDescription} numberOfLines={2}>
+                    {t(achievement.description)}
+                  </Text>
+                )}
                 {isUnlocked && (
                   <View style={panelStyles.achievementBadge}>
                     <Ionicons name="checkmark" size={12} color={colors.text.white} />

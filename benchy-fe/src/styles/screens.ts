@@ -380,6 +380,32 @@ export const screenStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(124, 179, 66, 0.65)',
   },
+  mapEmptyStateOverlay: {
+    position: 'absolute',
+    bottom: 24,
+    left: 20,
+    right: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 20,
+    padding: 20,
+    ...shadows.medium,
+    borderWidth: 1,
+    borderColor: 'rgba(124, 179, 66, 0.2)',
+    alignItems: 'center',
+  },
+  mapEmptyStateTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.text.primary,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  mapEmptyStateCta: {
+    fontSize: 14,
+    color: colors.primary[600],
+    fontWeight: '600',
+    textAlign: 'center',
+  },
 
   benchListContainer: {
     flex: 1,
@@ -513,6 +539,31 @@ export const screenStyles = StyleSheet.create({
   benchListEmptyContentContainer: {
     flex: 1,
   },
+  benchListSkeletonCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.gray[100],
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+  },
+  benchListSkeletonIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.gray[200],
+    marginRight: 12,
+  },
+  benchListSkeletonLine: {
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: colors.gray[200],
+  },
+  benchListSkeletonHint: {
+    marginTop: 16,
+    fontSize: 14,
+    color: colors.text.secondary,
+  },
 
   profileContainer: {
     flex: 1,
@@ -576,6 +627,21 @@ export const screenStyles = StyleSheet.create({
     width: 1,
     height: 40,
     backgroundColor: colors.gray[200],
+  },
+  profileUnlockHint: {
+    marginHorizontal: 16,
+    marginTop: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    backgroundColor: colors.primary[50],
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.primary[400],
+  },
+  profileUnlockHintText: {
+    fontSize: 14,
+    color: colors.primary[700],
+    fontWeight: '500',
   },
   profileMenuCard: {
     backgroundColor: colors.background.primary,

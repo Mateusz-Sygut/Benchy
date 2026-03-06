@@ -247,6 +247,18 @@
     "noBenches": "Brak ławeczek w pobliżu",
     "noBenchesText": "Podejdź bliżej, aby zobaczyć ławeczki w Twojej okolicy"
   },
+  "emptyState": {
+    "mapMessage": "Nie ma jeszcze żadnej ławki w Twojej okolicy.",
+    "mapCta": "Bądź pierwszym Odkrywcą – dodaj ławkę!",
+    "addFirstBenchCta": "Dodaj pierwszą ławkę"
+  },
+  "tips": {
+    "title": "Tip",
+    "addBench": "Dodając ławkę, pomagasz innym znaleźć ulubione miejsce.",
+    "rarity": "Rzadkie ławki szybciej odblokowują osiągnięcia.",
+    "explore": "Oceń ławki – Twoja opinia pomaga społeczności.",
+    "favorites": "Dodawaj do ulubionych – potem łatwo wrócisz."
+  },
   "profile": {
     "myBenches": "Moje ławeczki",
     "myBenchesSubtitle": "Ławeczki które dodałeś",
@@ -260,7 +272,8 @@
     "givenRatings": "Dane oceny",
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
     "user": "Użytkownik",
-    "timeSpentMin": "min"
+    "timeSpentMin": "min",
+    "unlockHint": "Odblokuj tytuł, dodając 1 ławkę."
   },
   "search": {
     "title": "Szukaj ławeczek",

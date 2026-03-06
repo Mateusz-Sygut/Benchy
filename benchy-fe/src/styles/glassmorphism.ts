@@ -378,7 +378,20 @@ export const panelStyles = StyleSheet.create({
     elevation: 4,
   },
   achievementCardLocked: {
-    opacity: 0.5,
+    opacity: 0.85,
+  },
+  achievementLockIcon: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    zIndex: 1,
+  },
+  achievementCardDescription: {
+    fontSize: 9,
+    color: colors.text.secondary,
+    textAlign: 'center',
+    marginTop: 4,
+    maxWidth: 70,
   },
   achievementIcon: {
     fontSize: 24,

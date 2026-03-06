@@ -113,7 +113,8 @@
     "givenRatings": "Given ratings",
     "logoutConfirm": "Are you sure you want to sign out?",
     "user": "User",
-    "timeSpentMin": "min"
+    "timeSpentMin": "min",
+    "unlockHint": "Unlock a title by adding 1 bench."
   },
   "benchTypes": {
     "wooden_classic": "Classic Wooden",
@@ -308,6 +309,18 @@
     "title": "Nearby",
     "noBenches": "No benches nearby",
     "noBenchesText": "Come closer to see benches in your area"
+  },
+  "emptyState": {
+    "mapMessage": "No benches in your area yet.",
+    "mapCta": "Be the first Explorer – add a bench!",
+    "addFirstBenchCta": "Add first bench"
+  },
+  "tips": {
+    "title": "Tip",
+    "addBench": "Adding a bench helps others find their favorite spot.",
+    "rarity": "Rare benches unlock achievements faster.",
+    "explore": "Rate benches – your opinion helps the community.",
+    "favorites": "Add to favorites – easy to find later."
   }
 }
 

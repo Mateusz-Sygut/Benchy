@@ -103,6 +103,11 @@ const ProfileScreen = () => {
             </Text>
           </View>
         </View>
+        <View style={screenStyles.profileUnlockHint}>
+          <Text style={screenStyles.profileUnlockHintText}>
+            {t('profile.unlockHint')}
+          </Text>
+        </View>
 
         <View style={screenStyles.profileMenuCard}>
           {menuItems.map((item, index) => (

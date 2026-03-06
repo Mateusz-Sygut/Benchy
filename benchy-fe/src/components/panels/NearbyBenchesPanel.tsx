@@ -8,6 +8,8 @@ import { colors } from '../../styles/colors';
 import { ExtendedBench } from '../../types/database';
 import supabase from '../../lib/supabase';
 
+const TIP_KEYS = ['tips.addBench', 'tips.rarity', 'tips.explore', 'tips.favorites'] as const;
+
 interface NearbyBenchesPanelProps {
   onBenchPress?: (bench: ExtendedBench) => void;
 }
@@ -17,10 +19,19 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
   const navigation = useNavigation<any>();
   const [nearbyBenches, setNearbyBenches] = useState<ExtendedBench[]>([]);
   const [loading, setLoading] = useState(false);
+  const [tipIndex, setTipIndex] = useState(0);
 
   useEffect(() => {
     loadNearbyBenches();
   }, []);
+
+  useEffect(() => {
+    if (nearbyBenches.length > 0) return;
+    const interval = setInterval(() => {
+      setTipIndex((i) => (i + 1) % TIP_KEYS.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [nearbyBenches.length]);
 
   const loadNearbyBenches = async () => {
     setLoading(true);
@@ -111,9 +122,28 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
       >
         {nearbyBenches.length === 0 ? (
           <View style={panelStyles.emptyState}>
-            <Ionicons name="location-outline" size={48} color={colors.text.secondary} />
-            <Text style={panelStyles.emptyStateTitle}>{t('nearby.noBenches')}</Text>
-            <Text style={panelStyles.emptyStateText}>{t('nearby.noBenchesText')}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+              <Ionicons name="radio-outline" size={28} color={colors.primary[400]} />
+              <Text style={[panelStyles.emptyStateTitle, { marginTop: 0, marginLeft: 8 }]}>
+                {t('tips.title')} ŁawAppki
+              </Text>
+            </View>
+            <Text style={panelStyles.emptyStateText}>
+              {t(TIP_KEYS[tipIndex])}
+            </Text>
+            <View style={{ flexDirection: 'row', marginTop: 16, gap: 6 }}>
+              {TIP_KEYS.map((_, i) => (
+                <View
+                  key={i}
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: i === tipIndex ? colors.primary[400] : colors.text.secondary,
+                  }}
+                />
+              ))}
+            </View>
           </View>
         ) : (
           nearbyBenches.map((bench) => (

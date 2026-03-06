@@ -1,5 +1,5 @@
 import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { View, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
@@ -157,6 +157,21 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
             <Ionicons name="locate" size={24} color={colors.text.white} />
           </TouchableOpacity>
         </View>
+
+        {benches.length === 0 && (
+          <TouchableOpacity
+            style={screenStyles.mapEmptyStateOverlay}
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('AddBench')}
+          >
+            <Text style={screenStyles.mapEmptyStateTitle}>
+              {t('emptyState.mapMessage')}
+            </Text>
+            <Text style={screenStyles.mapEmptyStateCta}>
+              {t('emptyState.mapCta')}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
   );
 });
