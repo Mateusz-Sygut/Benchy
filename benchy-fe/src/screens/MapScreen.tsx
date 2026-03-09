@@ -163,10 +163,20 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
   return (
       <View style={screenStyles.mapScreenContainer}>
         <ExpoMap 
+          key={showFavoritesOnly ? 'favorites' : 'all'}
           benches={displayedBenches} 
           onMarkerPress={handleMarkerPress}
           mapRef={mapRef}
         />
+
+        <View style={screenStyles.mapScreenProfileButtonContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Profile')}
+            style={screenStyles.mapScreenControlButton}
+          >
+            <Ionicons name="person-circle-outline" size={24} color={colors.text.white} />
+          </TouchableOpacity>
+        </View>
 
         <View style={screenStyles.mapScreenControlButtonsContainer}>
           <TouchableOpacity

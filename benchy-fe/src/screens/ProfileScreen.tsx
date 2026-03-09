@@ -22,7 +22,7 @@ const ProfileScreen = () => {
   const { user, signOut } = useAuth();
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
-  const { userProfile } = useAchievements();
+  const { userProfile, achievements, unlockedAchievements } = useAchievements();
 
   const handleSignOut = () => {
     Alert.alert(
@@ -114,6 +114,45 @@ const ProfileScreen = () => {
             {t('profile.unlockHint')}
           </Text>
         </View>
+
+        {achievements.length > 0 && (
+          <View style={screenStyles.profileAchievementsCard}>
+            <View style={screenStyles.profileAchievementsHeader}>
+              <Text style={screenStyles.profileAchievementsTitle}>
+                {t('achievements.title')}
+              </Text>
+              <Text style={screenStyles.profileAchievementsCounter}>
+                {unlockedAchievements.length} / {achievements.length} {t('achievements.unlocked')}
+              </Text>
+            </View>
+            <View style={screenStyles.profileAchievementsRow}>
+              {achievements.slice(0, 4).map((achievement) => {
+                const isUnlocked = unlockedAchievements.some(
+                  (ua) => ua.achievement_id === achievement.id
+                );
+                return (
+                  <View
+                    key={achievement.id}
+                    style={[
+                      screenStyles.profileAchievementChip,
+                      !isUnlocked && screenStyles.profileAchievementChipLocked,
+                    ]}
+                  >
+                    <Text style={screenStyles.profileAchievementIcon}>
+                      {achievement.icon}
+                    </Text>
+                    <Text
+                      style={screenStyles.profileAchievementName}
+                      numberOfLines={1}
+                    >
+                      {t(`achievements.${achievement.name}`) || achievement.name}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
 
         <View style={screenStyles.profileMenuCard}>
           {menuItems.map((item, index) => (

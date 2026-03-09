@@ -6,6 +6,7 @@ import AddBenchScreen from '../screens/AddBenchScreen';
 import BenchDetailsScreen from '../screens/BenchDetailsScreen';
 import MyBenchesScreen from '../screens/MyBenchesScreen';
 import MyRatingsScreen from '../screens/MyRatingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
 
@@ -56,6 +57,16 @@ const AppNavigator = () => {
         component={MyRatingsScreen} 
         options={{
           title: t('profile.myRatings'),
+          headerBackTitle: t('common.back'),
+          headerStyle: commonStyles.mainHeaderStyle,
+          headerTintColor: colors.text.white,
+        }}
+      />
+      <Stack.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{
+          title: t('navigation.profile'),
           headerBackTitle: t('common.back'),
           headerStyle: commonStyles.mainHeaderStyle,
           headerTintColor: colors.text.white,

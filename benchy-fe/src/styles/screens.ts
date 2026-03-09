@@ -383,6 +383,12 @@ export const screenStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.gray[100],
   },
+  mapScreenProfileButtonContainer: {
+    position: 'absolute',
+    top: 60,
+    left: 20,
+    zIndex: 1000,
+  },
   mapScreenControlButtonsContainer: {
     position: 'absolute',
     top: 60,
@@ -665,6 +671,55 @@ export const screenStyles = StyleSheet.create({
     fontSize: 14,
     color: colors.primary[700],
     fontWeight: '500',
+  },
+  profileAchievementsCard: {
+    backgroundColor: colors.background.primary,
+    marginHorizontal: 16,
+    marginTop: 12,
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    ...shadows.medium,
+  },
+  profileAchievementsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  profileAchievementsTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.text.primary,
+  },
+  profileAchievementsCounter: {
+    fontSize: 14,
+    color: colors.text.secondary,
+  },
+  profileAchievementsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  profileAchievementChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    backgroundColor: colors.gray[50],
+  },
+  profileAchievementChipLocked: {
+    opacity: 0.6,
+  },
+  profileAchievementIcon: {
+    fontSize: 16,
+    marginRight: 6,
+  },
+  profileAchievementName: {
+    fontSize: 13,
+    color: colors.text.primary,
+    maxWidth: 120,
   },
   profileMenuCard: {
     backgroundColor: colors.background.primary,
