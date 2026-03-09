@@ -2,6 +2,7 @@ import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../contexts/AuthContext';
 import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
 import { ExpoMap } from '../components/common/ExpoMap';
 import supabase from '../lib/supabase';
@@ -25,13 +26,15 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
   const [benches, setBenches] = useState<ExtendedBench[]>([]);
   const [nearbyBenches, setNearbyBenches] = useState<ExtendedBench[]>([]);
   const [activeBenchTab, setActiveBenchTab] = useState<'myBenches' | 'favorites' | 'addBench'>('myBenches');
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const mapRef = useRef<MapView>(null);
   const { t } = useTranslation();
+  const { user } = useAuth();
 
   useFocusEffect(
     React.useCallback(() => {
       loadBenches();
-    }, [])
+    }, [user?.id])
   );
 
   React.useEffect(() => {
@@ -86,6 +89,18 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
         return;
       }
 
+      let favoritesSet = new Set<string>();
+      if (user) {
+        const { data: favoritesData, error: favoritesError } = await supabase
+          .from('favorites')
+          .select('bench_id')
+          .eq('user_id', user.id);
+
+        if (!favoritesError && favoritesData) {
+          favoritesSet = new Set(favoritesData.map((f: any) => f.bench_id));
+        }
+      }
+
       const convertedBenches = (data || []).map((bench: any) => ({
         ...bench,
         description: bench.description || undefined,
@@ -94,7 +109,7 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
         bench_type: bench.bench_type,
         location: bench.location,
         tags: bench.tags || [],
-        is_favorite: bench.is_favorite || false,
+        is_favorite: favoritesSet.has(bench.id),
       }));
       setBenches(convertedBenches);
       setNearbyBenches(convertedBenches.slice(0, 10));
@@ -141,10 +156,14 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
     }
   };
 
+  const displayedBenches = showFavoritesOnly
+    ? benches.filter((b) => b.is_favorite)
+    : benches;
+
   return (
       <View style={screenStyles.mapScreenContainer}>
         <ExpoMap 
-          benches={benches} 
+          benches={displayedBenches} 
           onMarkerPress={handleMarkerPress}
           mapRef={mapRef}
         />
@@ -155,6 +174,16 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
             style={screenStyles.mapScreenControlButton}
           >
             <Ionicons name="locate" size={24} color={colors.text.white} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setShowFavoritesOnly((prev) => !prev)}
+            style={screenStyles.mapScreenControlButton}
+          >
+            <Ionicons
+              name={showFavoritesOnly ? 'heart' : 'heart-outline'}
+              size={24}
+              color={showFavoritesOnly ? colors.error : colors.text.white}
+            />
           </TouchableOpacity>
         </View>
 

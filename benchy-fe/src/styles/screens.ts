@@ -245,6 +245,18 @@ export const screenStyles = StyleSheet.create({
     alignItems: 'flex-start',
     ...shadows.medium,
   },
+  benchDetailsMiniMapCard: {
+    marginHorizontal: 16,
+    marginTop: 16,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: colors.background.primary,
+    ...shadows.medium,
+    height: 180,
+  },
+  benchDetailsMiniMap: {
+    flex: 1,
+  },
   benchDetailsIcon: {
     fontSize: 60,
     marginRight: 16,

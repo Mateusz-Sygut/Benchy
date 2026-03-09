@@ -6,6 +6,7 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/AuthContext';
@@ -37,6 +38,7 @@ const BenchDetailsScreen = ({ route }: any) => {
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [locationLabel, setLocationLabel] = useState<string | null>(null);
+  const [benchTypeIcon, setBenchTypeIcon] = useState<string>('🪑');
 
   useEffect(() => {
     loadBenchDetails();
@@ -78,7 +80,10 @@ const BenchDetailsScreen = ({ route }: any) => {
 
       const typedBench = benchData as Bench;
       setBench(typedBench);
-      await loadLocation(typedBench.latitude, typedBench.longitude);
+      await Promise.all([
+        loadLocation(typedBench.latitude, typedBench.longitude),
+        loadBenchTypeIcon(typedBench.bench_type_id),
+      ]);
 
       const { data: ratingsData, error: ratingsError } = await supabase
         .from('ratings')
@@ -139,6 +144,32 @@ const BenchDetailsScreen = ({ route }: any) => {
     } catch (error) {
       console.error('Error loading location label:', error);
       setLocationLabel(t('geocoding.unknownLocation'));
+    }
+  };
+
+  const loadBenchTypeIcon = async (benchTypeId: string | null) => {
+    if (!benchTypeId) {
+      setBenchTypeIcon('🪑');
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('bench_types')
+        .select('icon')
+        .eq('id', benchTypeId)
+        .single();
+
+      if (error) {
+        console.error('Error loading bench type icon:', error);
+        setBenchTypeIcon('🪑');
+        return;
+      }
+
+      setBenchTypeIcon((data as any)?.icon || '🪑');
+    } catch (error) {
+      console.error('Error loading bench type icon:', error);
+      setBenchTypeIcon('🪑');
     }
   };
 
@@ -270,18 +301,6 @@ const BenchDetailsScreen = ({ route }: any) => {
     return date.toLocaleDateString('pl-PL');
   };
 
-  const getBenchIcon = (imageType: string) => {
-    const icons: { [key: string]: string } = {
-      wooden_classic: '🪑',
-      metal_modern: '🛋️',
-      stone_bench: '🗿',
-      park_bench: '🌳',
-      concrete_bench: '⬜',
-      picnic_table: '🏕️',
-    };
-    return icons[imageType] || '🪑';
-  };
-
   if (!bench) {
     return (
       <View style={screenStyles.benchDetailsContainer}>
@@ -292,8 +311,33 @@ const BenchDetailsScreen = ({ route }: any) => {
 
   return (
     <ScrollView style={screenStyles.benchDetailsContainer} contentContainerStyle={screenStyles.benchDetailsScrollContent}>
+      <View style={screenStyles.benchDetailsMiniMapCard}>
+        <MapView
+          style={screenStyles.benchDetailsMiniMap}
+          initialRegion={{
+            latitude: bench.latitude,
+            longitude: bench.longitude,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.002,
+          }}
+          scrollEnabled={false}
+          zoomEnabled={false}
+          rotateEnabled={false}
+          pitchEnabled={false}
+          pointerEvents="none"
+        >
+          <Marker
+            coordinate={{
+              latitude: bench.latitude,
+              longitude: bench.longitude,
+            }}
+            title={bench.name}
+          />
+        </MapView>
+      </View>
+
       <View style={screenStyles.benchDetailsBenchInfo}>
-        <Text style={screenStyles.benchDetailsIcon}>{getBenchIcon(bench.image_type)}</Text>
+        <Text style={screenStyles.benchDetailsIcon}>{benchTypeIcon}</Text>
         <View style={screenStyles.benchDetailsBenchDetails}>
           <TouchableOpacity
             style={[
