@@ -101,7 +101,10 @@ export const useAchievements = () => {
     }
   };
 
-  const updateUserStats = async (type: 'bench_created' | 'rating_given' | 'time_spent', value: number = 1) => {
+  const updateUserStats = async (
+    type: 'bench_created' | 'rating_given' | 'time_spent' | 'favorite',
+    value: number = 1
+  ) => {
     if (!user) return;
 
     try {
@@ -111,6 +114,18 @@ export const useAchievements = () => {
         .eq('user_id', user.id)
         .single() as any;
 
+      let favoritesCount: number | null = null;
+      if (type === 'favorite') {
+        const { count, error } = await supabase
+          .from('favorites')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id);
+
+        if (!error) {
+          favoritesCount = count ?? 0;
+        }
+      }
+
       if (!profile) {
         await supabase
           .from('user_profiles')
@@ -119,6 +134,7 @@ export const useAchievements = () => {
             total_benches_created: type === 'bench_created' ? value : 0,
             total_ratings_given: type === 'rating_given' ? value : 0,
             total_time_spent: type === 'time_spent' ? value : 0,
+            total_favorites: type === 'favorite' ? favoritesCount ?? 0 : 0,
           } as any);
       } else {
         const updates: any = {};
@@ -128,6 +144,8 @@ export const useAchievements = () => {
           updates.total_ratings_given = profile.total_ratings_given + value;
         } else if (type === 'time_spent') {
           updates.total_time_spent = profile.total_time_spent + value;
+        } else if (type === 'favorite') {
+          updates.total_favorites = favoritesCount ?? profile.total_favorites ?? 0;
         }
 
         await (supabase as any)

@@ -10,15 +10,19 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 import { getDisplayName } from '../lib/displayName';
+import { useAchievements } from '../hooks/useAchievements';
 import { Button } from '../components/common/Button';
 import { screenStyles } from '../styles/screens';
 import { colors } from '../styles/colors';
 
 const ProfileScreen = () => {
   const { user, signOut } = useAuth();
+  const navigation = useNavigation<any>();
   const { t } = useTranslation();
+  const { userProfile } = useAchievements();
 
   const handleSignOut = () => {
     Alert.alert(
@@ -37,6 +41,7 @@ const ProfileScreen = () => {
       title: t('profile.myBenches'),
       subtitle: t('profile.myBenchesSubtitle'),
       onPress: () => {
+        navigation.navigate('MyBenches');
       },
     },
     {
@@ -44,6 +49,7 @@ const ProfileScreen = () => {
       title: t('profile.myRatings'),
       subtitle: t('profile.myRatingsSubtitle'),
       onPress: () => {
+        navigation.navigate('MyRatings');
       },
     },
     {
@@ -90,14 +96,14 @@ const ProfileScreen = () => {
 
         <View style={screenStyles.profileStatsCard}>
           <View style={screenStyles.profileStatItem}>
-            <Text style={screenStyles.profileStatNumber}>0</Text>
+            <Text style={screenStyles.profileStatNumber}>{userProfile?.total_benches_created || 0}</Text>
             <Text style={screenStyles.profileStatLabel}>
               {t('profile.addedBenches')}
             </Text>
           </View>
           <View style={screenStyles.profileStatDivider} />
           <View style={screenStyles.profileStatItem}>
-            <Text style={screenStyles.profileStatNumber}>0</Text>
+            <Text style={screenStyles.profileStatNumber}>{userProfile?.total_ratings_given || 0}</Text>
             <Text style={screenStyles.profileStatLabel}>
               {t('profile.givenRatings')}
             </Text>

@@ -259,6 +259,17 @@ export const screenStyles = StyleSheet.create({
   benchDetailsBenchDetails: {
     flex: 1,
   },
+  benchDetailsFavoriteChip: {
+    alignSelf: 'flex-end',
+    marginBottom: 4,
+    backgroundColor: 'rgba(124, 179, 66, 0.08)',
+    borderRadius: 18,
+    padding: 6,
+    ...shadows.small,
+  },
+  benchDetailsFavoriteChipActive: {
+    backgroundColor: 'rgba(220, 53, 69, 0.12)',
+  },
   benchDetailsBenchName: {
     fontSize: 22,
     fontWeight: 'bold' as 'bold',

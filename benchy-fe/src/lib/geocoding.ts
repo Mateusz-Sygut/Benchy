@@ -2,6 +2,7 @@ interface GeocodingResult {
   city: string;
   country: string;
   fullAddress: string;
+  district?: string | null;
 }
 
 export const reverseGeocode = async (
@@ -37,6 +38,11 @@ export const reverseGeocode = async (
       t('geocoding.unknownCity');
 
     const country = data.address.country || t('geocoding.unknownCountry');
+    const district =
+      data.address.suburb ||
+      data.address.city_district ||
+      data.address.neighbourhood ||
+      null;
     
     const addressParts = [];
     if (data.address.road) addressParts.push(data.address.road);
@@ -50,6 +56,7 @@ export const reverseGeocode = async (
       city,
       country,
       fullAddress: fullAddress || t('geocoding.unknownLocation'),
+      district,
     };
   } catch (error) {
     console.error('Error in reverse geocoding:', error);

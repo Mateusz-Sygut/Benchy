@@ -4,16 +4,20 @@ import {
   Text,
   ScrollView,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useAchievements } from '../hooks/useAchievements';
 import { StarRating } from '../components/common/StarRating';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
+import { reverseGeocode, formatCityForDisplay } from '../lib/geocoding';
 import { Database, RatingInsert } from '../types/database';
 import { screenStyles } from '../styles/screens';
+import { colors } from '../styles/colors';
 
 type Bench = Database['public']['Tables']['benches']['Row'];
 type Rating = Database['public']['Tables']['ratings']['Row'];
@@ -30,11 +34,15 @@ const BenchDetailsScreen = ({ route }: any) => {
   const [loading, setLoading] = useState(false);
   const [selectedRarity, setSelectedRarity] = useState<string | null>(null);
   const [rarities, setRarities] = useState<any[]>([]);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [locationLabel, setLocationLabel] = useState<string | null>(null);
 
   useEffect(() => {
     loadBenchDetails();
     loadRarities();
-  }, [benchId]);
+    loadFavorite();
+  }, [benchId, user?.id]);
 
   const loadRarities = async () => {
     try {
@@ -68,7 +76,9 @@ const BenchDetailsScreen = ({ route }: any) => {
         return;
       }
 
-      setBench(benchData);
+      const typedBench = benchData as Bench;
+      setBench(typedBench);
+      await loadLocation(typedBench.latitude, typedBench.longitude);
 
       const { data: ratingsData, error: ratingsError } = await supabase
         .from('ratings')
@@ -84,6 +94,51 @@ const BenchDetailsScreen = ({ route }: any) => {
     } catch (error) {
       console.error('Error loading bench details:', error);
       Alert.alert(t('common.error'), t('errors.failedToLoadData'));
+    }
+  };
+
+  const loadFavorite = async () => {
+    if (!user) {
+      setIsFavorite(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('favorites')
+        .select('id')
+        .eq('bench_id', benchId)
+        .eq('user_id', user.id);
+
+      if (error) {
+        console.error('Error loading favorite:', error);
+        return;
+      }
+
+      setIsFavorite((data || []).length > 0);
+    } catch (error) {
+      console.error('Error loading favorite:', error);
+    }
+  };
+
+  const loadLocation = async (latitude: number, longitude: number) => {
+    try {
+      const result = await reverseGeocode(latitude, longitude, t);
+      const city = formatCityForDisplay(result, t);
+      const district =
+        result?.district &&
+        result.district !== city
+          ? result.district
+          : null;
+
+      if (district) {
+        setLocationLabel(`${city}, ${district}`);
+      } else {
+        setLocationLabel(city);
+      }
+    } catch (error) {
+      console.error('Error loading location label:', error);
+      setLocationLabel(t('geocoding.unknownLocation'));
     }
   };
 
@@ -133,6 +188,50 @@ const BenchDetailsScreen = ({ route }: any) => {
       Alert.alert(t('common.error'), t('errors.failedToAddRating'));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const toggleFavorite = async () => {
+    if (!user) {
+      Alert.alert(t('common.error'), t('errors.mustBeLoggedIn'));
+      return;
+    }
+
+    setFavoriteLoading(true);
+    try {
+      if (isFavorite) {
+        const { error } = await supabase
+          .from('favorites')
+          .delete()
+          .eq('bench_id', benchId)
+          .eq('user_id', user.id);
+
+        if (error) {
+          console.error('Error removing favorite:', error);
+          Alert.alert(t('common.error'), t('errors.failedToUpdateRarity'));
+          return;
+        }
+
+        setIsFavorite(false);
+        await updateUserStats('favorite', -1);
+      } else {
+        const { error } = await supabase
+          .from('favorites')
+          .insert([{ bench_id: benchId, user_id: user.id }] as any);
+
+        if (error) {
+          console.error('Error adding favorite:', error);
+          Alert.alert(t('common.error'), t('errors.failedToUpdateRarity'));
+          return;
+        }
+
+        setIsFavorite(true);
+        await updateUserStats('favorite', 1);
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    } finally {
+      setFavoriteLoading(false);
     }
   };
 
@@ -196,10 +295,24 @@ const BenchDetailsScreen = ({ route }: any) => {
       <View style={screenStyles.benchDetailsBenchInfo}>
         <Text style={screenStyles.benchDetailsIcon}>{getBenchIcon(bench.image_type)}</Text>
         <View style={screenStyles.benchDetailsBenchDetails}>
+          <TouchableOpacity
+            style={[
+              screenStyles.benchDetailsFavoriteChip,
+              isFavorite && screenStyles.benchDetailsFavoriteChipActive,
+            ]}
+            onPress={toggleFavorite}
+            disabled={favoriteLoading}
+          >
+            <Ionicons
+              name={isFavorite ? 'heart' : 'heart-outline'}
+              size={20}
+              color={isFavorite ? colors.error : colors.primary[600]}
+            />
+          </TouchableOpacity>
           <Text style={screenStyles.benchDetailsBenchName}>
             {bench.name}
           </Text>
-          {bench.description && (
+          {bench.description && bench.description.trim() !== (bench.name || '').trim() && (
             <Text style={screenStyles.benchDetailsDescription}>
               {bench.description}
             </Text>
@@ -215,7 +328,7 @@ const BenchDetailsScreen = ({ route }: any) => {
             </Text>
           </View>
           <Text style={screenStyles.benchDetailsLocation}>
-            📍 {bench.latitude.toFixed(4)}, {bench.longitude.toFixed(4)}
+            📍 {locationLabel || t('geocoding.unknownLocation')}
           </Text>
           <Text style={screenStyles.benchDetailsAddedBy}>
             {t('benchDetails.addedOn')} {formatDate(bench.created_at)}

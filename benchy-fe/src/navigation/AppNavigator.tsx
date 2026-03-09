@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import TabNavigator from './TabNavigator';
 import AddBenchScreen from '../screens/AddBenchScreen';
 import BenchDetailsScreen from '../screens/BenchDetailsScreen';
+import MyBenchesScreen from '../screens/MyBenchesScreen';
+import MyRatingsScreen from '../screens/MyRatingsScreen';
 import { commonStyles } from '../styles/common';
 import { colors } from '../styles/colors';
 
@@ -34,6 +36,26 @@ const AppNavigator = () => {
         component={BenchDetailsScreen} 
         options={{
           title: t('navigation.benchDetails'),
+          headerBackTitle: t('common.back'),
+          headerStyle: commonStyles.mainHeaderStyle,
+          headerTintColor: colors.text.white,
+        }}
+      />
+      <Stack.Screen 
+        name="MyBenches" 
+        component={MyBenchesScreen} 
+        options={{
+          title: t('profile.myBenches'),
+          headerBackTitle: t('common.back'),
+          headerStyle: commonStyles.mainHeaderStyle,
+          headerTintColor: colors.text.white,
+        }}
+      />
+      <Stack.Screen 
+        name="MyRatings" 
+        component={MyRatingsScreen} 
+        options={{
+          title: t('profile.myRatings'),
           headerBackTitle: t('common.back'),
           headerStyle: commonStyles.mainHeaderStyle,
           headerTintColor: colors.text.white,

@@ -5,16 +5,20 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { glassmorphismStyles, panelStyles } from '../../styles/glassmorphism';
 import { colors } from '../../styles/colors';
+import { useAchievements } from '../../hooks/useAchievements';
 
 export const BenchPanel: React.FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const { userProfile } = useAchievements();
 
   const handleAddBench = () => {
     navigation.navigate('AddBench');
   };
 
-  const handleMyBenches = () => {};
+  const handleMyBenches = () => {
+    navigation.navigate('MyBenches');
+  };
 
   const handleFavorites = () => {};
 
@@ -74,15 +78,15 @@ export const BenchPanel: React.FC = () => {
         
         <View style={panelStyles.statsContainer}>
           <View style={panelStyles.statItem}>
-            <Text style={panelStyles.statNumber}>0</Text>
+            <Text style={panelStyles.statNumber}>{userProfile?.total_benches_created || 0}</Text>
             <Text style={panelStyles.statLabel}>{t('stats.myBenches')}</Text>
           </View>
           <View style={panelStyles.statItem}>
-            <Text style={panelStyles.statNumber}>0</Text>
+            <Text style={panelStyles.statNumber}>{userProfile?.total_favorites || 0}</Text>
             <Text style={panelStyles.statLabel}>{t('stats.favorites')}</Text>
           </View>
           <View style={panelStyles.statItem}>
-            <Text style={panelStyles.statNumber}>0</Text>
+            <Text style={panelStyles.statNumber}>{userProfile?.total_ratings_given || 0}</Text>
             <Text style={panelStyles.statLabel}>{t('stats.ratings')}</Text>
           </View>
         </View>
