@@ -676,6 +676,7 @@ export const screenStyles = StyleSheet.create({
     backgroundColor: colors.background.primary,
     marginHorizontal: 16,
     marginTop: 12,
+    marginBottom: 16,
     borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 20,

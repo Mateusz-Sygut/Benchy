@@ -15,20 +15,20 @@
     "username": "Username"
   },
   "app": {
-    "name": "ŁawAppka"
+  "name": "Benchy"
   },
   "nickname": {
     "adjectives": ["Swift", "Quiet", "Brave", "Playful", "Mountain", "Bright", "Catlike", "Summer", "Wise", "Night", "Cautious", "Cheerful", "Early", "Sunny", "Mysterious", "Sleepy", "Merry", "Nimble", "Amber", "Bold", "Calm", "Dusk", "Echo", "Frost", "Glow", "Hazy", "Shy", "Eager", "Deep", "Fair", "Owlish", "Shiny"],
     "nouns": ["Bench Sitter", "Wanderer", "Sunflower", "Traveler", "Dreamer", "Explorer", "Guardian", "Wayfarer", "Stroller", "Bench", "Benchie", "Bench Fan", "Owl", "Fox", "Bear", "Hawk", "Wolf", "Lynx", "Stag", "Raven"]
   },
   "auth": {
-    "login": "Sign In",
-    "register": "Sign Up",
-    "logout": "Sign Out",
-    "loginTitle": "Welcome to ŁawAppka!",
-    "loginSubtitle": "Find and rate benches in your city",
-    "registerTitle": "Join the community!",
-    "registerSubtitle": "Help others find the best benches",
+  "login": "Sign In",
+  "register": "Sign Up",
+  "logout": "Sign Out",
+  "loginTitle": "Welcome to Benchy!",
+  "loginSubtitle": "Find and rate benches in your city",
+  "registerTitle": "Join the Benchy community!",
+  "registerSubtitle": "Help others find the best benches",
     "confirmPassword": "Confirm Password",
     "noAccount": "Don't have an account? Sign up",
     "haveAccount": "Already have an account? Sign in",
