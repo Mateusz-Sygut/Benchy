@@ -454,53 +454,33 @@ DECLARE
     rare_count INTEGER;
     unique_count INTEGER;
     common_count INTEGER;
-    anomalous_count INTEGER;
-    total_count INTEGER;
-    max_count INTEGER;
-    second_max_count INTEGER;
-    rarity_name TEXT;
 BEGIN
     SELECT COUNT(*) INTO normal_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'normal');
     SELECT COUNT(*) INTO rare_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'rare');
     SELECT COUNT(*) INTO unique_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'unique');
     SELECT COUNT(*) INTO common_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'common');
-    SELECT COUNT(*) INTO anomalous_count FROM public.benches WHERE rarity_id = (SELECT id FROM public.rarity WHERE name = 'anomalous');
-    
-    total_count := normal_count + rare_count + unique_count + common_count + anomalous_count;
-    
-    IF total_count = 0 THEN
+
+    IF normal_count + rare_count + unique_count + common_count = 0 THEN
         RETURN 'normal';
     END IF;
-    
-    SELECT MAX(count) INTO max_count FROM (
-        SELECT normal_count as count UNION ALL
-        SELECT rare_count as count UNION ALL
-        SELECT unique_count as count UNION ALL
-        SELECT common_count as count UNION ALL
-        SELECT anomalous_count as count
-    ) counts;
-    
-    SELECT MAX(count) INTO second_max_count FROM (
-        SELECT normal_count as count UNION ALL
-        SELECT rare_count as count UNION ALL
-        SELECT unique_count as count UNION ALL
-        SELECT common_count as count UNION ALL
-        SELECT anomalous_count as count
-    ) counts WHERE count < max_count;
-    
-    IF max_count = normal_count AND second_max_count = rare_count AND max_count - second_max_count >= 1 THEN
-        RETURN 'normal';
-    ELSIF max_count = rare_count AND second_max_count = normal_count AND max_count - second_max_count >= 1 THEN
-        RETURN 'rare';
-    ELSIF max_count = unique_count AND second_max_count = common_count AND max_count - second_max_count >= 5 THEN
-        RETURN 'unique';
-    ELSIF max_count = common_count AND second_max_count = unique_count AND max_count - second_max_count >= 5 THEN
-        RETURN 'common';
-    ELSIF unique_count = common_count AND unique_count > 0 THEN
+
+    IF rare_count = unique_count AND rare_count > 0 THEN
         RETURN 'anomalous';
-    ELSE
-        RETURN 'normal';
     END IF;
+
+    IF (unique_count > 0 AND (unique_count >= CEIL(1.5 * common_count) OR unique_count >= CEIL(1.5 * normal_count))) THEN
+        RETURN 'unique';
+    END IF;
+
+    IF (rare_count > 0 AND (rare_count >= CEIL(1.2 * common_count) OR rare_count >= CEIL(1.2 * normal_count))) THEN
+        RETURN 'rare';
+    END IF;
+
+    IF common_count > normal_count THEN
+        RETURN 'common';
+    END IF;
+
+    RETURN 'normal';
 END;
 $$ LANGUAGE plpgsql;
 
