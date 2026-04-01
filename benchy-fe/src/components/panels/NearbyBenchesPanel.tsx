@@ -3,8 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { glassmorphismStyles, panelStyles } from '../../styles/glassmorphism';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { ExtendedBench } from '../../types/database';
 import supabase from '../../lib/supabase';
 
@@ -16,6 +15,7 @@ interface NearbyBenchesPanelProps {
 
 export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchPress }) => {
   const { t } = useTranslation();
+  const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
   const navigation = useNavigation<any>();
   const [nearbyBenches, setNearbyBenches] = useState<ExtendedBench[]>([]);
   const [loading, setLoading] = useState(false);
@@ -78,7 +78,7 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
           <Text style={[panelStyles.benchName, panelStyles.benchCardTitle]} numberOfLines={1}>
             {bench.name || bench.description || t('bench.unnamedBench')}
           </Text>
-          <Ionicons name="chevron-forward" size={panelStyles.benchCardChevron.fontSize} color={panelStyles.benchCardChevron.color} />
+          <Ionicons name="chevron-forward" size={20} color={theme.glass.textMuted} />
         </View>
 
         <View style={panelStyles.benchCardRarityContainer}>
@@ -88,14 +88,14 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
           ]}>
             <Text style={[
               panelStyles.benchCardRarityText,
-              { color: bench.rarity?.color || colors.primary[400] }
+              { color: bench.rarity?.color || theme.primary[400] }
             ]}>
               {bench.rarity?.name ? t(`rarity.${bench.rarity.name}`) : t('rarity.normal')}
             </Text>
           </View>
 
           <View style={panelStyles.benchCardRatingContainer}>
-            <Ionicons name="star" size={panelStyles.benchCardRatingIcon.fontSize} color={panelStyles.benchCardRatingIcon.color} />
+            <Ionicons name="star" size={14} color={theme.warning} />
             <Text style={[panelStyles.benchRating, panelStyles.benchCardRatingText]}>
               {bench.average_rating ? bench.average_rating.toFixed(1) : t('bench.noRating')}
             </Text>
@@ -116,14 +116,14 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
           <RefreshControl
             refreshing={loading}
             onRefresh={loadNearbyBenches}
-            tintColor={colors.text.white}
+            tintColor={theme.text.white}
           />
         }
       >
         {nearbyBenches.length === 0 ? (
           <View style={panelStyles.emptyState}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-              <Ionicons name="radio-outline" size={28} color={colors.primary[400]} />
+              <Ionicons name="radio-outline" size={28} color={theme.primary[400]} />
               <Text style={[panelStyles.emptyStateTitle, { marginTop: 0, marginLeft: 8 }]}>
                 {t('tips.title')} ŁawAppki
               </Text>
@@ -139,7 +139,7 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
                     width: 6,
                     height: 6,
                     borderRadius: 3,
-                    backgroundColor: i === tipIndex ? colors.primary[400] : colors.text.secondary,
+                    backgroundColor: i === tipIndex ? theme.primary[400] : theme.text.secondary,
                   }}
                 />
               ))}

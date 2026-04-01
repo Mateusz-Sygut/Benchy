@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, shadows } from './colors';
+import { AppTheme } from '../theme/theme';
 
-export const screenStyles = StyleSheet.create({
+export const createScreenStyles = (t: AppTheme) =>
+  StyleSheet.create({
   authBackground: {
     flex: 1,
     width: '100%',
@@ -34,7 +35,7 @@ export const screenStyles = StyleSheet.create({
   authTitle: {
     fontSize: 36,
     fontWeight: '700' as '700',
-    color: colors.text.white,
+    color: t.text.white,
     marginBottom: 16,
     textAlign: 'center' as 'center',
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
@@ -60,12 +61,12 @@ export const screenStyles = StyleSheet.create({
     paddingBottom: 40,
   },
   authCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.98)',
+    backgroundColor: t.authCardBg,
     borderRadius: 20,
     padding: 24,
-    ...shadows.button,
+    ...t.shadows.button,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: t.authCardBorder,
   },
   authInputContainer: {
     marginBottom: 12,
@@ -84,11 +85,11 @@ export const screenStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 12,
-    backgroundColor: colors.primary[100],
+    backgroundColor: t.authRandomBtnBg,
     justifyContent: 'center',
   },
   authRandomNicknameButtonText: {
-    color: colors.primary[700],
+    color: t.authRandomBtnText,
     fontWeight: '600',
     fontSize: 14,
   },
@@ -97,7 +98,7 @@ export const screenStyles = StyleSheet.create({
     marginBottom: 16,
     paddingVertical: 14,
     borderRadius: 12,
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   authSecondaryButton: {
     borderRadius: 12,
@@ -106,23 +107,23 @@ export const screenStyles = StyleSheet.create({
   
   
   addBenchHeaderCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   addBenchSectionCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   addBenchSectionTitle: {
     fontSize: 18,
     fontWeight: 'bold' as 'bold',
-    color: colors.primary[600],
+    color: t.primary[600],
     marginBottom: 16,
   },
   addBenchInputContainer: {
@@ -139,7 +140,7 @@ export const screenStyles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: colors.gray[300],
+    borderColor: t.gray[300],
   },
   addBenchLocationOptionIcon: {
     marginBottom: 8,
@@ -147,7 +148,7 @@ export const screenStyles = StyleSheet.create({
   addBenchLocationOptionTitle: {
     fontSize: 15,
     fontWeight: '600' as '600',
-    color: colors.text.primary,
+    color: t.text.primary,
     marginBottom: 4,
   },
   addBenchTextInput: {
@@ -161,18 +162,18 @@ export const screenStyles = StyleSheet.create({
   },
   addBenchOption: {
     width: '48%',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: t.background.secondary,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
     marginBottom: 12,
     borderWidth: 2,
-    borderColor: colors.gray[300],
+    borderColor: t.gray[300],
     position: 'relative',
   },
   addBenchOptionSelected: {
-    borderColor: colors.primary[600],
-    backgroundColor: colors.gradient.light,
+    borderColor: t.primary[600],
+    backgroundColor: t.gradient.light,
   },
   addBenchIcon: {
     fontSize: 32,
@@ -181,7 +182,7 @@ export const screenStyles = StyleSheet.create({
   addBenchName: {
     fontSize: 12,
     fontWeight: '600' as '600',
-    color: colors.text.primary,
+    color: t.text.primary,
     textAlign: 'center' as 'center',
   },
   addBenchCheckmark: {
@@ -207,24 +208,24 @@ export const screenStyles = StyleSheet.create({
   },
   addBenchInfoText: {
     fontSize: 14,
-    color: colors.primary[600],
+    color: t.primary[600],
     fontWeight: '600' as '600',
     marginBottom: 2,
   },
   addBenchInfoSubtext: {
     fontSize: 12,
-    color: colors.text.secondary,
+    color: t.text.secondary,
   },
   addBenchSaveButton: {
-    backgroundColor: colors.primary[600],
+    backgroundColor: t.primary[600],
     paddingVertical: 16,
     borderRadius: 12,
-    ...shadows.button,
+    ...t.shadows.button,
   },
   
   benchDetailsContainer: {
     flex: 1,
-    backgroundColor: colors.gradient.lighter,
+    backgroundColor: t.gradient.lighter,
   },
   benchDetailsScrollContent: {
     paddingBottom: 30,
@@ -233,25 +234,25 @@ export const screenStyles = StyleSheet.create({
     textAlign: 'center' as 'center',
     marginTop: 50,
     fontSize: 16,
-    color: colors.text.secondary,
+    color: t.text.secondary,
   },
   benchDetailsBenchInfo: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     marginHorizontal: 16,
     marginTop: 16,
     padding: 20,
     borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   benchDetailsMiniMapCard: {
     marginHorizontal: 16,
     marginTop: 16,
     borderRadius: 16,
     overflow: 'hidden',
-    backgroundColor: colors.background.primary,
-    ...shadows.medium,
+    backgroundColor: t.background.primary,
+    ...t.shadows.medium,
     height: 180,
   },
   benchDetailsMiniMap: {
@@ -260,7 +261,7 @@ export const screenStyles = StyleSheet.create({
   benchDetailsIcon: {
     fontSize: 60,
     marginRight: 16,
-    backgroundColor: colors.gradient.lighter,
+    backgroundColor: t.gradient.lighter,
     padding: 12,
     borderRadius: 50,
     textAlign: 'center' as 'center',
@@ -277,7 +278,7 @@ export const screenStyles = StyleSheet.create({
     backgroundColor: 'rgba(124, 179, 66, 0.08)',
     borderRadius: 18,
     padding: 6,
-    ...shadows.small,
+    ...t.shadows.small,
   },
   benchDetailsFavoriteChipActive: {
     backgroundColor: 'rgba(220, 53, 69, 0.12)',
@@ -285,12 +286,12 @@ export const screenStyles = StyleSheet.create({
   benchDetailsBenchName: {
     fontSize: 22,
     fontWeight: 'bold' as 'bold',
-    color: colors.text.primary,
+    color: t.text.primary,
     marginBottom: 8,
   },
   benchDetailsDescription: {
     fontSize: 16,
-    color: colors.text.secondary,
+    color: t.text.secondary,
     marginBottom: 12,
     lineHeight: 22,
   },
@@ -301,30 +302,30 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsRatingText: {
     fontSize: 16,
-    color: colors.text.secondary,
+    color: t.text.secondary,
     marginLeft: 8,
   },
   benchDetailsLocation: {
     fontSize: 14,
-    color: colors.text.disabled,
+    color: t.text.disabled,
     marginBottom: 4,
   },
   benchDetailsAddedBy: {
     fontSize: 14,
-    color: colors.text.disabled,
+    color: t.text.disabled,
   },
   benchDetailsSection: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     marginHorizontal: 16,
     marginTop: 16,
     padding: 20,
     borderRadius: 16,
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   benchDetailsSectionTitle: {
     fontSize: 18,
     fontWeight: 'bold' as 'bold',
-    color: colors.text.primary,
+    color: t.text.primary,
     marginBottom: 16,
   },
   benchDetailsRatingForm: {
@@ -343,12 +344,12 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsNoRatings: {
     fontSize: 16,
-    color: colors.text.secondary,
+    color: t.text.secondary,
     textAlign: 'center' as 'center',
     fontStyle: 'italic' as 'italic',
   },
   benchDetailsRatingItem: {
-    backgroundColor: colors.gray[50],
+    backgroundColor: t.gray[50],
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
@@ -362,7 +363,7 @@ export const screenStyles = StyleSheet.create({
   benchDetailsRatingUser: {
     fontSize: 16,
     fontWeight: '600' as '600',
-    color: colors.text.primary,
+    color: t.text.primary,
   },
   benchDetailsRatingInfo: {
     flexDirection: 'row',
@@ -370,18 +371,18 @@ export const screenStyles = StyleSheet.create({
   },
   benchDetailsRatingDate: {
     fontSize: 14,
-    color: colors.text.secondary,
+    color: t.text.secondary,
     marginLeft: 8,
   },
   benchDetailsRatingComment: {
     fontSize: 14,
-    color: colors.text.primary,
+    color: t.text.primary,
     lineHeight: 20,
   },
 
   mapScreenContainer: {
     flex: 1,
-    backgroundColor: colors.gray[100],
+    backgroundColor: t.map.chromeBg,
   },
   mapScreenProfileButtonContainer: {
     position: 'absolute',
@@ -401,7 +402,7 @@ export const screenStyles = StyleSheet.create({
     backgroundColor: 'rgba(124, 179, 66, 0.65)',
     borderRadius: 30,
     padding: 12,
-    ...shadows.button,
+    ...t.shadows.button,
     alignItems: 'center',
     justifyContent: 'center',
     width: 60,
@@ -414,31 +415,31 @@ export const screenStyles = StyleSheet.create({
     bottom: 24,
     left: 20,
     right: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: t.map.emptyOverlayBg,
     borderRadius: 20,
     padding: 20,
-    ...shadows.medium,
+    ...t.shadows.medium,
     borderWidth: 1,
-    borderColor: 'rgba(124, 179, 66, 0.2)',
+    borderColor: t.map.emptyOverlayBorder,
     alignItems: 'center',
   },
   mapEmptyStateTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: colors.text.primary,
+    color: t.text.primary,
     textAlign: 'center',
     marginBottom: 8,
   },
   mapEmptyStateCta: {
     fontSize: 14,
-    color: colors.primary[600],
+    color: t.primary[600],
     fontWeight: '600',
     textAlign: 'center',
   },
 
   benchListContainer: {
     flex: 1,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: t.background.secondary,
   },
   benchListSearchContainer: {
     padding: 16,
@@ -447,28 +448,28 @@ export const screenStyles = StyleSheet.create({
   benchListSearchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    ...shadows.large,
+    ...t.shadows.large,
     borderWidth: 1,
     borderColor: 'rgba(46, 125, 50, 0.1)',
   },
   benchListSearchIcon: {
     marginRight: 12,
-    color: colors.primary[600],
+    color: t.primary[600],
   },
   benchListSearchInput: {
     flex: 1,
     fontSize: 16,
-    color: colors.text.primary,
+    color: t.text.primary,
     paddingVertical: 2,
     fontWeight: '500',
   },
   benchListSearchClearButton: {
     padding: 6,
-    backgroundColor: colors.gray[200],
+    backgroundColor: t.gray[200],
     borderRadius: 12,
     marginLeft: 8,
   },
@@ -476,23 +477,23 @@ export const screenStyles = StyleSheet.create({
     padding: 16,
   },
   benchListBenchCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   benchListBenchIconContainer: {
     width: 50,
     height: 50,
-    backgroundColor: colors.gradient.light,
+    backgroundColor: t.gradient.light,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
-    ...shadows.small,
+    ...t.shadows.small,
   },
   benchListBenchIcon: {
     fontSize: 24,
@@ -503,7 +504,7 @@ export const screenStyles = StyleSheet.create({
   benchListBenchDescription: {
     fontSize: 16,
     fontWeight: '600' as '600',
-    color: colors.text.primary,
+    color: t.text.primary,
     marginBottom: 8,
   },
   benchListBenchMeta: {
@@ -518,17 +519,17 @@ export const screenStyles = StyleSheet.create({
   },
   benchListRatingText: {
     fontSize: 14,
-    color: colors.text.secondary,
+    color: t.text.secondary,
     marginLeft: 4,
   },
   benchListUsernameText: {
     fontSize: 12,
-    color: colors.text.disabled,
+    color: t.text.disabled,
     fontStyle: 'italic' as 'italic',
   },
   benchListLocationText: {
     fontSize: 12,
-    color: colors.text.disabled,
+    color: t.text.disabled,
   },
   benchListEmptyContainer: {
     flex: 1,
@@ -548,19 +549,19 @@ export const screenStyles = StyleSheet.create({
   benchListEmptyTitle: {
     fontSize: 24,
     fontWeight: 'bold' as 'bold',
-    color: colors.text.primary,
+    color: t.text.primary,
     marginBottom: 12,
     textAlign: 'center' as 'center',
   },
   benchListEmptyText: {
     fontSize: 16,
-    color: colors.text.secondary,
+    color: t.text.secondary,
     textAlign: 'center' as 'center',
     lineHeight: 24,
     marginBottom: 30,
   },
   benchListEmptyButton: {
-    backgroundColor: colors.primary[600],
+    backgroundColor: t.primary[600],
     borderRadius: 12,
     paddingVertical: 16,
     paddingHorizontal: 32,
@@ -571,7 +572,7 @@ export const screenStyles = StyleSheet.create({
   benchListSkeletonCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.gray[100],
+    backgroundColor: t.gray[100],
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
@@ -580,23 +581,23 @@ export const screenStyles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: colors.gray[200],
+    backgroundColor: t.gray[200],
     marginRight: 12,
   },
   benchListSkeletonLine: {
     height: 12,
     borderRadius: 6,
-    backgroundColor: colors.gray[200],
+    backgroundColor: t.gray[200],
   },
   benchListSkeletonHint: {
     marginTop: 16,
     fontSize: 14,
-    color: colors.text.secondary,
+    color: t.text.secondary,
   },
 
   profileContainer: {
     flex: 1,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: t.background.secondary,
   },
   profileHeader: {
     paddingTop: 20,
@@ -619,7 +620,7 @@ export const screenStyles = StyleSheet.create({
   profileUserName: {
     fontSize: 24,
     fontWeight: 'bold' as 'bold',
-    color: colors.text.white,
+    color: t.text.white,
     marginBottom: 4,
   },
   profileUserEmail: {
@@ -627,7 +628,7 @@ export const screenStyles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.8)',
   },
   profileStatsCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     marginHorizontal: 16,
     marginTop: -16,
     borderRadius: 16,
@@ -636,7 +637,7 @@ export const screenStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   profileStatItem: {
     alignItems: 'center',
@@ -644,43 +645,43 @@ export const screenStyles = StyleSheet.create({
   profileStatNumber: {
     fontSize: 24,
     fontWeight: 'bold' as 'bold',
-    color: colors.success,
+    color: t.success,
     marginBottom: 4,
   },
   profileStatLabel: {
     fontSize: 14,
-    color: colors.text.secondary,
+    color: t.text.secondary,
     textAlign: 'center' as 'center',
   },
   profileStatDivider: {
     width: 1,
     height: 40,
-    backgroundColor: colors.gray[200],
+    backgroundColor: t.gray[200],
   },
   profileUnlockHint: {
     marginHorizontal: 16,
     marginTop: 12,
     paddingVertical: 10,
     paddingHorizontal: 16,
-    backgroundColor: colors.primary[50],
+    backgroundColor: t.primary[50],
     borderRadius: 12,
     borderLeftWidth: 4,
-    borderLeftColor: colors.primary[400],
+    borderLeftColor: t.primary[400],
   },
   profileUnlockHintText: {
     fontSize: 14,
-    color: colors.primary[700],
+    color: t.primary[700],
     fontWeight: '500',
   },
   profileAchievementsCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     marginHorizontal: 16,
     marginTop: 12,
     marginBottom: 16,
     borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 20,
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   profileAchievementsHeader: {
     flexDirection: 'row',
@@ -691,11 +692,11 @@ export const screenStyles = StyleSheet.create({
   profileAchievementsTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: colors.text.primary,
+    color: t.text.primary,
   },
   profileAchievementsCounter: {
     fontSize: 14,
-    color: colors.text.secondary,
+    color: t.text.secondary,
   },
   profileAchievementsRow: {
     flexDirection: 'row',
@@ -708,7 +709,7 @@ export const screenStyles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 12,
-    backgroundColor: colors.gray[50],
+    backgroundColor: t.gray[50],
   },
   profileAchievementChipLocked: {
     opacity: 0.6,
@@ -719,15 +720,15 @@ export const screenStyles = StyleSheet.create({
   },
   profileAchievementName: {
     fontSize: 13,
-    color: colors.text.primary,
+    color: t.text.primary,
     maxWidth: 120,
   },
   profileMenuCard: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: t.background.primary,
     marginHorizontal: 16,
     marginTop: 16,
     borderRadius: 16,
-    ...shadows.medium,
+    ...t.shadows.medium,
   },
   profileMenuItem: {
     paddingVertical: 16,
@@ -737,7 +738,7 @@ export const screenStyles = StyleSheet.create({
   },
   profileMenuItemBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray[100],
+    borderBottomColor: t.gray[100],
   },
   profileMenuItemContent: {
     flexDirection: 'row',
@@ -748,7 +749,7 @@ export const screenStyles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: colors.gradient.lighter,
+    backgroundColor: t.gradient.lighter,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -759,12 +760,12 @@ export const screenStyles = StyleSheet.create({
   profileMenuTitle: {
     fontSize: 16,
     fontWeight: '600' as '600',
-    color: colors.text.primary,
+    color: t.text.primary,
     marginBottom: 2,
   },
   profileMenuSubtitle: {
     fontSize: 14,
-    color: colors.text.secondary,
+    color: t.text.secondary,
   },
   profileLogoutContainer: {
     marginHorizontal: 16,
@@ -783,7 +784,7 @@ export const screenStyles = StyleSheet.create({
     marginHorizontal: 5,
   },
   benchDetailsRarityButtonSelected: {
-    backgroundColor: colors.primary[500],
-    borderColor: colors.primary[600],
+    backgroundColor: t.primary[500],
+    borderColor: t.primary[600],
   },
 });

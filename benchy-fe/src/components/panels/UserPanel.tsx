@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { getDisplayName } from '../../lib/displayName';
 import { useAchievements } from '../../hooks/useAchievements';
-import { glassmorphismStyles, panelStyles } from '../../styles/glassmorphism';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { Achievement, UserAchievement } from '../../types/database';
 
 export const UserPanel: React.FC = () => {
   const { t } = useTranslation();
+  const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
   const { user } = useAuth();
   const { userProfile, achievements, unlockedAchievements } = useAchievements();
 
@@ -19,7 +19,7 @@ export const UserPanel: React.FC = () => {
       <View style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
           <View style={panelStyles.avatarContainer}>
-            <Ionicons name="person" size={30} color={colors.text.white} />
+            <Ionicons name="person" size={30} color={theme.text.white} />
           </View>
           <View style={{ marginLeft: 15 }}>
             <Text style={glassmorphismStyles.cardTitle}>{getDisplayName(user ?? null) || t('profile.user')}</Text>
@@ -67,7 +67,7 @@ export const UserPanel: React.FC = () => {
               >
                 {!isUnlocked && (
                   <View style={panelStyles.achievementLockIcon}>
-                    <Ionicons name="lock-closed" size={12} color={colors.text.secondary} />
+                    <Ionicons name="lock-closed" size={12} color={theme.text.secondary} />
                   </View>
                 )}
                 <Text style={panelStyles.achievementIcon}>{achievement.icon}</Text>
@@ -81,7 +81,7 @@ export const UserPanel: React.FC = () => {
                 )}
                 {isUnlocked && (
                   <View style={panelStyles.achievementBadge}>
-                    <Ionicons name="checkmark" size={12} color={colors.text.white} />
+                    <Ionicons name="checkmark" size={12} color={theme.text.white} />
                   </View>
                 )}
               </View>
@@ -96,21 +96,21 @@ export const UserPanel: React.FC = () => {
         
         <View style={{ marginTop: 15 }}>
           <TouchableOpacity style={panelStyles.taskItem}>
-            <Ionicons name="add-circle" size={20} color={colors.primary[400]} />
+            <Ionicons name="add-circle" size={20} color={theme.primary[400]} />
             <Text style={panelStyles.taskText}>{t('tasks.addFirstBench')}</Text>
-            <Ionicons name="chevron-forward" size={16} color={colors.text.secondary} />
+            <Ionicons name="chevron-forward" size={16} color={theme.text.secondary} />
           </TouchableOpacity>
           
           <TouchableOpacity style={panelStyles.taskItem}>
-            <Ionicons name="star" size={20} color={colors.primary[400]} />
+            <Ionicons name="star" size={20} color={theme.primary[400]} />
             <Text style={panelStyles.taskText}>{t('tasks.rateBench')}</Text>
-            <Ionicons name="chevron-forward" size={16} color={colors.text.secondary} />
+            <Ionicons name="chevron-forward" size={16} color={theme.text.secondary} />
           </TouchableOpacity>
           
           <TouchableOpacity style={panelStyles.taskItem}>
-            <Ionicons name="heart" size={20} color={colors.primary[400]} />
+            <Ionicons name="heart" size={20} color={theme.primary[400]} />
             <Text style={panelStyles.taskText}>{t('tasks.addFavorite')}</Text>
-            <Ionicons name="chevron-forward" size={16} color={colors.text.secondary} />
+            <Ionicons name="chevron-forward" size={16} color={theme.text.secondary} />
           </TouchableOpacity>
         </View>
       </View>

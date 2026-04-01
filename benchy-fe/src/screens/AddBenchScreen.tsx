@@ -18,10 +18,7 @@ import { BenchInsert, BenchType, Location as LocationType, Tag } from '../types/
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import { LocationMapPicker } from '../components/common/LocationMapPicker';
-import { screenStyles } from '../styles/screens';
-import { commonStyles } from '../styles/common';
-import { colors } from '../styles/colors';
-import { glassmorphismStyles } from '../styles/glassmorphism';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 
 const AddBenchScreen = ({ navigation }: any) => {
   const [description, setDescription] = useState('');
@@ -37,6 +34,8 @@ const AddBenchScreen = ({ navigation }: any) => {
   const [tags, setTags] = useState<Tag[]>([]);
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { screen: screenStyles, common: commonStyles, glass: glassmorphismStyles, theme } =
+    useThemedStyles();
   const { updateUserStats } = useAchievements();
 
   const benchImages = [
@@ -174,9 +173,12 @@ const AddBenchScreen = ({ navigation }: any) => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
+      <StatusBar
+        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.primary[900]}
+      />
       <LinearGradient
-        colors={[colors.gradient.light, colors.gradient.lighter]}
+        colors={[theme.gradient.light, theme.gradient.lighter]}
         style={commonStyles.container}
       >
         <ScrollView style={commonStyles.scrollView}>
@@ -204,7 +206,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                   }}
                 >
                   <View style={screenStyles.addBenchLocationOptionIcon}>
-                    <Ionicons name="locate" size={28} color={colors.primary[600]} />
+                    <Ionicons name="locate" size={28} color={theme.primary[600]} />
                   </View>
                   <Text style={screenStyles.addBenchLocationOptionTitle}>{t('addBench.yourLocation')}</Text>
                   <Text style={screenStyles.addBenchInfoSubtext}>{t('addBench.yourLocationDesc')}</Text>
@@ -214,7 +216,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                   onPress={() => setShowMapPicker(true)}
                 >
                   <View style={screenStyles.addBenchLocationOptionIcon}>
-                    <Ionicons name="map" size={28} color={colors.primary[600]} />
+                    <Ionicons name="map" size={28} color={theme.primary[600]} />
                   </View>
                   <Text style={screenStyles.addBenchLocationOptionTitle}>{t('addBench.pickOnMap')}</Text>
                   <Text style={screenStyles.addBenchInfoSubtext}>{t('addBench.pickOnMapDesc')}</Text>
@@ -247,7 +249,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                     style={[
                       screenStyles.addBenchOption,
                       glassmorphismStyles.glassContainer,
-                      selectedBenchType === benchType.id && { borderColor: colors.primary[400] }
+                      selectedBenchType === benchType.id && { borderColor: theme.primary[400] }
                     ]}
                     onPress={() => setSelectedBenchType(benchType.id)}
                   >
@@ -258,7 +260,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                         <Ionicons 
                           name="checkmark-circle" 
                           size={24} 
-                          color={colors.primary[400]} 
+                          color={theme.primary[400]} 
                         />
                       </View>
                     )}
@@ -276,7 +278,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                     style={[
                       screenStyles.addBenchOption,
                       glassmorphismStyles.glassContainer,
-                      selectedLocation === location.id && { borderColor: colors.primary[400] }
+                      selectedLocation === location.id && { borderColor: theme.primary[400] }
                     ]}
                     onPress={() => setSelectedLocation(location.id)}
                   >
@@ -287,7 +289,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                         <Ionicons 
                           name="checkmark-circle" 
                           size={24} 
-                          color={colors.primary[400]} 
+                          color={theme.primary[400]} 
                         />
                       </View>
                     )}
@@ -307,7 +309,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                     style={[
                       screenStyles.addBenchOption,
                       glassmorphismStyles.glassContainer,
-                      selectedTags.includes(tag.name) && { borderColor: colors.primary[400] }
+                      selectedTags.includes(tag.name) && { borderColor: theme.primary[400] }
                     ]}
                     onPress={() => toggleTag(tag.name)}
                   >
@@ -317,7 +319,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                         <Ionicons 
                           name="checkmark-circle" 
                           size={24} 
-                          color={colors.primary[400]} 
+                          color={theme.primary[400]} 
                         />
                       </View>
                     )}

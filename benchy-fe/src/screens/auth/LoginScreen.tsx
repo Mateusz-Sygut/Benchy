@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
-import { screenStyles } from '../../styles/screens';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { 
   PlantAnimations, 
   BackgroundPlants, 
@@ -29,6 +29,7 @@ const LoginScreen = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
   const { t } = useTranslation();
+  const { screen: screenStyles } = useThemedStyles();
 
   const handleLogin = async () => {
     if (!email || !password) {

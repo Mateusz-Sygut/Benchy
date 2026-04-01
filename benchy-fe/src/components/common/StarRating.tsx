@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { componentStyles } from '../../styles/components';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 
 interface StarRatingProps {
   rating: number;
@@ -21,6 +20,8 @@ export const StarRating: React.FC<StarRatingProps> = ({
   readonly = false,
   showHalfStars = false,
 }) => {
+  const { component: componentStyles, theme } = useThemedStyles();
+
   const handleStarPress = (starNumber: number) => {
     if (!readonly && onRatingChange) {
       onRatingChange(starNumber);
@@ -30,7 +31,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
   const renderStar = (starNumber: number) => {
     const isFilled = starNumber <= rating;
     const isHalfFilled = showHalfStars && starNumber - 0.5 <= rating && starNumber > rating;
-    
+
     let iconName: keyof typeof Ionicons.glyphMap;
     if (isFilled) {
       iconName = 'star';
@@ -49,11 +50,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
         style={componentStyles.starRatingStar}
         disabled={readonly}
       >
-        <Ionicons
-          name={iconName}
-          size={size}
-          color={colors.star}
-        />
+        <Ionicons name={iconName} size={size} color={theme.star} />
       </StarComponent>
     );
   };

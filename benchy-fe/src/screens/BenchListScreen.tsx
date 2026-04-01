@@ -15,8 +15,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
 import { Bench } from '../types/database';
-import { screenStyles } from '../styles/screens';
-import { colors } from '../styles/colors';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 
 const BenchListScreen = () => {
   const navigation = useNavigation<any>();
@@ -25,6 +24,7 @@ const BenchListScreen = () => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation();
+  const { screen: screenStyles, theme } = useThemedStyles();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -118,7 +118,7 @@ const BenchListScreen = () => {
         
         <View style={screenStyles.benchListBenchMeta}>
           <View style={screenStyles.benchListRatingContainer}>
-            <Ionicons name="star" size={16} color={colors.star} />
+            <Ionicons name="star" size={16} color={theme.star} />
             <Text style={screenStyles.benchListRatingText}>
               {item.average_rating && item.average_rating > 0 ? item.average_rating.toFixed(1) : t('benchList.noRating')}
             </Text>
@@ -141,17 +141,17 @@ const BenchListScreen = () => {
   const renderSearchBar = () => (
     <View style={screenStyles.benchListSearchContainer}>
       <View style={screenStyles.benchListSearchInputContainer}>
-        <Ionicons name="search" size={20} color={colors.text.secondary} style={screenStyles.benchListSearchIcon} />
+        <Ionicons name="search" size={20} color={theme.text.secondary} style={screenStyles.benchListSearchIcon} />
         <TextInput
           style={screenStyles.benchListSearchInput}
           placeholder={t('benchList.searchPlaceholder')}
-          placeholderTextColor={colors.text.secondary}
+          placeholderTextColor={theme.text.secondary}
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
         {searchQuery.length > 0 && (
           <TouchableOpacity onPress={clearSearch} style={screenStyles.benchListSearchClearButton}>
-            <Ionicons name="close" size={16} color={colors.text.secondary} />
+            <Ionicons name="close" size={16} color={theme.text.secondary} />
           </TouchableOpacity>
         )}
       </View>
@@ -176,11 +176,11 @@ const BenchListScreen = () => {
   const renderEmptyState = () => (
     <View style={screenStyles.benchListEmptyContainer}>
       <LinearGradient
-        colors={[colors.gradient.light, colors.gradient.lighter]}
+        colors={[theme.gradient.light, theme.gradient.lighter]}
         style={screenStyles.benchListEmptyGradient}
       >
         <View style={screenStyles.benchListEmptyIconContainer}>
-          <Ionicons name="map-outline" size={64} color={colors.primary[900]} />
+          <Ionicons name="map-outline" size={64} color={theme.primary[900]} />
         </View>
         <Text style={screenStyles.benchListEmptyTitle}>
           {searchQuery ? t('benchList.noSearchResults') : t('benchList.noBenchesTitle')}
@@ -202,7 +202,10 @@ const BenchListScreen = () => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
+      <StatusBar
+        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.primary[900]}
+      />
       <View style={screenStyles.benchListContainer}>
         {renderSearchBar()}
         <FlatList
@@ -213,8 +216,8 @@ const BenchListScreen = () => {
             <RefreshControl
               refreshing={loading}
               onRefresh={loadBenches}
-              colors={[colors.primary[900]]}
-              tintColor={colors.primary[900]}
+              colors={[theme.primary[900]]}
+              tintColor={theme.primary[900]}
             />
           }
           ListEmptyComponent={filteredBenches.length === 0 ? () => (loading ? renderSkeleton() : renderEmptyState()) : null}

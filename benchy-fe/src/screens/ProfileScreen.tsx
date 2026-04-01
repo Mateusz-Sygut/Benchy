@@ -12,16 +12,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { getDisplayName } from '../lib/displayName';
 import { useAchievements } from '../hooks/useAchievements';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 import { Button } from '../components/common/Button';
-import { screenStyles } from '../styles/screens';
-import { colors } from '../styles/colors';
+import { ThemePreference } from '../theme/theme';
 
 const ProfileScreen = () => {
   const { user, signOut } = useAuth();
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
+  const { preference, setPreference } = useTheme();
+  const { screen: screenStyles, theme } = useThemedStyles();
   const { userProfile, achievements, unlockedAchievements } = useAchievements();
 
   const handleSignOut = () => {
@@ -34,6 +37,12 @@ const ProfileScreen = () => {
       ]
     );
   };
+
+  const themeOptions: { key: ThemePreference; label: string }[] = [
+    { key: 'system', label: t('profile.themeSystem') },
+    { key: 'light', label: t('profile.themeLight') },
+    { key: 'dark', label: t('profile.themeDark') },
+  ];
 
   const menuItems = [
     {
@@ -56,24 +65,25 @@ const ProfileScreen = () => {
       icon: 'settings-outline',
       title: t('profile.settings'),
       subtitle: t('profile.settingsSubtitle'),
-      onPress: () => {
-      },
+      onPress: () => {},
     },
     {
       icon: 'help-circle-outline',
       title: t('profile.help'),
       subtitle: t('profile.helpSubtitle'),
-      onPress: () => {
-      },
+      onPress: () => {},
     },
   ];
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
+      <StatusBar
+        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.primary[900]}
+      />
       <ScrollView style={screenStyles.profileContainer}>
         <LinearGradient
-          colors={colors.gradient.primary}
+          colors={[...theme.gradient.primary] as [string, string, string]}
           style={screenStyles.profileHeader}
         >
           <View style={screenStyles.profileProfileSection}>
@@ -88,39 +98,67 @@ const ProfileScreen = () => {
             <Text style={screenStyles.profileUserName}>
               {getDisplayName(user ?? null) || t('profile.user')}
             </Text>
-            <Text style={screenStyles.profileUserEmail}>
-              {user?.email}
-            </Text>
+            <Text style={screenStyles.profileUserEmail}>{user?.email}</Text>
           </View>
         </LinearGradient>
 
         <View style={screenStyles.profileStatsCard}>
           <View style={screenStyles.profileStatItem}>
             <Text style={screenStyles.profileStatNumber}>{userProfile?.total_benches_created || 0}</Text>
-            <Text style={screenStyles.profileStatLabel}>
-              {t('profile.addedBenches')}
-            </Text>
+            <Text style={screenStyles.profileStatLabel}>{t('profile.addedBenches')}</Text>
           </View>
           <View style={screenStyles.profileStatDivider} />
           <View style={screenStyles.profileStatItem}>
             <Text style={screenStyles.profileStatNumber}>{userProfile?.total_ratings_given || 0}</Text>
-            <Text style={screenStyles.profileStatLabel}>
-              {t('profile.givenRatings')}
-            </Text>
+            <Text style={screenStyles.profileStatLabel}>{t('profile.givenRatings')}</Text>
           </View>
         </View>
         <View style={screenStyles.profileUnlockHint}>
-          <Text style={screenStyles.profileUnlockHintText}>
-            {t('profile.unlockHint')}
-          </Text>
+          <Text style={screenStyles.profileUnlockHintText}>{t('profile.unlockHint')}</Text>
+        </View>
+
+        <View style={[screenStyles.profileMenuCard, { marginTop: 12 }]}>
+          <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8 }}>
+            <Text style={screenStyles.profileMenuTitle}>{t('profile.appearance')}</Text>
+            <Text style={[screenStyles.profileMenuSubtitle, { marginBottom: 12 }]}>
+              {t('profile.appearanceSubtitle')}
+            </Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              {themeOptions.map((opt) => {
+                const selected = preference === opt.key;
+                return (
+                  <TouchableOpacity
+                    key={opt.key}
+                    onPress={() => setPreference(opt.key)}
+                    style={{
+                      paddingVertical: 8,
+                      paddingHorizontal: 14,
+                      borderRadius: 20,
+                      borderWidth: 2,
+                      borderColor: selected ? theme.primary[600] : theme.gray[300],
+                      backgroundColor: selected ? theme.gradient.light : theme.background.primary,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '600',
+                        color: selected ? theme.primary[700] : theme.text.secondary,
+                      }}
+                    >
+                      {opt.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
         </View>
 
         {achievements.length > 0 && (
           <View style={screenStyles.profileAchievementsCard}>
             <View style={screenStyles.profileAchievementsHeader}>
-              <Text style={screenStyles.profileAchievementsTitle}>
-                {t('achievements.title')}
-              </Text>
+              <Text style={screenStyles.profileAchievementsTitle}>{t('achievements.title')}</Text>
               <Text style={screenStyles.profileAchievementsCounter}>
                 {unlockedAchievements.length} / {achievements.length} {t('achievements.unlocked')}
               </Text>
@@ -138,13 +176,8 @@ const ProfileScreen = () => {
                       !isUnlocked && screenStyles.profileAchievementChipLocked,
                     ]}
                   >
-                    <Text style={screenStyles.profileAchievementIcon}>
-                      {achievement.icon}
-                    </Text>
-                    <Text
-                      style={screenStyles.profileAchievementName}
-                      numberOfLines={1}
-                    >
+                    <Text style={screenStyles.profileAchievementIcon}>{achievement.icon}</Text>
+                    <Text style={screenStyles.profileAchievementName} numberOfLines={1}>
                       {t(`achievements.${achievement.name}`) || achievement.name}
                     </Text>
                   </View>
@@ -160,24 +193,20 @@ const ProfileScreen = () => {
               key={index}
               style={[
                 screenStyles.profileMenuItem,
-                index < menuItems.length - 1 && screenStyles.profileMenuItemBorder
+                index < menuItems.length - 1 && screenStyles.profileMenuItemBorder,
               ]}
               onPress={item.onPress}
             >
               <View style={screenStyles.profileMenuItemContent}>
                 <View style={screenStyles.profileMenuIconContainer}>
-                  <Ionicons name={item.icon as any} size={24} color={colors.primary[900]} />
+                  <Ionicons name={item.icon as any} size={24} color={theme.primary[900]} />
                 </View>
                 <View style={screenStyles.profileMenuTextContainer}>
-                  <Text style={screenStyles.profileMenuTitle}>
-                    {item.title}
-                  </Text>
-                  <Text style={screenStyles.profileMenuSubtitle}>
-                    {item.subtitle}
-                  </Text>
+                  <Text style={screenStyles.profileMenuTitle}>{item.title}</Text>
+                  <Text style={screenStyles.profileMenuSubtitle}>{item.subtitle}</Text>
                 </View>
               </View>
-              <Ionicons name="chevron-forward" size={20} color="#ccc" />
+              <Ionicons name="chevron-forward" size={20} color={theme.gray[400]} />
             </TouchableOpacity>
           ))}
         </View>
@@ -194,6 +223,5 @@ const ProfileScreen = () => {
     </>
   );
 };
-
 
 export default ProfileScreen;

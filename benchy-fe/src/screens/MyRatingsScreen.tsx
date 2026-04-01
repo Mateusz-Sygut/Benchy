@@ -12,8 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 import supabase from '../lib/supabase';
-import { screenStyles } from '../styles/screens';
-import { colors } from '../styles/colors';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 import { StarRating } from '../components/common/StarRating';
 
 interface RatingWithBench {
@@ -39,6 +38,7 @@ const MyRatingsScreen = () => {
   const navigation = useNavigation<any>();
   const { user } = useAuth();
   const { t } = useTranslation();
+  const { screen: screenStyles, theme } = useThemedStyles();
   const [ratings, setRatings] = useState<RatingWithBench[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -146,7 +146,10 @@ const MyRatingsScreen = () => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary[900]} />
+      <StatusBar
+        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.primary[900]}
+      />
       <View style={screenStyles.benchDetailsContainer}>
         <FlatList
           data={ratings}
@@ -156,8 +159,8 @@ const MyRatingsScreen = () => {
             <RefreshControl
               refreshing={loading}
               onRefresh={loadRatings}
-              colors={[colors.primary[900]]}
-              tintColor={colors.primary[900]}
+              colors={[theme.primary[900]]}
+              tintColor={theme.primary[900]}
             />
           }
           ListEmptyComponent={ratings.length === 0 ? renderEmptyState : null}

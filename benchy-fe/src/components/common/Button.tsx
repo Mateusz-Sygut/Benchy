@@ -1,8 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, ActivityIndicator, TouchableOpacityProps, ViewStyle, TextStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { componentStyles } from '../../styles/components';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -20,9 +19,10 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   ...props
 }) => {
+  const { component: componentStyles, theme } = useThemedStyles();
   const buttonStyle: ViewStyle[] = [componentStyles.button];
   let textStyle: TextStyle = componentStyles.buttonText;
-  let iconColor: string = colors.text.white;
+  let iconColor: string = theme.text.white;
 
   if (disabled || loading) {
     buttonStyle.push(componentStyles.buttonDisabled);
@@ -37,7 +37,7 @@ export const Button: React.FC<ButtonProps> = ({
       case 'outline':
         buttonStyle.push(componentStyles.buttonOutline);
         textStyle = componentStyles.buttonTextOutline;
-        iconColor = colors.primary[600];
+        iconColor = theme.primary[600];
         break;
       default:
         buttonStyle.push(componentStyles.buttonPrimary);
@@ -55,11 +55,11 @@ export const Button: React.FC<ButtonProps> = ({
       ) : (
         <>
           {icon && (
-            <Ionicons 
-              name={icon} 
-              size={20} 
-              color={iconColor} 
-              style={componentStyles.buttonIcon} 
+            <Ionicons
+              name={icon}
+              size={20}
+              color={iconColor}
+              style={componentStyles.buttonIcon}
             />
           )}
           <Text style={textStyle}>{title}</Text>

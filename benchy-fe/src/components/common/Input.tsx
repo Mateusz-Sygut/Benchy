@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-} from 'react-native';
+import { View, TextInput, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { componentStyles } from '../../styles/components';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 
 interface InputProps {
   placeholder?: string;
@@ -36,12 +32,15 @@ export const Input: React.FC<InputProps> = ({
   multiline = false,
   numberOfLines = 1,
 }) => {
+  const { component: componentStyles, theme } = useThemedStyles();
+  const iconColor = theme.text.secondary;
+
   return (
     <View style={[componentStyles.inputContainer, containerStyle]}>
       <View style={componentStyles.inputWrapper}>
         {icon && (
           <View style={componentStyles.inputIconContainer}>
-            <Ionicons name={icon as any} size={20} color="#666" />
+            <Ionicons name={icon as any} size={20} color={iconColor} />
           </View>
         )}
         <TextInput
@@ -60,11 +59,10 @@ export const Input: React.FC<InputProps> = ({
           autoCorrect={autoCorrect}
           multiline={multiline}
           numberOfLines={numberOfLines}
-          placeholderTextColor="#999"
+          placeholderTextColor={theme.text.disabled}
         />
       </View>
       {error && <Text style={componentStyles.inputErrorText}>{error}</Text>}
     </View>
   );
 };
-

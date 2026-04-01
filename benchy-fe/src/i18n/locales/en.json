@@ -114,7 +114,12 @@
     "logoutConfirm": "Are you sure you want to sign out?",
     "user": "User",
     "timeSpentMin": "min",
-    "unlockHint": "Unlock a title by adding 1 bench."
+    "unlockHint": "Unlock a title by adding 1 bench.",
+    "appearance": "Appearance",
+    "appearanceSubtitle": "Light, dark, or match your system settings.",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark"
   },
   "benchTypes": {
     "wooden_classic": "Classic Wooden",

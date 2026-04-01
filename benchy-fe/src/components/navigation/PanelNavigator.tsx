@@ -8,8 +8,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { panelNavigatorStyles } from '../../styles/glassmorphism';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -27,6 +26,7 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
   bottomPanel,
 }) => {
   const { t } = useTranslation();
+  const { panelNav: panelNavigatorStyles, theme } = useThemedStyles();
   const [showLeftPanel, setShowLeftPanel] = useState(false);
   const [showRightPanel, setShowRightPanel] = useState(false);
   const [showBottomPanel, setShowBottomPanel] = useState(false);
@@ -138,21 +138,21 @@ export const PanelNavigator: React.FC<PanelNavigatorProps> = ({
         style={[panelNavigatorStyles.dragHandle, panelNavigatorStyles.dragHandleLeft]}
         onPress={() => animateLeftPanel(true)}
       >
-        <Ionicons name="chevron-back" size={24} color={colors.text.white} />
+        <Ionicons name="chevron-back" size={24} color={theme.text.white} />
       </TouchableOpacity>
       
       <TouchableOpacity 
         style={[panelNavigatorStyles.dragHandle, panelNavigatorStyles.dragHandleRight]}
         onPress={() => animateRightPanel(true)}
       >
-        <Ionicons name="chevron-forward" size={24} color={colors.text.white} />
+        <Ionicons name="chevron-forward" size={24} color={theme.text.white} />
       </TouchableOpacity>
       
       <TouchableOpacity 
         style={[panelNavigatorStyles.dragHandle, panelNavigatorStyles.dragHandleBottom]}
         onPress={() => animateBottomPanel(true)}
       >
-        <Ionicons name="chevron-up" size={24} color={colors.text.white} />
+        <Ionicons name="chevron-up" size={24} color={theme.text.white} />
       </TouchableOpacity>
 
       {(showLeftPanel || showRightPanel || showBottomPanel) && (

@@ -9,8 +9,7 @@ import supabase from '../lib/supabase';
 import { ExtendedBench } from '../types/database';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
-import { screenStyles } from '../styles/screens';
-import { colors } from '../styles/colors';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 
 interface MapScreenProps {
   onBenchPress?: (bench: ExtendedBench) => void;
@@ -30,6 +29,7 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
   const mapRef = useRef<MapView>(null);
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { screen: screenStyles, theme } = useThemedStyles();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -174,7 +174,7 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
             onPress={() => navigation.navigate('Profile')}
             style={screenStyles.mapScreenControlButton}
           >
-            <Ionicons name="person-circle-outline" size={24} color={colors.text.white} />
+            <Ionicons name="person-circle-outline" size={24} color={theme.text.white} />
           </TouchableOpacity>
         </View>
 
@@ -183,7 +183,7 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
             onPress={handleLocationButtonClick}
             style={screenStyles.mapScreenControlButton}
           >
-            <Ionicons name="locate" size={24} color={colors.text.white} />
+            <Ionicons name="locate" size={24} color={theme.text.white} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setShowFavoritesOnly((prev) => !prev)}
@@ -192,7 +192,7 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
             <Ionicons
               name={showFavoritesOnly ? 'heart' : 'heart-outline'}
               size={24}
-              color={showFavoritesOnly ? colors.error : colors.text.white}
+              color={showFavoritesOnly ? theme.error : theme.text.white}
             />
           </TouchableOpacity>
         </View>

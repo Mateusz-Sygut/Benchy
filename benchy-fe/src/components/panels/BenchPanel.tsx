@@ -3,12 +3,12 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { glassmorphismStyles, panelStyles } from '../../styles/glassmorphism';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { useAchievements } from '../../hooks/useAchievements';
 
 export const BenchPanel: React.FC = () => {
   const { t } = useTranslation();
+  const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
   const navigation = useNavigation<any>();
   const { userProfile } = useAchievements();
 
@@ -30,13 +30,13 @@ export const BenchPanel: React.FC = () => {
       >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={panelStyles.iconContainer}>
-            <Ionicons name="add" size={24} color={colors.primary[400]} />
+            <Ionicons name="add" size={24} color={theme.primary[400]} />
           </View>
           <View style={{ marginLeft: 15, flex: 1 }}>
             <Text style={glassmorphismStyles.cardTitle}>{t('swipe.addBench')}</Text>
             <Text style={glassmorphismStyles.cardSubtitle}>{t('addBench.title')}</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color={colors.text.secondary} />
+          <Ionicons name="chevron-forward" size={20} color={theme.text.secondary} />
         </View>
       </TouchableOpacity>
 
@@ -46,13 +46,13 @@ export const BenchPanel: React.FC = () => {
       >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={panelStyles.iconContainer}>
-            <Ionicons name="list" size={24} color={colors.primary[400]} />
+            <Ionicons name="list" size={24} color={theme.primary[400]} />
           </View>
           <View style={{ marginLeft: 15, flex: 1 }}>
             <Text style={glassmorphismStyles.cardTitle}>{t('swipe.myBenches')}</Text>
             <Text style={glassmorphismStyles.cardSubtitle}>{t('profile.myBenchesSubtitle')}</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color={colors.text.secondary} />
+          <Ionicons name="chevron-forward" size={20} color={theme.text.secondary} />
         </View>
       </TouchableOpacity>
 
@@ -62,13 +62,13 @@ export const BenchPanel: React.FC = () => {
       >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={panelStyles.iconContainer}>
-            <Ionicons name="heart" size={24} color={colors.primary[400]} />
+            <Ionicons name="heart" size={24} color={theme.primary[400]} />
           </View>
           <View style={{ marginLeft: 15, flex: 1 }}>
             <Text style={glassmorphismStyles.cardTitle}>{t('swipe.favorites')}</Text>
             <Text style={glassmorphismStyles.cardSubtitle}>{t('favorites.myFavorites')}</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color={colors.text.secondary} />
+          <Ionicons name="chevron-forward" size={20} color={theme.text.secondary} />
         </View>
       </TouchableOpacity>
 

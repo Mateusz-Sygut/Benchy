@@ -16,7 +16,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { generateRandomNickname } from '../../lib/displayName';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
-import { screenStyles } from '../../styles/screens';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { 
   PlantAnimations, 
   BackgroundPlants, 
@@ -33,6 +33,7 @@ const RegisterScreen = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const { t } = useTranslation();
+  const { screen: screenStyles } = useThemedStyles();
 
   const handleRegister = async () => {
     if (!email || !password || !confirmPassword || !username) {

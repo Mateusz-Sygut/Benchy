@@ -17,8 +17,7 @@ import { Button } from '../components/common/Button';
 import supabase from '../lib/supabase';
 import { reverseGeocode, formatCityForDisplay } from '../lib/geocoding';
 import { Database, RatingInsert } from '../types/database';
-import { screenStyles } from '../styles/screens';
-import { colors } from '../styles/colors';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 
 type Bench = Database['public']['Tables']['benches']['Row'];
 type Rating = Database['public']['Tables']['ratings']['Row'];
@@ -27,6 +26,7 @@ const BenchDetailsScreen = ({ route }: any) => {
   const { benchId } = route.params;
   const { user } = useAuth();
   const { t } = useTranslation();
+  const { screen: screenStyles, theme } = useThemedStyles();
   const { updateUserStats } = useAchievements();
   const [bench, setBench] = useState<Bench | null>(null);
   const [ratings, setRatings] = useState<Rating[]>([]);
@@ -350,7 +350,7 @@ const BenchDetailsScreen = ({ route }: any) => {
             <Ionicons
               name={isFavorite ? 'heart' : 'heart-outline'}
               size={20}
-              color={isFavorite ? colors.error : colors.primary[600]}
+              color={isFavorite ? theme.error : theme.primary[600]}
             />
           </TouchableOpacity>
           <Text style={screenStyles.benchDetailsBenchName}>

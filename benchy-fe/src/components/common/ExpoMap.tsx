@@ -4,8 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { ExtendedBench } from '../../types/database';
-import { componentStyles } from '../../styles/components';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { getRarityColor } from '../../styles/glassmorphism';
 
 interface ExpoMapProps {
@@ -16,6 +15,7 @@ interface ExpoMapProps {
 
 export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef: externalMapRef }) => {
   const { t } = useTranslation();
+  const { component: componentStyles } = useThemedStyles();
   const internalMapRef = useRef<MapView>(null);
   const mapRef = externalMapRef || internalMapRef;
   const [userLocation, setUserLocation] = useState<{

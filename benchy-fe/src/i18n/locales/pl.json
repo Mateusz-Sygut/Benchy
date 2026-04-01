@@ -273,7 +273,12 @@
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
     "user": "Użytkownik",
     "timeSpentMin": "min",
-    "unlockHint": "Odblokuj tytuł, dodając 1 ławkę."
+    "unlockHint": "Odblokuj tytuł, dodając 1 ławkę.",
+    "appearance": "Wygląd",
+    "appearanceSubtitle": "Jasny, ciemny lub jak w ustawieniach systemu.",
+    "themeSystem": "System",
+    "themeLight": "Jasny",
+    "themeDark": "Ciemny"
   },
   "search": {
     "title": "Szukaj ławeczek",

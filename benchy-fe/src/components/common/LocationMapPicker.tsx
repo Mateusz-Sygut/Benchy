@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
-import { componentStyles } from '../../styles/components';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 
-// Pomnik Hachikō, Shibuya, Tokyo
 const DEFAULT_REGION = {
   latitude: 35.6595,
   longitude: 139.7004,
@@ -31,11 +29,74 @@ export const LocationMapPicker: React.FC<LocationMapPickerProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
+  const { component: componentStyles, theme } = useThemedStyles();
   const mapRef = useRef<MapView>(null);
   const [selected, setSelected] = useState<{ latitude: number; longitude: number } | null>(
     initialLat != null && initialLon != null ? { latitude: initialLat, longitude: initialLon } : null
   );
   const [userRegion, setUserRegion] = useState<typeof DEFAULT_REGION | null>(null);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        overlay: {
+          flex: 1,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          justifyContent: 'flex-end',
+        },
+        content: {
+          backgroundColor: theme.background.primary,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          maxHeight: '90%',
+          minHeight: 400,
+        },
+        header: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 20,
+          paddingVertical: 16,
+          borderBottomWidth: 1,
+          borderBottomColor: theme.gray[200],
+        },
+        title: {
+          fontSize: 16,
+          fontWeight: '600',
+          color: theme.text.primary,
+          flex: 1,
+        },
+        closeButton: {
+          padding: 4,
+        },
+        mapWrapper: {
+          height: 320,
+          marginHorizontal: 16,
+          marginTop: 12,
+          borderRadius: 12,
+          overflow: 'hidden',
+        },
+        footer: {
+          padding: 20,
+          paddingTop: 16,
+        },
+        confirmButton: {
+          backgroundColor: theme.primary[600],
+          paddingVertical: 14,
+          borderRadius: 12,
+          alignItems: 'center',
+        },
+        confirmButtonDisabled: {
+          backgroundColor: theme.gray[400],
+        },
+        confirmButtonText: {
+          color: theme.text.white,
+          fontSize: 16,
+          fontWeight: '600',
+        },
+      }),
+    [theme]
+  );
 
   useEffect(() => {
     if (visible && initialLat != null && initialLon != null) {
@@ -73,7 +134,9 @@ export const LocationMapPicker: React.FC<LocationMapPickerProps> = ({
         if (!cancelled) setUserRegion(DEFAULT_REGION);
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [visible, initialLat, initialLon]);
 
   const initialRegion =
@@ -99,7 +162,7 @@ export const LocationMapPicker: React.FC<LocationMapPickerProps> = ({
           <View style={styles.header}>
             <Text style={styles.title}>{t('addBench.tapMapToSet')}</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={28} color={colors.text.primary} />
+              <Ionicons name="close" size={28} color={theme.text.primary} />
             </TouchableOpacity>
           </View>
           <View style={styles.mapWrapper}>
@@ -132,61 +195,3 @@ export const LocationMapPicker: React.FC<LocationMapPickerProps> = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'flex-end',
-  },
-  content: {
-    backgroundColor: colors.background.primary,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: '90%',
-    minHeight: 400,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray[200],
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text.primary,
-    flex: 1,
-  },
-  closeButton: {
-    padding: 4,
-  },
-  mapWrapper: {
-    height: 320,
-    marginHorizontal: 16,
-    marginTop: 12,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  footer: {
-    padding: 20,
-    paddingTop: 16,
-  },
-  confirmButton: {
-    backgroundColor: colors.primary[600],
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  confirmButtonDisabled: {
-    backgroundColor: colors.gray[400],
-  },
-  confirmButtonText: {
-    color: colors.text.white,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-});

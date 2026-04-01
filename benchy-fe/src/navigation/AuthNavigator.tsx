@@ -4,38 +4,39 @@ import { View } from 'react-native';
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import ScrollingBenchesHeader from '../components/common/ScrollingBenchesHeader';
-import { commonStyles } from '../styles/common';
-import { colors } from '../styles/colors';
+import { useThemedStyles } from '../hooks/useThemedStyles';
 
 const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => {
+  const { common, theme } = useThemedStyles();
+
   const CustomHeader = () => (
-    <View style={commonStyles.authHeaderContainer}>
+    <View style={common.authHeaderContainer}>
       <ScrollingBenchesHeader />
     </View>
   );
-  
+
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
       initialRouteName="Login"
       screenOptions={{
-        headerStyle: commonStyles.authHeaderStyle,
-        headerTintColor: colors.text.white,
-        headerTitleStyle: commonStyles.authHeaderTitleStyle,
+        headerStyle: common.authHeaderStyle,
+        headerTintColor: theme.navigation.headerTint,
+        headerTitleStyle: common.authHeaderTitleStyle,
       }}
     >
-      <Stack.Screen 
-        name="Login" 
-        component={LoginScreen} 
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
         options={{
           header: () => <CustomHeader />,
           headerShown: true,
         }}
       />
-      <Stack.Screen 
-        name="Register" 
-        component={RegisterScreen} 
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
         options={{
           header: () => <CustomHeader />,
           headerShown: true,
@@ -46,4 +47,3 @@ const AuthNavigator = () => {
 };
 
 export default AuthNavigator;
-

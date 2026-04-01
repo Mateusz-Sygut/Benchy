@@ -3,12 +3,12 @@ import { View, Text, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { getRecentBenches, RecentBench } from '../../lib/api';
-import { componentStyles } from '../../styles/components';
-import { colors } from '../../styles/colors';
+import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { FallingLeavesEffect } from './AnimationSystem';
 
 const ScrollingBenchesHeader: React.FC = () => {
   const { t } = useTranslation();
+  const { component: componentStyles, theme } = useThemedStyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recentBenches, setRecentBenches] = useState<RecentBench[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +67,7 @@ const ScrollingBenchesHeader: React.FC = () => {
     return (
       <View style={componentStyles.scrollingHeaderContainer}>
         <View style={componentStyles.scrollingHeaderIconContainer}>
-          <Ionicons name="time-outline" size={16} color={colors.text.white} />
+          <Ionicons name="time-outline" size={16} color={theme.text.white} />
         </View>
         <View style={componentStyles.scrollingHeaderTextContainer}>
           <Text style={componentStyles.scrollingHeaderMainText}>
@@ -85,7 +85,7 @@ const ScrollingBenchesHeader: React.FC = () => {
     <View style={componentStyles.scrollingHeaderContainer}>
       <FallingLeavesEffect isVisible={showFallingLeaves} />
       <View style={componentStyles.scrollingHeaderIconContainer}>
-        <Ionicons name="time-outline" size={16} color={colors.text.white} />
+        <Ionicons name="time-outline" size={16} color={theme.text.white} />
       </View>
       <View style={componentStyles.scrollingHeaderTextContainer}>
         <Text style={componentStyles.scrollingHeaderMainText}>
@@ -103,6 +103,5 @@ const ScrollingBenchesHeader: React.FC = () => {
     </View>
   );
 };
-
 
 export default ScrollingBenchesHeader;
