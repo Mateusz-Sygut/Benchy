@@ -9,7 +9,7 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 
 ## What this project is
 
-**ŁawAppka** is a mobile client backed by Supabase. Users see benches on a map, browse them in lists, add new ones with description and metadata, and rate them. Some logic (automatic rarity, achievements, rating averages) lives in the database as SQL triggers and functions.
+**ŁawAppka** is a cross-platform mobile app (Expo / React Native) for sharing and exploring public benches. Data is stored in **Supabase** (PostgreSQL): you see benches on a map and in lists, can add your own with a description, type, tags, and location, and rate what others added. Heavier rules—how new benches get a rarity tier, achievements, rolling average ratings—are enforced in the database with SQL triggers and functions, not only in the app code.
 
 ## Repository layout
 
