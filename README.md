@@ -105,13 +105,13 @@ npx expo start
 
 ### Typecheck (no JS emit)
 
-There is no default `npm run build`. To catch TypeScript errors:
+From `benchy-fe/`:
 
 ```bash
-npx tsc --noEmit
+npm run build
 ```
 
-You can add to `package.json`: `"build": "tsc --noEmit"`.
+Runs `tsc --noEmit` (TypeScript only; no Expo bundle). Handy locally or in CI.
 
 ## Configuration
 
