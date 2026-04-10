@@ -105,13 +105,14 @@ npx expo start
 
 ### Typecheck (no JS emit)
 
-From `benchy-fe/`:
+Run inside **`benchy-fe/`** (after `npm install` there):
 
 ```bash
+cd benchy-fe
 npm run build
 ```
 
-Runs `tsc --noEmit` (TypeScript only; no Expo bundle). Handy locally or in CI.
+This runs `tsc --noEmit` (TypeScript only; no Expo bundle). From the repo root you can use `npm run build --prefix benchy-fe` instead.
 
 ## Configuration
 
