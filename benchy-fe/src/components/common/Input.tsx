@@ -59,6 +59,7 @@ export const Input: React.FC<InputProps> = ({
           autoCorrect={autoCorrect}
           multiline={multiline}
           numberOfLines={numberOfLines}
+          textAlignVertical={multiline ? 'top' : undefined}
           placeholderTextColor={theme.text.disabled}
         />
       </View>
