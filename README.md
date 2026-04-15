@@ -131,6 +131,14 @@ Supabase in Expo config, e.g. `app.json` → `expo.extra`:
 
 Typical permissions: **location**. Camera/storage may be needed for future photo features.
 
+## Security notes
+
+- `SUPABASE_URL` and `SUPABASE_ANON_KEY` are expected in the client app, but they are **not** a replacement for database security.
+- **Never commit secrets** (service role keys, database passwords, personal access tokens). Keep sensitive values in local env/config only.
+- Keep **RLS enabled** on all application tables. For dictionary-like tables (e.g. `rarity`, `bench_types`, `locations`, `tags`, `achievements`, `titles`), allow read-only policies for `anon/authenticated` as needed.
+- User-owned data (`favorites`, `ratings`, `user_profiles`, etc.) should have owner-based policies (typically `user_id = auth.uid()` for write operations).
+- After schema changes, re-check Supabase **Security Advisor** and verify no new public write paths were introduced.
+
 ## Theming and dark mode
 
 - **`ThemeProvider`** (`App.tsx`) + **`buildAppTheme(isDark, preference)`** in `src/theme/theme.ts`.
