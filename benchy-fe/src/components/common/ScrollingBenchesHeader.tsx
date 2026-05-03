@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { getRecentBenches, RecentBench } from '../../lib/api';
+import { getRecentBenches, RecentBench, RECENT_BENCHES_DEFAULT_LIMIT } from '../../lib/api';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { FallingLeavesEffect } from './AnimationSystem';
 
@@ -18,7 +18,7 @@ const ScrollingBenchesHeader: React.FC = () => {
   useEffect(() => {
     const fetchRecentBenches = async () => {
       try {
-        const benches = await getRecentBenches(5, t);
+        const benches = await getRecentBenches(RECENT_BENCHES_DEFAULT_LIMIT, t);
         setRecentBenches(benches);
         setLoading(false);
       } catch (error) {

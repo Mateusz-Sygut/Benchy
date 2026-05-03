@@ -1,65 +1,120 @@
-interface GeocodingResult {
+export interface GeocodingResult {
   city: string;
   country: string;
   fullAddress: string;
   district?: string | null;
 }
 
+interface RawGeocodePayload {
+  city: string | null;
+  country: string | null;
+  district: string | null;
+  road: string | null;
+  house_number: string | null;
+}
+
+const geocodePayloadCache = new Map<string, RawGeocodePayload | null>();
+
+export const geocodeCoordinateCacheKey = (latitude: number, longitude: number): string =>
+  `${latitude.toFixed(4)},${longitude.toFixed(4)}`;
+
+function parseRawPayload(data: {
+  address?: Record<string, string | undefined>;
+}): RawGeocodePayload | null {
+  if (!data.address) {
+    return null;
+  }
+
+  const a = data.address;
+  const city =
+    a.city ||
+    a.town ||
+    a.village ||
+    a.municipality ||
+    a.county ||
+    null;
+
+  const country = a.country || null;
+  const district =
+    a.suburb || a.city_district || a.neighbourhood || null;
+  const road = a.road || null;
+  const house_number = a.house_number || null;
+
+  return {
+    city,
+    country,
+    district,
+    road,
+    house_number,
+  };
+}
+
+function payloadToResult(payload: RawGeocodePayload, t: (key: string) => string): GeocodingResult {
+  const cityDisplay = payload.city || t('geocoding.unknownCity');
+  const countryDisplay = payload.country || t('geocoding.unknownCountry');
+
+  const addressParts: string[] = [];
+  if (payload.road) addressParts.push(payload.road);
+  if (payload.house_number) addressParts.push(payload.house_number);
+  if (payload.city) addressParts.push(payload.city);
+  if (payload.country) addressParts.push(payload.country);
+
+  const fullAddress =
+    addressParts.length > 0 ? addressParts.join(', ') : t('geocoding.unknownLocation');
+
+  return {
+    city: cityDisplay,
+    country: countryDisplay,
+    fullAddress,
+    district: payload.district,
+  };
+}
+
+async function fetchReverseGeocodePayload(
+  latitude: number,
+  longitude: number
+): Promise<RawGeocodePayload | null> {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`;
+
+  const response = await fetch(url, {
+    headers: {
+      'User-Agent': 'BenchyApp/1.0',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return parseRawPayload(data);
+}
+
 export const reverseGeocode = async (
-  latitude: number, 
+  latitude: number,
   longitude: number,
   t: (key: string) => string
 ): Promise<GeocodingResult | null> => {
-  try {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`;
-    
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'BenchyApp/1.0',
-      },
-    });
+  const key = geocodeCoordinateCacheKey(latitude, longitude);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    
-    if (!data.address) {
+  if (geocodePayloadCache.has(key)) {
+    const cached = geocodePayloadCache.get(key)!;
+    if (cached === null) {
       return null;
     }
+    return payloadToResult(cached, t);
+  }
 
-    const city = 
-      data.address.city ||
-      data.address.town ||
-      data.address.village ||
-      data.address.municipality ||
-      data.address.county ||
-      t('geocoding.unknownCity');
-
-    const country = data.address.country || t('geocoding.unknownCountry');
-    const district =
-      data.address.suburb ||
-      data.address.city_district ||
-      data.address.neighbourhood ||
-      null;
-    
-    const addressParts = [];
-    if (data.address.road) addressParts.push(data.address.road);
-    if (data.address.house_number) addressParts.push(data.address.house_number);
-    if (city && city !== t('geocoding.unknownCity')) addressParts.push(city);
-    if (country && country !== t('geocoding.unknownCountry')) addressParts.push(country);
-    
-    const fullAddress = addressParts.join(', ');
-
-    return {
-      city,
-      country,
-      fullAddress: fullAddress || t('geocoding.unknownLocation'),
-      district,
-    };
+  try {
+    const payload = await fetchReverseGeocodePayload(latitude, longitude);
+    geocodePayloadCache.set(key, payload);
+    if (payload === null) {
+      return null;
+    }
+    return payloadToResult(payload, t);
   } catch (error) {
     console.error('Error in reverse geocoding:', error);
+    geocodePayloadCache.set(key, null);
     return null;
   }
 };
@@ -71,10 +126,10 @@ export const formatCityForDisplay = (
   if (!geocodingResult) {
     return t('geocoding.unknownCity');
   }
-  
+
   if (geocodingResult.city && geocodingResult.city !== t('geocoding.unknownCity')) {
     return geocodingResult.city;
   }
-  
+
   return geocodingResult.country || t('geocoding.unknownCity');
 };
