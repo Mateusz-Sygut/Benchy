@@ -9,7 +9,7 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 
 ## What this project is
 
-**ŁawAppka** is a cross-platform mobile app (Expo / React Native) for sharing and exploring public benches. Data is stored in **Supabase** (PostgreSQL): you see benches on a map and in lists, can add your own with a description, type, tags, and location, and rate what others added. Heavier rules—how new benches get a rarity tier, achievements, rolling average ratings—are enforced in the database with SQL triggers and functions, not only in the app code.
+**ŁawAppka** is a cross platform mobile app (Expo / React Native) for sharing and exploring public benches. Data is stored in **Supabase** (PostgreSQL): you see benches on a map and in lists, can add your own with a description, type, tags, and location, and rate what others added. Heavier rules how new benches get a rarity tier, achievements, rolling average ratings are enforced in the database with SQL triggers and functions, not only in the app code.
 
 ## Repository layout
 
@@ -28,9 +28,9 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 
 ## How it works (short)
 
-1. The **app** talks to your Supabase project via URL and anon key (`app.json` → `expo.extra`). Users sign in with Supabase Auth (email/password).
+1. The **app** talks to your Supabase project via URL and anon key (`app.json` –> `expo.extra`). Users sign in with Supabase Auth (email/password).
 2. **Data** (benches, ratings, profile, favourites, rarity) lives in PostgreSQL tables. Access is governed by **Row Level Security (RLS)** policies from migrations.
-3. On **new bench** `INSERT`, `rarity_id` is set by trigger `set_smart_rarity`, which calls `calculate_smart_rarity()` — see below.
+3. On **new bench** `INSERT`, `rarity_id` is set by trigger `set_smart_rarity`, which calls `calculate_smart_rarity()` – see below.
 4. **Map UI** uses `react-native-maps` and `expo-location`. Navigation is **React Navigation** (stack) plus a custom **`PanelNavigator`**: left/right/bottom slide-in panels controlled from the map.
 5. **Theme** (light/dark/system) is provided by `ThemeProvider`; preference is stored in AsyncStorage; screen styles come from `useThemedStyles()` and factories under `styles/`.
 
@@ -38,13 +38,13 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 
 For a signed-in user (within what RLS allows):
 
-- **Map** — benches as pins (colour by rarity), recenter on user location, favourites filter, shortcut to profile.
-- **Panels** — left: profile, stats, achievements/tasks; right: add bench, my benches, favourites; bottom: recent nearby benches (with tips when empty).
-- **Bench list** — text search, open details or map.
-- **Bench details** — description, mini map, average rating, favourites, **change rarity** (if exposed in UI), add **your rating and comment**.
-- **Add bench** — description, bench type, surroundings, tags (UI limit), **GPS location or pick on map** (modal with draggable marker).
-- **Profile** — stats, achievements, shortcuts to “My benches” / “My ratings”, **appearance** (System / Light / Dark), sign out.
-- **Registration** — optional button to fill a random nickname from word lists in the current locale.
+– **Map** – benches as pins (colour by rarity), recenter on user location, favourites filter, shortcut to profile.
+– **Panels** – left: profile, stats, achievements/tasks; right: add bench, my benches, favourites; bottom: recent nearby benches (with tips when empty).
+– **Bench list** – text search, open details or map.
+– **Bench details** – description, mini map, average rating, favourites, **change rarity** (if exposed in UI), add **your rating and comment**.
+– **Add bench** – description, bench type, surroundings, tags (UI limit), **GPS location or pick on map** (modal with draggable marker).
+– **Profile** – stats, achievements, shortcuts to “My benches” / “My ratings”, **appearance** (System / Light / Dark), sign out.
+– **Registration** – optional button to fill a random nickname from word lists in the current locale.
 
 Without an account you typically only get login/register; everything else depends on Supabase config and RLS.
 
@@ -61,26 +61,26 @@ Without an account you typically only get login/register; everything else depend
 
 **Application stack (frontend)**
 
-- **React Native** + **Expo** (SDK 54) — one codebase for iOS / Android / web (see Expo docs for web vs native map limitations).
-- **React Navigation** — screen stack (add bench, details, profile from map, etc.).
-- **react-native-maps** — map and markers.
-- **expo-location** — permissions and GPS.
-- **expo-linear-gradient**, **expo-status-bar** — gradients and status bar.
-- **react-i18next** + **i18next** — i18n.
-- **@supabase/supabase-js** — Auth and database API.
-- **@react-native-async-storage/async-storage** — e.g. theme preference.
+- **React Native** + **Expo** (SDK 54) – one codebase for iOS / Android / web (see Expo docs for web vs native map limitations).
+- **React Navigation** – screen stack (add bench, details, profile from map, etc.).
+- **react-native-maps** – map and markers.
+- **expo-location** – permissions and GPS.
+- **expo-linear-gradient**, **expo-status-bar** – gradients and status bar.
+- **react-i18next** + **i18next** – i18n.
+- **@supabase/supabase-js** – Auth and database API.
+- **@react-native-async-storage/async-storage** – e.g. theme preference.
 
 **Backend**
 
-- **Supabase** — hosted PostgreSQL, Auth, optional Realtime (app mainly uses queries as needed).
-- **RLS policies**, **triggers**, and **SQL functions** — server-side logic on inserts/updates.
+- **Supabase** – hosted PostgreSQL, Auth, optional Realtime (app mainly uses queries as needed).
+- **RLS policies**, **triggers**, and **SQL functions** – server-side logic on inserts/updates.
 
 **Developer tools**
 
-- **Node.js** + **npm** — install and scripts.
-- **Metro** (via Expo) — dev bundler.
-- **TypeScript compiler** (`tsc --noEmit`) — static checks (useful in CI).
-- **EAS CLI** (optional) — store builds (`eas build`).
+- **Node.js** + **npm** – install and scripts.
+- **Metro** (via Expo) – dev bundler.
+- **TypeScript compiler** (`tsc --noEmit`) – static checks (useful in CI).
+- **EAS CLI** (optional) – store builds (`eas build`).
 
 ## Quick start
 
@@ -99,9 +99,9 @@ npm install
 npx expo start
 ```
 
-- **Expo Go** — scan QR (maps may need a dev build on some platforms).
-- **Web** — press `w` in the Expo CLI.
-- **Full native maps / production-like behaviour** — `expo run:android` / `expo run:ios` or an EAS build.
+- **Expo Go** – scan QR (maps may need a dev build on some platforms).
+- **Web** – press `w` in the Expo CLI.
+- **Full native maps / production-like behaviour** – `expo run:android` / `expo run:ios` or an EAS build.
 
 ### Typecheck (no JS emit)
 
@@ -142,7 +142,7 @@ Typical permissions: **location**. Camera/storage may be needed for future photo
 ## Theming and dark mode
 
 - **`ThemeProvider`** (`App.tsx`) + **`buildAppTheme(isDark, preference)`** in `src/theme/theme.ts`.
-- **`useThemedStyles()`** — consistent screen and component styles for the active theme.
+- **`useThemedStyles()`** – consistent screen and component styles for the active theme.
 - Preference: **system** / **light** / **dark**, stored in AsyncStorage (`@benchy_theme_preference`).
 - Controlled from **Profile** → Appearance section.
 
@@ -180,7 +180,7 @@ Conventional commit prefixes are fine (`feat:`, `fix:`, `docs:`, etc.).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT – see [LICENSE](LICENSE).
 
 ## Authors
 
