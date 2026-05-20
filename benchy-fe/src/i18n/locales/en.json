@@ -119,7 +119,12 @@
     "appearanceSubtitle": "Light, dark, or match your system settings.",
     "themeSystem": "System",
     "themeLight": "Light",
-    "themeDark": "Dark"
+    "themeDark": "Dark",
+    "language": "Language",
+    "languageSubtitle": "App language or match your system settings.",
+    "languageSystem": "System",
+    "languageEnglish": "English",
+    "languagePolish": "Polish"
   },
   "benchTypes": {
     "wooden_classic": "Classic Wooden",

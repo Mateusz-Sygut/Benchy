@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import { LanguageProvider } from './src/contexts/LanguageContext';
 import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -27,11 +28,13 @@ const AppContent = () => {
 export default function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <NavigationContainer>
-          <AppContent />
-        </NavigationContainer>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <NavigationContainer>
+            <AppContent />
+          </NavigationContainer>
+        </AuthProvider>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

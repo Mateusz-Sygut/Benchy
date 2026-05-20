@@ -278,7 +278,12 @@
     "appearanceSubtitle": "Jasny, ciemny lub jak w ustawieniach systemu.",
     "themeSystem": "System",
     "themeLight": "Jasny",
-    "themeDark": "Ciemny"
+    "themeDark": "Ciemny",
+    "language": "Język",
+    "languageSubtitle": "Język aplikacji lub jak w ustawieniach systemu.",
+    "languageSystem": "System",
+    "languageEnglish": "English",
+    "languagePolish": "Polski"
   },
   "search": {
     "title": "Szukaj ławeczek",

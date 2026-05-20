@@ -12,7 +12,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { LanguagePreference } from '../i18n/language';
 import { getDisplayName } from '../lib/displayName';
 import { useAchievements } from '../hooks/useAchievements';
 import { useThemedStyles } from '../hooks/useThemedStyles';
@@ -24,6 +26,7 @@ const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
   const { preference, setPreference } = useTheme();
+  const { preference: languagePreference, setPreference: setLanguagePreference } = useLanguage();
   const { screen: screenStyles, theme } = useThemedStyles();
   const { userProfile, achievements, unlockedAchievements } = useAchievements();
 
@@ -42,6 +45,12 @@ const ProfileScreen = () => {
     { key: 'system', label: t('profile.themeSystem') },
     { key: 'light', label: t('profile.themeLight') },
     { key: 'dark', label: t('profile.themeDark') },
+  ];
+
+  const languageOptions: { key: LanguagePreference; label: string }[] = [
+    { key: 'system', label: t('profile.languageSystem') },
+    { key: 'en', label: t('profile.languageEnglish') },
+    { key: 'pl', label: t('profile.languagePolish') },
   ];
 
   const menuItems = [
@@ -130,6 +139,41 @@ const ProfileScreen = () => {
                   <TouchableOpacity
                     key={opt.key}
                     onPress={() => setPreference(opt.key)}
+                    style={{
+                      paddingVertical: 8,
+                      paddingHorizontal: 14,
+                      borderRadius: 20,
+                      borderWidth: 2,
+                      borderColor: selected ? theme.primary[600] : theme.gray[300],
+                      backgroundColor: selected ? theme.gradient.light : theme.background.primary,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '600',
+                        color: selected ? theme.primary[700] : theme.text.secondary,
+                      }}
+                    >
+                      {opt.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <Text style={[screenStyles.profileMenuTitle, { marginTop: 20 }]}>
+              {t('profile.language')}
+            </Text>
+            <Text style={[screenStyles.profileMenuSubtitle, { marginBottom: 12 }]}>
+              {t('profile.languageSubtitle')}
+            </Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingBottom: 8 }}>
+              {languageOptions.map((opt) => {
+                const selected = languagePreference === opt.key;
+                return (
+                  <TouchableOpacity
+                    key={opt.key}
+                    onPress={() => setLanguagePreference(opt.key)}
                     style={{
                       paddingVertical: 8,
                       paddingHorizontal: 14,

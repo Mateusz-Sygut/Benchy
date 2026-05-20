@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to Benchy! This document provides guidelines and information for contributors.
 
-## 🤝 How to Contribute
+## How to Contribute
 
 ### Before You Start
 
@@ -34,7 +34,7 @@ Thank you for your interest in contributing to Benchy! This document provides gu
    git checkout -b feature/your-feature-name
    ```
 
-## 📝 Code Standards
+## Code Standards
 
 ### TypeScript
 - Use strict TypeScript configuration
@@ -60,7 +60,7 @@ Thank you for your interest in contributing to Benchy! This document provides gu
 - Write meaningful variable and function names
 - Add JSDoc comments for complex functions
 
-## 🧪 Testing
+## Testing
 
 ### Unit Tests
 - Write tests for all new components
@@ -80,7 +80,7 @@ Thank you for your interest in contributing to Benchy! This document provides gu
 - Test offline functionality
 - Test accessibility features
 
-## 📋 Pull Request Process
+## Pull Request Process
 
 ### Before Submitting
 1. **Self-review** - Review your own code
@@ -116,7 +116,7 @@ Brief description of changes
 Add screenshots for UI changes
 ```
 
-## 🐛 Bug Reports
+## Bug Reports
 
 ### Before Reporting
 1. **Search existing issues** - Check if the bug has already been reported
@@ -150,7 +150,7 @@ What actually happened
 Screenshots, logs, or any other relevant information
 ```
 
-## 💡 Feature Requests
+## Feature Requests
 
 ### Before Requesting
 1. **Check existing features** - Ensure the feature doesn't already exist
@@ -175,7 +175,7 @@ Any alternative approaches considered?
 Screenshots, mockups, or examples
 ```
 
-## 🚀 Release Process
+## Release Process
 
 ### Version Bumping
 In Benchy we follow **semantic versioning** and keep versions in:
@@ -195,7 +195,7 @@ Always bump both `package.json` and `app.json` to the **same version** when prep
 - [ ] Release notes written
 - [ ] Assets prepared (icons, screenshots)
 
-## 📞 Getting Help
+## Getting Help
 
 ### Communication Channels
 - **GitHub Issues** - For bug reports and feature requests
@@ -208,7 +208,7 @@ Always bump both `package.json` and `app.json` to the **same version** when prep
 - Help others learn and grow
 - Follow the project's values
 
-## 🙏 Recognition
+## Recognition
 
 Contributors will be recognized in:
 - Project README
@@ -216,4 +216,4 @@ Contributors will be recognized in:
 - Contributor hall of fame
 - Special mentions for significant contributions
 
-Thank you for contributing to Benchy! 🪑
+Thank you for contributing to Benchy!

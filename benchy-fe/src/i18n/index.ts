@@ -1,9 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { getLocales } from 'expo-localization';
 
 import en from './locales/en.json';
 import pl from './locales/pl.json';
+import { resolveLanguage } from './language';
 
 const resources = {
   en: { translation: en },
@@ -14,7 +14,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: getLocales()[0]?.languageCode?.split('-')[0] || 'en',
+    lng: resolveLanguage('system'),
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
