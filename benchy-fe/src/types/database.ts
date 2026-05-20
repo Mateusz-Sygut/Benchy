@@ -198,9 +198,11 @@ export interface Database {
           name: string;
           description: string;
           icon: string;
+          points: number;
           category: string;
           requirement_type: string;
           requirement_value: number;
+          requirement_target: string;
           token_tier: number;
           created_at: string;
         };
@@ -300,6 +302,8 @@ export interface Database {
           total_time_spent: number;
           total_ratings_given: number;
           total_favorites: number;
+          level: number;
+          experience_points: number;
           created_at: string;
           updated_at: string;
         };
@@ -312,6 +316,8 @@ export interface Database {
           total_time_spent?: number;
           total_ratings_given?: number;
           total_favorites?: number;
+          level?: number;
+          experience_points?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -324,6 +330,8 @@ export interface Database {
           total_time_spent?: number;
           total_ratings_given?: number;
           total_favorites?: number;
+          level?: number;
+          experience_points?: number;
           created_at?: string;
           updated_at?: string;
         };

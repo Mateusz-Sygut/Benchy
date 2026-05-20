@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { AchievementsProvider } from './src/contexts/AchievementsContext';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import { LanguageProvider } from './src/contexts/LanguageContext';
 import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
@@ -30,9 +31,11 @@ export default function App() {
     <ThemeProvider>
       <LanguageProvider>
         <AuthProvider>
-          <NavigationContainer>
-            <AppContent />
-          </NavigationContainer>
+          <AchievementsProvider>
+            <NavigationContainer>
+              <AppContent />
+            </NavigationContainer>
+          </AchievementsProvider>
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
