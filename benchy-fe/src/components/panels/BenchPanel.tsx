@@ -20,7 +20,9 @@ export const BenchPanel: React.FC = () => {
     navigation.navigate('MyBenches');
   };
 
-  const handleFavorites = () => {};
+  const handleFavorites = () => {
+    navigation.navigate('Favorites');
+  };
 
   return (
     <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>

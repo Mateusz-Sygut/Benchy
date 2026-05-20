@@ -293,7 +293,8 @@
     "addToFavorites": "Add to favorites",
     "removeFromFavorites": "Remove from favorites",
     "myFavorites": "My Favorites",
-    "noFavorites": "No favorite benches yet"
+    "noFavorites": "No favorite benches yet",
+    "noFavoritesText": "Tap the heart on a bench to save it here."
   },
   "swipe": {
     "achievements": "Achievements",

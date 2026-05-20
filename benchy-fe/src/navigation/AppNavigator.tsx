@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import TabNavigator from './TabNavigator';
 import AddBenchScreen from '../screens/AddBenchScreen';
 import BenchDetailsScreen from '../screens/BenchDetailsScreen';
+import FavoritesScreen from '../screens/FavoritesScreen';
 import MyBenchesScreen from '../screens/MyBenchesScreen';
 import MyRatingsScreen from '../screens/MyRatingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -47,6 +48,16 @@ const AppNavigator = () => {
         component={MyBenchesScreen}
         options={{
           title: t('profile.myBenches'),
+          headerBackTitle: t('common.back'),
+          headerStyle: common.mainHeaderStyle,
+          headerTintColor: theme.navigation.headerTint,
+        }}
+      />
+      <Stack.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          title: t('swipe.favorites'),
           headerBackTitle: t('common.back'),
           headerStyle: common.mainHeaderStyle,
           headerTintColor: theme.navigation.headerTint,

@@ -220,7 +220,8 @@
     "addToFavorites": "Dodaj do ulubionych",
     "removeFromFavorites": "Usuń z ulubionych",
     "myFavorites": "Moje Ulubione",
-    "noFavorites": "Brak ulubionych ławeczek"
+    "noFavorites": "Brak ulubionych ławeczek",
+    "noFavoritesText": "Naciśnij serduszko przy ławce, aby dodać ją tutaj."
   },
   "swipe": {
     "achievements": "Osiągnięcia",
