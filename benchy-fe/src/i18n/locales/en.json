@@ -46,7 +46,8 @@
     "benchList": "Bench List",
     "profile": "Profile",
     "addBench": "Add Bench",
-    "benchDetails": "Bench Details"
+    "benchDetails": "Bench Details",
+    "favorites": "Favorites"
   },
   "map": {
     "locationError": "Failed to access location",

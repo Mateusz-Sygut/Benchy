@@ -46,7 +46,8 @@
     "benchList": "Lista ławeczek",
     "profile": "Profil",
     "addBench": "Dodaj ławeczkę",
-    "benchDetails": "Szczegóły ławeczki"
+    "benchDetails": "Szczegóły ławeczki",
+    "favorites": "Ulubione"
   },
   "map": {
     "locationError": "Nie udało się uzyskać dostępu do lokalizacji",
@@ -56,7 +57,7 @@
     "toggleViewMode": "Przełącz widok mapy"
   },
   "bench": {
-    "addNew": "Dodaj ławeczke",
+    "addNew": "Dodaj ławeczkę",
     "noDescription": "Brak opisu",
     "addedBy": "dodana przez",
     "total": "ławeczek",
@@ -288,7 +289,7 @@
     "help": "Pomoc",
     "helpSubtitle": "FAQ i wsparcie",
     "addedBenches": "Dodane ławeczki",
-    "givenRatings": "Dane oceny",
+    "givenRatings": "Wystawione oceny",
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
     "user": "Użytkownik",
     "timeSpentMin": "min",
