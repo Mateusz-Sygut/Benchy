@@ -6,8 +6,10 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { AppState } from 'react-native';
 import { useAuth } from './AuthContext';
 import supabase from '../lib/supabase';
+import { computeLoginStreak } from '../lib/streak';
 import { Achievement, UserAchievement, UserProfile } from '../types/database';
 
 type StatUpdateType = 'bench_created' | 'rating_given' | 'time_spent' | 'favorite';
@@ -94,6 +96,39 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return updated as UserProfile;
   }, [user]);
 
+  const recordLoginStreak = useCallback(
+    async (profile: UserProfile): Promise<UserProfile> => {
+      if (!user) return profile;
+
+      const next = computeLoginStreak(
+        profile.last_login_date,
+        profile.current_streak ?? 0,
+        profile.longest_streak ?? 0
+      );
+
+      if (!next.changed) return profile;
+
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .update({
+          current_streak: next.current_streak,
+          longest_streak: next.longest_streak,
+          last_login_date: next.last_login_date,
+        } as never)
+        .eq('user_id', user.id)
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Error recording login streak:', error);
+        return profile;
+      }
+
+      return data as UserProfile;
+    },
+    [user]
+  );
+
   const checkAchievements = useCallback(
     async (profile: UserProfile): Promise<UserProfile> => {
       if (!user) return profile;
@@ -126,6 +161,8 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             return profile.total_time_spent >= achievement.requirement_value;
           case 'favorite_count':
             return (profile.total_favorites ?? 0) >= achievement.requirement_value;
+          case 'login_streak':
+            return (profile.current_streak ?? 0) >= achievement.requirement_value;
           default:
             return false;
         }
@@ -181,6 +218,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     try {
       let profile = await syncProfileCounts();
       if (profile) {
+        profile = await recordLoginStreak(profile);
         profile = await checkAchievements(profile);
         setUserProfile(profile);
       }
@@ -201,7 +239,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } catch (error) {
       console.error('Error loading achievements data:', error);
     }
-  }, [user, syncProfileCounts, checkAchievements]);
+  }, [user, syncProfileCounts, recordLoginStreak, checkAchievements]);
 
   const updateUserStats = useCallback(
     async (_type: StatUpdateType, _value: number = 1) => {
@@ -218,6 +256,15 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active' && user) {
+        loadData();
+      }
+    });
+    return () => subscription.remove();
+  }, [user, loadData]);
 
   const value = useMemo(
     () => ({

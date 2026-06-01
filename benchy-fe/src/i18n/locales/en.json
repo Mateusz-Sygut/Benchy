@@ -268,7 +268,21 @@
     "judge.description": "Rate 100 benches",
     "favorite.description": "Add 10 benches to favorites",
     "connoisseur.description": "Add 50 benches to favorites",
-    "specialist.description": "Add 100 benches to favorites"
+    "specialist.description": "Add 100 benches to favorites",
+    "streak3": "On a Roll",
+    "streak7": "Weekly Regular",
+    "streak30": "Dedicated Explorer",
+    "streak3.description": "Open the app 3 days in a row",
+    "streak7.description": "Open the app 7 days in a row",
+    "streak30.description": "Open the app 30 days in a row"
+  },
+  "streak": {
+    "label": "Day streak",
+    "current_one": "{{count}} day in a row",
+    "current_other": "{{count}} days in a row",
+    "subtitle": "Open the app daily to keep your streak",
+    "best_one": "Best: {{count}} day",
+    "best_other": "Best: {{count}} days"
   },
   "titles": {
     "novice": "Novice",

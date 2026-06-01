@@ -302,6 +302,9 @@ export interface Database {
           total_time_spent: number;
           total_ratings_given: number;
           total_favorites: number;
+          current_streak: number;
+          longest_streak: number;
+          last_login_date: string | null;
           level: number;
           experience_points: number;
           created_at: string;
@@ -316,6 +319,9 @@ export interface Database {
           total_time_spent?: number;
           total_ratings_given?: number;
           total_favorites?: number;
+          current_streak?: number;
+          longest_streak?: number;
+          last_login_date?: string | null;
           level?: number;
           experience_points?: number;
           created_at?: string;
@@ -330,6 +336,9 @@ export interface Database {
           total_time_spent?: number;
           total_ratings_given?: number;
           total_favorites?: number;
+          current_streak?: number;
+          longest_streak?: number;
+          last_login_date?: string | null;
           level?: number;
           experience_points?: number;
           created_at?: string;

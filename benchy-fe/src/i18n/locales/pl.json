@@ -195,7 +195,25 @@
     "judge.description": "Oceń 100 ławek",
     "favorite.description": "Dodaj 10 ławek do ulubionych",
     "connoisseur.description": "Dodaj 50 ławek do ulubionych",
-    "specialist.description": "Dodaj 100 ławek do ulubionych"
+    "specialist.description": "Dodaj 100 ławek do ulubionych",
+    "streak3": "W formie",
+    "streak7": "Tygodniowy bywalec",
+    "streak30": "Oddany odkrywca",
+    "streak3.description": "Wejdź do aplikacji 3 dni z rzędu",
+    "streak7.description": "Wejdź do aplikacji 7 dni z rzędu",
+    "streak30.description": "Wejdź do aplikacji 30 dni z rzędu"
+  },
+  "streak": {
+    "label": "Seria dni",
+    "current_one": "{{count}} dzień z rzędu",
+    "current_few": "{{count}} dni z rzędu",
+    "current_many": "{{count}} dni z rzędu",
+    "current_other": "{{count}} dni z rzędu",
+    "subtitle": "Wchodź codziennie, żeby utrzymać serię",
+    "best_one": "Rekord: {{count}} dzień",
+    "best_few": "Rekord: {{count}} dni",
+    "best_many": "Rekord: {{count}} dni",
+    "best_other": "Rekord: {{count}} dni"
   },
   "titles": {
     "novice": "Nowicjusz",

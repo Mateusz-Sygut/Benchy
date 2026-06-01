@@ -658,6 +658,32 @@ export const createScreenStyles = (t: AppTheme) =>
     height: 40,
     backgroundColor: t.gray[200],
   },
+  profileStreakCard: {
+    marginHorizontal: 16,
+    marginTop: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 14,
+    backgroundColor: t.gradient.light,
+    borderWidth: 1,
+    borderColor: t.primary[200],
+    flexDirection: 'row' as 'row',
+    alignItems: 'center' as 'center',
+    gap: 12,
+  },
+  profileStreakIcon: {
+    fontSize: 28,
+  },
+  profileStreakTitle: {
+    fontSize: 16,
+    fontWeight: '700' as '700',
+    color: t.text.primary,
+  },
+  profileStreakSubtitle: {
+    fontSize: 13,
+    color: t.text.secondary,
+    marginTop: 2,
+  },
   profileUnlockHint: {
     marginHorizontal: 16,
     marginTop: 12,

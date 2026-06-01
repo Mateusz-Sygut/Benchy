@@ -121,6 +121,26 @@ const ProfileScreen = () => {
             <Text style={screenStyles.profileStatNumber}>{userProfile?.total_ratings_given || 0}</Text>
             <Text style={screenStyles.profileStatLabel}>{t('profile.givenRatings')}</Text>
           </View>
+          <View style={screenStyles.profileStatDivider} />
+          <View style={screenStyles.profileStatItem}>
+            <Text style={[screenStyles.profileStatNumber, { color: theme.warning }]}>
+              {userProfile?.current_streak || 0}
+            </Text>
+            <Text style={screenStyles.profileStatLabel}>{t('streak.label')}</Text>
+          </View>
+        </View>
+        <View style={screenStyles.profileStreakCard}>
+          <Text style={screenStyles.profileStreakIcon}>🔥</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={screenStyles.profileStreakTitle}>
+              {t('streak.current', { count: userProfile?.current_streak || 0 })}
+            </Text>
+            <Text style={screenStyles.profileStreakSubtitle}>
+              {t('streak.subtitle')}
+              {(userProfile?.longest_streak ?? 0) > 0 &&
+                ` · ${t('streak.best', { count: userProfile?.longest_streak ?? 0 })}`}
+            </Text>
+          </View>
         </View>
         <View style={screenStyles.profileUnlockHint}>
           <Text style={screenStyles.profileUnlockHintText}>{t('profile.unlockHint')}</Text>
