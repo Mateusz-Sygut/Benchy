@@ -24,6 +24,12 @@ type AchievementsContextValue = {
 
 const AchievementsContext = createContext<AchievementsContextValue | null>(null);
 
+let streakSchemaUnavailable = false;
+
+function isStreakSchemaError(error: { code?: string; message?: string }): boolean {
+  return error.code === 'PGRST204' && (error.message?.includes('current_streak') ?? false);
+}
+
 async function countForUser(
   table: 'benches' | 'ratings' | 'favorites',
   userId: string
@@ -98,7 +104,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const recordLoginStreak = useCallback(
     async (profile: UserProfile): Promise<UserProfile> => {
-      if (!user) return profile;
+      if (!user || streakSchemaUnavailable) return profile;
 
       const next = computeLoginStreak(
         profile.last_login_date,
@@ -120,7 +126,14 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         .single();
 
       if (error) {
-        console.error('Error recording login streak:', error);
+        if (isStreakSchemaError(error)) {
+          streakSchemaUnavailable = true;
+          console.warn(
+            'Login streak columns missing in Supabase. Run benchy-be/supabase/migrations/add_login_streak.sql'
+          );
+        } else {
+          console.error('Error recording login streak:', error);
+        }
         return profile;
       }
 
