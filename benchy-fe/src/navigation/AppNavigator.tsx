@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import TabNavigator from './TabNavigator';
 import AddBenchScreen from '../screens/AddBenchScreen';
 import BenchDetailsScreen from '../screens/BenchDetailsScreen';
+import BenchListScreen from '../screens/BenchListScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MyBenchesScreen from '../screens/MyBenchesScreen';
 import MyRatingsScreen from '../screens/MyRatingsScreen';
@@ -22,6 +23,16 @@ const AppNavigator = () => {
         name="MainTabs"
         component={TabNavigator}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BenchList"
+        component={BenchListScreen}
+        options={{
+          title: t('navigation.benchList'),
+          headerBackTitle: t('common.back'),
+          headerStyle: common.mainHeaderStyle,
+          headerTintColor: theme.navigation.headerTint,
+        }}
       />
       <Stack.Screen
         name="AddBench"
