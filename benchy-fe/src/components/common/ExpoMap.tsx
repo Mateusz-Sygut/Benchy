@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { ExtendedBench } from '../../types/database';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
-import { getRarityColor } from '../../styles/glassmorphism';
+import { BenchMapMarker, BENCH_MARKER_ANCHOR } from './BenchMapMarker';
 
 interface ExpoMapProps {
   benches: ExtendedBench[];
@@ -129,9 +129,12 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
             }}
             title={bench.name}
             description={bench.description || t('bench.noDescription')}
-            pinColor={getRarityColor(bench.rarity?.level || 1)}
+            anchor={BENCH_MARKER_ANCHOR}
+            tracksViewChanges={false}
             onPress={() => onMarkerPress?.(bench)}
-          />
+          >
+            <BenchMapMarker rarityLevel={bench.rarity?.level || 1} size={22} />
+          </Marker>
         ))}
       </MapView>
     </View>

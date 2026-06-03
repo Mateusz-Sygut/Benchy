@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { BenchMapMarker, BENCH_MARKER_ANCHOR } from '../components/common/BenchMapMarker';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/AuthContext';
@@ -309,6 +310,9 @@ const BenchDetailsScreen = ({ route }: any) => {
     );
   }
 
+  const benchRarityLevel =
+    rarities.find((rarity) => rarity.id === bench.rarity_id)?.level ?? 1;
+
   return (
     <ScrollView style={screenStyles.benchDetailsContainer} contentContainerStyle={screenStyles.benchDetailsScrollContent}>
       <View style={screenStyles.benchDetailsMiniMapCard}>
@@ -332,7 +336,11 @@ const BenchDetailsScreen = ({ route }: any) => {
               longitude: bench.longitude,
             }}
             title={bench.name}
-          />
+            anchor={BENCH_MARKER_ANCHOR}
+            tracksViewChanges={false}
+          >
+            <BenchMapMarker rarityLevel={benchRarityLevel} size={18} />
+          </Marker>
         </MapView>
       </View>
 

@@ -185,3 +185,5 @@ MIT – see [LICENSE](LICENSE).
 ## Authors
 
 Frontend: React Native / Expo. Backend: Supabase. UI: custom (panels, map-first flow).
+
+Map bench marker icon: [Freepik](https://www.flaticon.com/authors/freepik) via [Flaticon](https://www.flaticon.com/free-icons/bench) — see [benchy-fe/ATTRIBUTIONS.md](benchy-fe/ATTRIBUTIONS.md).
