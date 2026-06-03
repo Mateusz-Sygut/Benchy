@@ -125,7 +125,17 @@
     "languageSubtitle": "App language or match your system settings.",
     "languageSystem": "System",
     "languageEnglish": "English",
-    "languagePolish": "Polish"
+    "languagePolish": "Polish",
+    "avatarTitle": "Profile photo",
+    "avatarSubtitle": "Choose a photo from your gallery",
+    "avatarChoose": "Choose photo",
+    "avatarRemove": "Remove photo",
+    "avatarRemoveConfirm": "Remove your profile photo?",
+    "avatarUpdated": "Profile photo updated",
+    "avatarRemoved": "Profile photo removed",
+    "avatarUploadError": "Could not upload profile photo",
+    "avatarRemoveError": "Could not remove profile photo",
+    "avatarPermissionDenied": "Gallery access is required to choose a photo"
   },
   "benchTypes": {
     "wooden_classic": "Classic Wooden",

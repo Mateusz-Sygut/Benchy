@@ -19,6 +19,8 @@ import { getDisplayName } from '../lib/displayName';
 import { useAchievements } from '../hooks/useAchievements';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 import { Button } from '../components/common/Button';
+import { ProfileAvatar } from '../components/common/ProfileAvatar';
+import { useProfileAvatar } from '../hooks/useProfileAvatar';
 import { ThemePreference } from '../theme/theme';
 
 const ProfileScreen = () => {
@@ -29,6 +31,7 @@ const ProfileScreen = () => {
   const { preference: languagePreference, setPreference: setLanguagePreference } = useLanguage();
   const { screen: screenStyles, theme } = useThemedStyles();
   const { userProfile, achievements, unlockedAchievements } = useAchievements();
+  const { avatarUrl, uploading, showAvatarOptions } = useProfileAvatar();
 
   const handleSignOut = () => {
     Alert.alert(
@@ -97,12 +100,14 @@ const ProfileScreen = () => {
         >
           <View style={screenStyles.profileProfileSection}>
             <View style={screenStyles.profileAvatarContainer}>
-              <LinearGradient
-                colors={['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.1)']}
-                style={screenStyles.profileAvatar}
-              >
-                <Ionicons name="person" size={40} color="#fff" />
-              </LinearGradient>
+              <ProfileAvatar
+                avatarUrl={avatarUrl}
+                size={80}
+                variant="onPrimary"
+                editable
+                uploading={uploading}
+                onPress={showAvatarOptions}
+              />
             </View>
             <Text style={screenStyles.profileUserName}>
               {getDisplayName(user ?? null) || t('profile.user')}

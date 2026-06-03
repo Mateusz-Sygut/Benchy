@@ -303,7 +303,17 @@
     "languageSubtitle": "Język aplikacji lub jak w ustawieniach systemu.",
     "languageSystem": "System",
     "languageEnglish": "English",
-    "languagePolish": "Polski"
+    "languagePolish": "Polski",
+    "avatarTitle": "Zdjęcie profilowe",
+    "avatarSubtitle": "Wybierz zdjęcie z galerii",
+    "avatarChoose": "Wybierz zdjęcie",
+    "avatarRemove": "Usuń zdjęcie",
+    "avatarRemoveConfirm": "Usunąć zdjęcie profilowe?",
+    "avatarUpdated": "Zdjęcie profilowe zaktualizowane",
+    "avatarRemoved": "Zdjęcie profilowe usunięte",
+    "avatarUploadError": "Nie udało się wgrać zdjęcia",
+    "avatarRemoveError": "Nie udało się usunąć zdjęcia",
+    "avatarPermissionDenied": "Aplikacja potrzebuje dostępu do galerii"
   },
   "search": {
     "title": "Szukaj ławeczek",

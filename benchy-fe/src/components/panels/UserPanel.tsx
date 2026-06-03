@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../contexts/AuthContext';
 import { getDisplayName } from '../../lib/displayName';
+import { ProfileAvatar } from '../common/ProfileAvatar';
 import { useAchievements } from '../../hooks/useAchievements';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { Achievement, UserAchievement } from '../../types/database';
@@ -21,7 +22,12 @@ export const UserPanel: React.FC = () => {
       <View style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
           <View style={panelStyles.avatarContainer}>
-            <Ionicons name="person" size={30} color={theme.text.white} />
+            <ProfileAvatar
+              avatarUrl={userProfile?.avatar_url}
+              size={48}
+              variant="default"
+              onPress={() => navigation.navigate('Profile')}
+            />
           </View>
           <View style={{ marginLeft: 15 }}>
             <Text style={glassmorphismStyles.cardTitle}>{getDisplayName(user ?? null) || t('profile.user')}</Text>
