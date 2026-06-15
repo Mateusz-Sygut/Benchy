@@ -11,20 +11,14 @@ import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 
-interface MapScreenProps {
-  onBenchPress?: (bench: ExtendedBench) => void;
-}
-
 export interface MapScreenRef {
   focusOnBench: (bench: ExtendedBench) => void;
 }
 
-const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, ref) => {
+const MapScreen = forwardRef<MapScreenRef>((_, ref) => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const [benches, setBenches] = useState<ExtendedBench[]>([]);
-  const [nearbyBenches, setNearbyBenches] = useState<ExtendedBench[]>([]);
-  const [activeBenchTab, setActiveBenchTab] = useState<'myBenches' | 'favorites' | 'addBench'>('myBenches');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const mapRef = useRef<MapView>(null);
   const { t } = useTranslation();
@@ -112,7 +106,6 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
         is_favorite: favoritesSet.has(bench.id),
       }));
       setBenches(convertedBenches);
-      setNearbyBenches(convertedBenches.slice(0, 10));
     } catch (error) {
       console.error('Error loading benches:', error);
     }
@@ -121,8 +114,6 @@ const MapScreen = forwardRef<MapScreenRef, MapScreenProps>(({ onBenchPress }, re
   const handleMarkerPress = (bench: ExtendedBench) => {
     navigation.navigate('BenchDetails', { benchId: bench.id });
   };
-
-
 
   const handleLocationButtonClick = async () => {
     try {
