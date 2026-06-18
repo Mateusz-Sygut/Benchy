@@ -47,7 +47,12 @@
     "profile": "Profil",
     "addBench": "Dodaj ławeczkę",
     "benchDetails": "Szczegóły ławeczki",
-    "favorites": "Ulubione"
+    "favorites": "Ulubione",
+    "settings": "Ustawienia"
+  },
+  "settings": {
+    "about": "O aplikacji",
+    "version": "Wersja {{version}}"
   },
   "map": {
     "locationError": "Nie udało się uzyskać dostępu do lokalizacji",

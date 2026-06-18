@@ -12,26 +12,29 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useTheme } from '../contexts/ThemeContext';
-import { LanguagePreference } from '../i18n/language';
 import { getDisplayName } from '../lib/displayName';
 import { useAchievements } from '../hooks/useAchievements';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 import { Button } from '../components/common/Button';
 import { ProfileAvatar } from '../components/common/ProfileAvatar';
 import { useProfileAvatar } from '../hooks/useProfileAvatar';
-import { ThemePreference } from '../theme/theme';
 
 const ProfileScreen = () => {
   const { user, signOut } = useAuth();
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
-  const { preference, setPreference } = useTheme();
-  const { preference: languagePreference, setPreference: setLanguagePreference } = useLanguage();
   const { screen: screenStyles, theme } = useThemedStyles();
   const { userProfile, achievements, unlockedAchievements } = useAchievements();
   const { avatarUrl, uploading, showAvatarOptions } = useProfileAvatar();
+
+  const firstBenchUnlocked =
+    (userProfile?.total_benches_created ?? 0) > 0 ||
+    unlockedAchievements.some((ua) => {
+      const achievement = achievements.find((a) => a.id === ua.achievement_id);
+      return achievement?.name === 'firstBench';
+    });
+
+  const showTitleUnlockHint = !firstBenchUnlocked && !userProfile?.selected_title_id;
 
   const handleSignOut = () => {
     Alert.alert(
@@ -43,18 +46,6 @@ const ProfileScreen = () => {
       ]
     );
   };
-
-  const themeOptions: { key: ThemePreference; label: string }[] = [
-    { key: 'system', label: t('profile.themeSystem') },
-    { key: 'light', label: t('profile.themeLight') },
-    { key: 'dark', label: t('profile.themeDark') },
-  ];
-
-  const languageOptions: { key: LanguagePreference; label: string }[] = [
-    { key: 'system', label: t('profile.languageSystem') },
-    { key: 'en', label: t('profile.languageEnglish') },
-    { key: 'pl', label: t('profile.languagePolish') },
-  ];
 
   const menuItems = [
     {
@@ -77,7 +68,9 @@ const ProfileScreen = () => {
       icon: 'settings-outline',
       title: t('profile.settings'),
       subtitle: t('profile.settingsSubtitle'),
-      onPress: () => {},
+      onPress: () => {
+        navigation.navigate('Settings');
+      },
     },
     {
       icon: 'help-circle-outline',
@@ -135,94 +128,26 @@ const ProfileScreen = () => {
           </View>
         </View>
         <View style={screenStyles.profileStreakCard}>
-          <Text style={screenStyles.profileStreakIcon}>🔥</Text>
-          <View style={{ flex: 1 }}>
+          <View style={screenStyles.profileStreakIconWrap}>
+            <Text style={screenStyles.profileStreakIcon}>🔥</Text>
+          </View>
+          <View style={screenStyles.profileStreakContent}>
             <Text style={screenStyles.profileStreakTitle}>
               {t('streak.current', { count: userProfile?.current_streak || 0 })}
             </Text>
-            <Text style={screenStyles.profileStreakSubtitle}>
-              {t('streak.subtitle')}
-              {(userProfile?.longest_streak ?? 0) > 0 &&
-                ` · ${t('streak.best', { count: userProfile?.longest_streak ?? 0 })}`}
-            </Text>
+            <Text style={screenStyles.profileStreakSubtitle}>{t('streak.subtitle')}</Text>
+            {(userProfile?.longest_streak ?? 0) > (userProfile?.current_streak ?? 0) && (
+              <Text style={screenStyles.profileStreakBest}>
+                {t('streak.best', { count: userProfile?.longest_streak ?? 0 })}
+              </Text>
+            )}
           </View>
         </View>
-        <View style={screenStyles.profileUnlockHint}>
-          <Text style={screenStyles.profileUnlockHintText}>{t('profile.unlockHint')}</Text>
-        </View>
-
-        <View style={[screenStyles.profileMenuCard, { marginTop: 12 }]}>
-          <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8 }}>
-            <Text style={screenStyles.profileMenuTitle}>{t('profile.appearance')}</Text>
-            <Text style={[screenStyles.profileMenuSubtitle, { marginBottom: 12 }]}>
-              {t('profile.appearanceSubtitle')}
-            </Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-              {themeOptions.map((opt) => {
-                const selected = preference === opt.key;
-                return (
-                  <TouchableOpacity
-                    key={opt.key}
-                    onPress={() => setPreference(opt.key)}
-                    style={{
-                      paddingVertical: 8,
-                      paddingHorizontal: 14,
-                      borderRadius: 20,
-                      borderWidth: 2,
-                      borderColor: selected ? theme.primary[600] : theme.gray[300],
-                      backgroundColor: selected ? theme.gradient.light : theme.background.primary,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontWeight: '600',
-                        color: selected ? theme.primary[700] : theme.text.secondary,
-                      }}
-                    >
-                      {opt.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-            <Text style={[screenStyles.profileMenuTitle, { marginTop: 20 }]}>
-              {t('profile.language')}
-            </Text>
-            <Text style={[screenStyles.profileMenuSubtitle, { marginBottom: 12 }]}>
-              {t('profile.languageSubtitle')}
-            </Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingBottom: 8 }}>
-              {languageOptions.map((opt) => {
-                const selected = languagePreference === opt.key;
-                return (
-                  <TouchableOpacity
-                    key={opt.key}
-                    onPress={() => setLanguagePreference(opt.key)}
-                    style={{
-                      paddingVertical: 8,
-                      paddingHorizontal: 14,
-                      borderRadius: 20,
-                      borderWidth: 2,
-                      borderColor: selected ? theme.primary[600] : theme.gray[300],
-                      backgroundColor: selected ? theme.gradient.light : theme.background.primary,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontWeight: '600',
-                        color: selected ? theme.primary[700] : theme.text.secondary,
-                      }}
-                    >
-                      {opt.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+        {showTitleUnlockHint && (
+          <View style={screenStyles.profileUnlockHint}>
+            <Text style={screenStyles.profileUnlockHintText}>{t('profile.unlockHint')}</Text>
           </View>
-        </View>
+        )}
 
         {achievements.length > 0 && (
           <View style={screenStyles.profileAchievementsCard}>

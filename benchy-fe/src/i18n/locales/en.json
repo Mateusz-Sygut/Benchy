@@ -47,7 +47,12 @@
     "profile": "Profile",
     "addBench": "Add Bench",
     "benchDetails": "Bench Details",
-    "favorites": "Favorites"
+    "favorites": "Favorites",
+    "settings": "Settings"
+  },
+  "settings": {
+    "about": "About",
+    "version": "Version {{version}}"
   },
   "map": {
     "locationError": "Failed to access location",
