@@ -43,7 +43,7 @@ For a signed-in user (within what RLS allows):
 – **Bench list** – text search, open details or map.
 – **Bench details** – description, mini map, average rating, favourites, **change rarity** (if exposed in UI), add **your rating and comment**.
 – **Add bench** – description, bench type, surroundings, tags (UI limit), **GPS location or pick on map** (modal with draggable marker).
-– **Profile** – stats, login streak, achievements, shortcuts to “My benches” / “My ratings” / favourites, **appearance** (System / Light / Dark), **language** (System / EN / PL), sign out.
+– **Profile** – stats, login streak, achievements, shortcuts to “My benches” / “My ratings”, **Settings** (appearance & language), sign out.
 – **Registration** – optional button to fill a random nickname from word lists in the current locale.
 
 Without an account you typically only get login/register; everything else depends on Supabase config and RLS.
