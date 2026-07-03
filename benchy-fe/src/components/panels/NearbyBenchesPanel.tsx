@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { ExtendedBench } from '../../types/database';
+import { distanceKm, formatDistanceKm } from '../../lib/geocoding';
 import supabase from '../../lib/supabase';
 
 const TIP_KEYS = ['tips.addBench', 'tips.rarity', 'tips.explore', 'tips.favorites'] as const;
+const NEARBY_LIMIT = 10;
+const NEARBY_FETCH_LIMIT = 200;
+
+type NearbyBench = ExtendedBench & { distanceKm?: number };
 
 interface NearbyBenchesPanelProps {
   onBenchPress?: (bench: ExtendedBench) => void;
@@ -17,9 +23,10 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
   const { t } = useTranslation();
   const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
   const navigation = useNavigation<any>();
-  const [nearbyBenches, setNearbyBenches] = useState<ExtendedBench[]>([]);
+  const [nearbyBenches, setNearbyBenches] = useState<NearbyBench[]>([]);
   const [loading, setLoading] = useState(false);
   const [tipIndex, setTipIndex] = useState(0);
+  const [sortedByLocation, setSortedByLocation] = useState(false);
 
   useEffect(() => {
     loadNearbyBenches();
@@ -44,15 +51,65 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
           bench_type:bench_type_id(id, name, icon, created_at),
           location:location_id(id, name, icon, created_at)
         `)
-        .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(NEARBY_FETCH_LIMIT);
 
       if (error) {
         console.error('Error loading nearby benches:', error);
         return;
       }
 
-      setNearbyBenches(data || []);
+      const benches: NearbyBench[] = (data || []).map((bench) => ({
+        ...(bench as ExtendedBench),
+        is_favorite: false,
+      }));
+
+      let userCoords: { latitude: number; longitude: number } | null = null;
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === 'granted') {
+        try {
+          const position = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+          });
+          userCoords = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+        } catch {
+          const lastKnown = await Location.getLastKnownPositionAsync();
+          if (lastKnown) {
+            userCoords = {
+              latitude: lastKnown.coords.latitude,
+              longitude: lastKnown.coords.longitude,
+            };
+          }
+        }
+      }
+
+      if (userCoords) {
+        const withDistance = benches
+          .map((bench) => ({
+            ...bench,
+            distanceKm: distanceKm(userCoords!, {
+              latitude: bench.latitude,
+              longitude: bench.longitude,
+            }),
+          }))
+          .sort((a, b) => (a.distanceKm ?? 0) - (b.distanceKm ?? 0))
+          .slice(0, NEARBY_LIMIT);
+
+        setNearbyBenches(withDistance);
+        setSortedByLocation(true);
+      } else {
+        const recent = [...benches]
+          .sort(
+            (a, b) =>
+              new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          )
+          .slice(0, NEARBY_LIMIT);
+
+        setNearbyBenches(recent);
+        setSortedByLocation(false);
+      }
     } catch (error) {
       console.error('Error loading nearby benches:', error);
     } finally {
@@ -68,7 +125,7 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
     }
   };
 
-  const renderBenchItem = ({ item: bench }: { item: ExtendedBench }) => (
+  const renderBenchItem = ({ item: bench }: { item: NearbyBench }) => (
     <TouchableOpacity 
       style={panelStyles.benchCard}
       onPress={() => handleBenchPress(bench)}
@@ -100,6 +157,15 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
               {bench.average_rating ? bench.average_rating.toFixed(1) : t('bench.noRating')}
             </Text>
           </View>
+
+          {bench.distanceKm !== undefined && (
+            <View style={panelStyles.benchCardRatingContainer}>
+              <Ionicons name="navigate-outline" size={14} color={theme.primary[400]} />
+              <Text style={[panelStyles.benchRating, panelStyles.benchCardRatingText]}>
+                {formatDistanceKm(bench.distanceKm)}
+              </Text>
+            </View>
+          )}
         </View>
         
       </View>
@@ -120,6 +186,11 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
           />
         }
       >
+        {!sortedByLocation && nearbyBenches.length > 0 && (
+          <Text style={[panelStyles.emptyStateText, { marginBottom: 12, textAlign: 'center' }]}>
+            {t('nearby.locationFallback')}
+          </Text>
+        )}
         {nearbyBenches.length === 0 ? (
           <View style={panelStyles.emptyState}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>

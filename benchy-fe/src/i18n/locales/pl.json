@@ -300,7 +300,8 @@
   "nearby": {
     "title": "W pobliżu",
     "noBenches": "Brak ławeczek w pobliżu",
-    "noBenchesText": "Podejdź bliżej, aby zobaczyć ławeczki w Twojej okolicy"
+    "noBenchesText": "Podejdź bliżej, aby zobaczyć ławeczki w Twojej okolicy",
+    "locationFallback": "Brak lokalizacji — pokazujemy najnowsze ławeczki"
   },
   "emptyState": {
     "mapMessage": "Nie ma jeszcze żadnej ławki w Twojej okolicy.",

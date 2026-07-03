@@ -133,3 +133,37 @@ export const formatCityForDisplay = (
 
   return geocodingResult.country || t('geocoding.unknownCity');
 };
+
+export type Coordinates = {
+  latitude: number;
+  longitude: number;
+};
+
+const EARTH_RADIUS_KM = 6371;
+
+function toRadians(degrees: number): number {
+  return degrees * (Math.PI / 180);
+}
+
+export function distanceKm(from: Coordinates, to: Coordinates): number {
+  const dLat = toRadians(to.latitude - from.latitude);
+  const dLon = toRadians(to.longitude - from.longitude);
+  const lat1 = toRadians(from.latitude);
+  const lat2 = toRadians(to.latitude);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+
+  return 2 * EARTH_RADIUS_KM * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+
+export function formatDistanceKm(km: number): string {
+  if (km < 1) {
+    return `${Math.max(1, Math.round(km * 1000))} m`;
+  }
+  if (km < 10) {
+    return `${km.toFixed(1)} km`;
+  }
+  return `${Math.round(km)} km`;
+}

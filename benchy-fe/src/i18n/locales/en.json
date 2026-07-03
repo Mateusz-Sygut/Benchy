@@ -379,7 +379,8 @@
   "nearby": {
     "title": "Nearby",
     "noBenches": "No benches nearby",
-    "noBenchesText": "Come closer to see benches in your area"
+    "noBenchesText": "Come closer to see benches in your area",
+    "locationFallback": "Location off — showing newest benches instead"
   },
   "emptyState": {
     "mapMessage": "No benches in your area yet.",
