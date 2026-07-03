@@ -4,11 +4,13 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { AppState } from 'react-native';
 import { useAuth } from './AuthContext';
 import supabase from '../lib/supabase';
+import { addMinutesToTotal, elapsedWholeMinutes } from '../lib/appTime';
 import { computeLoginStreak } from '../lib/streak';
 import { meetsTitleRequirement } from '../lib/titles';
 import { Achievement, Title, UserAchievement, UserProfile } from '../types/database';
@@ -56,6 +58,38 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [unlockedAchievements, setUnlockedAchievements] = useState<UserAchievement[]>([]);
   const [titles, setTitles] = useState<Title[]>([]);
   const [unlockedTitles, setUnlockedTitles] = useState<Title[]>([]);
+  const sessionStartRef = useRef<number | null>(null);
+
+  const startSessionTimer = useCallback(() => {
+    sessionStartRef.current = Date.now();
+  }, []);
+
+  const recordSessionTime = useCallback(
+    async (profile: UserProfile, endSession: boolean): Promise<UserProfile> => {
+      if (!user || sessionStartRef.current === null) return profile;
+
+      const minutes = elapsedWholeMinutes(sessionStartRef.current);
+      sessionStartRef.current = endSession ? null : Date.now();
+
+      if (minutes <= 0) return profile;
+
+      const totalTimeSpent = addMinutesToTotal(profile.total_time_spent ?? 0, minutes);
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .update({ total_time_spent: totalTimeSpent } as never)
+        .eq('user_id', user.id)
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Error recording app time:', error);
+        return profile;
+      }
+
+      return data as UserProfile;
+    },
+    [user]
+  );
 
   const syncProfileCounts = useCallback(async (): Promise<UserProfile | null> => {
     if (!user) return null;
@@ -317,6 +351,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       let profile = await syncProfileCounts();
       if (!profile) return;
 
+      profile = await recordSessionTime(profile, false);
       profile = await checkAchievements(profile);
       if (catalog.length > 0) {
         profile = await checkTitles(profile, catalog);
@@ -326,7 +361,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } catch (error) {
       console.error('Error refreshing progress:', error);
     }
-  }, [user, titles, syncProfileCounts, checkAchievements, checkTitles, reloadUnlockedState]);
+  }, [user, titles, syncProfileCounts, recordSessionTime, checkAchievements, checkTitles, reloadUnlockedState]);
 
   const loadData = useCallback(async () => {
     if (!user) {
@@ -346,6 +381,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       let profile = await syncProfileCounts();
       if (profile) {
+        profile = await recordSessionTime(profile, false);
         profile = await recordLoginStreak(profile);
         profile = await checkAchievements(profile);
         profile = await checkTitles(profile, catalog);
@@ -361,7 +397,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } catch (error) {
       console.error('Error loading achievements data:', error);
     }
-  }, [user, syncProfileCounts, recordLoginStreak, checkAchievements, checkTitles, reloadUnlockedState]);
+  }, [user, syncProfileCounts, recordSessionTime, recordLoginStreak, checkAchievements, checkTitles, reloadUnlockedState]);
 
   const selectTitle = useCallback(
     async (titleId: string) => {
@@ -399,13 +435,48 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
   }, [loadData]);
 
   useEffect(() => {
+    if (!user) {
+      sessionStartRef.current = null;
+      return;
+    }
+
+    startSessionTimer();
+
     const subscription = AppState.addEventListener('change', (state) => {
-      if (state === 'active' && user) {
+      if (state === 'active') {
+        startSessionTimer();
         loadData();
+        return;
+      }
+
+      if (state === 'background' || state === 'inactive') {
+        void (async () => {
+          let profile = await syncProfileCounts();
+          if (!profile) return;
+
+          profile = await recordSessionTime(profile, true);
+          profile = await checkAchievements(profile);
+          if (titles.length > 0) {
+            profile = await checkTitles(profile, titles);
+          }
+          setUserProfile(profile);
+          await reloadUnlockedState(titles);
+        })();
       }
     });
+
     return () => subscription.remove();
-  }, [user, loadData]);
+  }, [
+    user,
+    loadData,
+    startSessionTimer,
+    syncProfileCounts,
+    recordSessionTime,
+    checkAchievements,
+    checkTitles,
+    titles,
+    reloadUnlockedState,
+  ]);
 
   const value = useMemo(
     () => ({

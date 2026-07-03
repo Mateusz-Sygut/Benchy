@@ -316,7 +316,9 @@
     "streak30": "Dedicated Explorer",
     "streak3.description": "Open the app 3 days in a row",
     "streak7.description": "Open the app 7 days in a row",
-    "streak30.description": "Open the app 30 days in a row"
+    "streak30.description": "Open the app 30 days in a row",
+    "sitter.description": "Spend 30 minutes in the app",
+    "benchPhilosopher.description": "Spend 120 minutes in the app"
   },
   "streak": {
     "label": "Day streak",

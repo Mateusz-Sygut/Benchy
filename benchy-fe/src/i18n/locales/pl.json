@@ -233,7 +233,9 @@
     "streak30": "Oddany odkrywca",
     "streak3.description": "Wejdź do aplikacji 3 dni z rzędu",
     "streak7.description": "Wejdź do aplikacji 7 dni z rzędu",
-    "streak30.description": "Wejdź do aplikacji 30 dni z rzędu"
+    "streak30.description": "Wejdź do aplikacji 30 dni z rzędu",
+    "sitter.description": "Spędź 30 minut w aplikacji",
+    "benchPhilosopher.description": "Spędź 120 minut w aplikacji"
   },
   "streak": {
     "label": "Seria dni",
