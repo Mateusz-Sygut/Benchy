@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 import { getDisplayName } from '../lib/displayName';
+import { getTitleLabel } from '../lib/titles';
 import { useAchievements } from '../hooks/useAchievements';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 import { Button } from '../components/common/Button';
@@ -24,17 +25,19 @@ const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
   const { screen: screenStyles, theme } = useThemedStyles();
-  const { userProfile, achievements, unlockedAchievements } = useAchievements();
+  const {
+    userProfile,
+    achievements,
+    unlockedAchievements,
+    titles,
+    unlockedTitles,
+    selectedTitle,
+    selectTitle,
+  } = useAchievements();
   const { avatarUrl, uploading, showAvatarOptions } = useProfileAvatar();
 
-  const firstBenchUnlocked =
-    (userProfile?.total_benches_created ?? 0) > 0 ||
-    unlockedAchievements.some((ua) => {
-      const achievement = achievements.find((a) => a.id === ua.achievement_id);
-      return achievement?.name === 'firstBench';
-    });
-
-  const showTitleUnlockHint = !firstBenchUnlocked && !userProfile?.selected_title_id;
+  const hasBenchUserTitle = unlockedTitles.some((title) => title.name === 'benchUser');
+  const showTitleUnlockHint = !hasBenchUserTitle;
 
   const handleSignOut = () => {
     Alert.alert(
@@ -102,10 +105,14 @@ const ProfileScreen = () => {
                 onPress={showAvatarOptions}
               />
             </View>
+            {selectedTitle && (
+              <Text style={screenStyles.profileUserTitle}>
+                {getTitleLabel(selectedTitle, t)}
+              </Text>
+            )}
             <Text style={screenStyles.profileUserName}>
               {getDisplayName(user ?? null) || t('profile.user')}
             </Text>
-            <Text style={screenStyles.profileUserEmail}>{user?.email}</Text>
           </View>
         </LinearGradient>
 
@@ -146,6 +153,43 @@ const ProfileScreen = () => {
         {showTitleUnlockHint && (
           <View style={screenStyles.profileUnlockHint}>
             <Text style={screenStyles.profileUnlockHintText}>{t('profile.unlockHint')}</Text>
+          </View>
+        )}
+
+        {titles.length > 0 && (
+          <View style={screenStyles.profileTitlesCard}>
+            <Text style={screenStyles.profileAchievementsTitle}>{t('titles.sectionTitle')}</Text>
+            <Text style={[screenStyles.profileMenuSubtitle, { marginTop: 4, marginBottom: 12 }]}>
+              {t('titles.selectHint')}
+            </Text>
+            <View style={screenStyles.profileAchievementsRow}>
+              {titles.map((title) => {
+                const isUnlocked = unlockedTitles.some((ut) => ut.id === title.id);
+                const isSelected = selectedTitle?.id === title.id;
+                return (
+                  <TouchableOpacity
+                    key={title.id}
+                    disabled={!isUnlocked}
+                    onPress={() => selectTitle(title.id)}
+                    style={[
+                      screenStyles.profileTitleChip,
+                      !isUnlocked && screenStyles.profileAchievementChipLocked,
+                      isSelected && screenStyles.profileTitleChipSelected,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        screenStyles.profileAchievementName,
+                        isSelected && { color: theme.primary[700], fontWeight: '700' },
+                      ]}
+                      numberOfLines={1}
+                    >
+                      {getTitleLabel(title, t)}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
         )}
 

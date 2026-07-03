@@ -617,15 +617,16 @@ export const createScreenStyles = (t: AppTheme) =>
     justifyContent: 'center',
     alignItems: 'center',
   },
+  profileUserTitle: {
+    fontSize: 15,
+    fontWeight: '600' as '600',
+    color: 'rgba(255, 255, 255, 0.92)',
+    marginBottom: 4,
+  },
   profileUserName: {
     fontSize: 24,
     fontWeight: 'bold' as 'bold',
     color: t.text.white,
-    marginBottom: 4,
-  },
-  profileUserEmail: {
-    fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.8)',
   },
   profileStatsCard: {
     backgroundColor: t.background.primary,
@@ -720,6 +721,29 @@ export const createScreenStyles = (t: AppTheme) =>
     fontSize: 14,
     color: t.text.primary,
     fontWeight: '500',
+  },
+  profileTitlesCard: {
+    backgroundColor: t.background.primary,
+    marginHorizontal: 16,
+    marginTop: 12,
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    ...t.shadows.medium,
+  },
+  profileTitleChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    backgroundColor: t.gray[50],
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  profileTitleChipSelected: {
+    borderColor: t.primary[500],
+    backgroundColor: t.gradient.light,
   },
   profileAchievementsCard: {
     backgroundColor: t.background.primary,

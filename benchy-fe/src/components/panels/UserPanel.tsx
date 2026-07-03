@@ -8,6 +8,7 @@ import { getDisplayName } from '../../lib/displayName';
 import { ProfileAvatar } from '../common/ProfileAvatar';
 import { useAchievements } from '../../hooks/useAchievements';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
+import { getTitleLabel } from '../../lib/titles';
 import { Achievement, UserAchievement } from '../../types/database';
 
 export const UserPanel: React.FC = () => {
@@ -15,7 +16,7 @@ export const UserPanel: React.FC = () => {
   const navigation = useNavigation<any>();
   const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
   const { user } = useAuth();
-  const { userProfile, achievements, unlockedAchievements } = useAchievements();
+  const { userProfile, achievements, unlockedAchievements, selectedTitle } = useAchievements();
 
   return (
     <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
@@ -32,10 +33,7 @@ export const UserPanel: React.FC = () => {
           <View style={{ marginLeft: 15 }}>
             <Text style={glassmorphismStyles.cardTitle}>{getDisplayName(user ?? null) || t('profile.user')}</Text>
             <Text style={glassmorphismStyles.cardSubtitle}>
-              {userProfile?.selected_title_id ? 
-                t('titles.novice') : 
-                t('titles.novice')
-              }
+              {selectedTitle ? getTitleLabel(selectedTitle, t) : t('titles.novice')}
             </Text>
           </View>
         </View>

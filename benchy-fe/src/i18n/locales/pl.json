@@ -222,6 +222,8 @@
     "best_other": "Rekord: {{count}} dni"
   },
   "titles": {
+    "sectionTitle": "Twój tytuł",
+    "selectHint": "Dotknij odblokowanego tytułu, żeby go ustawić",
     "novice": "Nowicjusz",
     "benchCreator": "Ławeczkarz",
     "benchMaster": "Mistrz Ławeczek",

@@ -301,6 +301,8 @@
     "best_other": "Best: {{count}} days"
   },
   "titles": {
+    "sectionTitle": "Your title",
+    "selectHint": "Tap an unlocked title to equip it",
     "novice": "Novice",
     "benchCreator": "Bench Creator",
     "benchMaster": "Bench Master",

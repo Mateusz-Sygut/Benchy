@@ -254,6 +254,7 @@ export interface Database {
           id: string;
           name: string;
           description: string;
+          icon: string;
           rarity_level: number;
           created_at: string;
         };
@@ -261,6 +262,7 @@ export interface Database {
           id?: string;
           name: string;
           description: string;
+          icon?: string;
           rarity_level: number;
           created_at?: string;
         };
@@ -268,6 +270,7 @@ export interface Database {
           id?: string;
           name?: string;
           description?: string;
+          icon?: string;
           rarity_level?: number;
           created_at?: string;
         };

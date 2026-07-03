@@ -10,7 +10,8 @@ import { AppState } from 'react-native';
 import { useAuth } from './AuthContext';
 import supabase from '../lib/supabase';
 import { computeLoginStreak } from '../lib/streak';
-import { Achievement, UserAchievement, UserProfile } from '../types/database';
+import { meetsTitleRequirement } from '../lib/titles';
+import { Achievement, Title, UserAchievement, UserProfile } from '../types/database';
 
 type StatUpdateType = 'bench_created' | 'rating_given' | 'time_spent' | 'favorite';
 
@@ -18,6 +19,10 @@ type AchievementsContextValue = {
   userProfile: UserProfile | null;
   achievements: Achievement[];
   unlockedAchievements: UserAchievement[];
+  titles: Title[];
+  unlockedTitles: Title[];
+  selectedTitle: Title | null;
+  selectTitle: (titleId: string) => Promise<void>;
   updateUserStats: (type: StatUpdateType, value?: number) => Promise<void>;
   refreshAchievements: () => Promise<void>;
 };
@@ -51,6 +56,8 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [unlockedAchievements, setUnlockedAchievements] = useState<UserAchievement[]>([]);
+  const [titles, setTitles] = useState<Title[]>([]);
+  const [unlockedTitles, setUnlockedTitles] = useState<Title[]>([]);
 
   const syncProfileCounts = useCallback(async (): Promise<UserProfile | null> => {
     if (!user) return null;
@@ -220,19 +227,79 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     [user]
   );
 
+  const checkTitles = useCallback(
+    async (profile: UserProfile, allTitles: Title[]): Promise<UserProfile> => {
+      if (!user || allTitles.length === 0) return profile;
+
+      const { data: userTitleRows } = (await supabase
+        .from('user_titles')
+        .select('title_id')
+        .eq('user_id', user.id)) as { data: { title_id: string }[] | null };
+
+      const unlockedIds = new Set((userTitleRows ?? []).map((row) => row.title_id));
+
+      const toUnlock = allTitles.filter(
+        (title) => !unlockedIds.has(title.id) && meetsTitleRequirement(title.name, profile)
+      );
+
+      if (toUnlock.length > 0) {
+        const { error: insertError } = await supabase.from('user_titles').insert(
+          toUnlock.map((title) => ({
+            user_id: user.id,
+            title_id: title.id,
+          })) as never
+        );
+
+        if (insertError) {
+          console.error('Error unlocking titles:', insertError);
+        }
+      }
+
+      const novice = allTitles.find((title) => title.name === 'novice');
+      if (!profile.selected_title_id && novice) {
+        const defaultTitleId =
+          [...allTitles]
+            .filter((title) => unlockedIds.has(title.id) || toUnlock.some((t) => t.id === title.id))
+            .sort((a, b) => b.rarity_level - a.rarity_level)[0]?.id ?? novice.id;
+
+        const { data: updated, error } = await supabase
+          .from('user_profiles')
+          .update({ selected_title_id: defaultTitleId } as never)
+          .eq('user_id', user.id)
+          .select('*')
+          .single();
+
+        if (!error && updated) {
+          return updated as UserProfile;
+        }
+      }
+
+      return profile;
+    },
+    [user]
+  );
+
   const loadData = useCallback(async () => {
     if (!user) {
       setUserProfile(null);
       setAchievements([]);
       setUnlockedAchievements([]);
+      setTitles([]);
+      setUnlockedTitles([]);
       return;
     }
 
     try {
+      const { data: titlesData } = await supabase.from('titles').select('*');
+      const catalog = (titlesData ?? []) as Title[];
+      catalog.sort((a, b) => a.rarity_level - b.rarity_level);
+      setTitles(catalog);
+
       let profile = await syncProfileCounts();
       if (profile) {
         profile = await recordLoginStreak(profile);
         profile = await checkAchievements(profile);
+        profile = await checkTitles(profile, catalog);
         setUserProfile(profile);
       }
 
@@ -249,10 +316,49 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (userAchievementsData) {
         setUnlockedAchievements(userAchievementsData as UserAchievement[]);
       }
+
+      const { data: userTitleRows } = (await supabase
+        .from('user_titles')
+        .select('title_id')
+        .eq('user_id', user.id)) as { data: { title_id: string }[] | null };
+
+      const unlockedIds = new Set((userTitleRows ?? []).map((row) => row.title_id));
+      setUnlockedTitles(catalog.filter((title) => unlockedIds.has(title.id)));
     } catch (error) {
       console.error('Error loading achievements data:', error);
     }
-  }, [user, syncProfileCounts, recordLoginStreak, checkAchievements]);
+  }, [user, syncProfileCounts, recordLoginStreak, checkAchievements, checkTitles]);
+
+  const selectTitle = useCallback(
+    async (titleId: string) => {
+      if (!user) return;
+
+      const isUnlocked = unlockedTitles.some((title) => title.id === titleId);
+      if (!isUnlocked) return;
+
+      const { error } = await supabase
+        .from('user_profiles')
+        .update({ selected_title_id: titleId } as never)
+        .eq('user_id', user.id);
+
+      if (error) {
+        console.error('Error selecting title:', error);
+        return;
+      }
+
+      setUserProfile((prev) => (prev ? { ...prev, selected_title_id: titleId } : prev));
+    },
+    [user, unlockedTitles]
+  );
+
+  const selectedTitle = useMemo(() => {
+    if (!userProfile) return null;
+    const selected = titles.find((title) => title.id === userProfile.selected_title_id);
+    if (selected && unlockedTitles.some((title) => title.id === selected.id)) {
+      return selected;
+    }
+    return unlockedTitles.find((title) => title.name === 'novice') ?? unlockedTitles[0] ?? null;
+  }, [titles, unlockedTitles, userProfile]);
 
   const updateUserStats = useCallback(
     async (_type: StatUpdateType, _value: number = 1) => {
@@ -284,10 +390,24 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       userProfile,
       achievements,
       unlockedAchievements,
+      titles,
+      unlockedTitles,
+      selectedTitle,
+      selectTitle,
       updateUserStats,
       refreshAchievements: loadData,
     }),
-    [userProfile, achievements, unlockedAchievements, updateUserStats, loadData]
+    [
+      userProfile,
+      achievements,
+      unlockedAchievements,
+      titles,
+      unlockedTitles,
+      selectedTitle,
+      selectTitle,
+      updateUserStats,
+      loadData,
+    ]
   );
 
   return (
