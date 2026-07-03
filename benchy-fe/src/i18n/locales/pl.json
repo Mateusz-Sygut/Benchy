@@ -286,9 +286,20 @@
   "tasks": {
     "title": "Zadania",
     "subtitle": "Wykonaj zadania, aby odblokować osiągnięcia",
+    "progress": "{{done}} / {{total}} ukończonych",
+    "tier": "Etap {{current}}/{{total}}",
+    "tierStarter": "Pierwsze kroki",
+    "tierExplorer": "Odkrywaj dalej",
+    "tierRegular": "Stały bywalec",
+    "allComplete": "Wszystkie zadania ukończone — odkrywaj dalej!",
     "addFirstBench": "Dodaj pierwszą ławeczkę",
     "rateBench": "Oceń ławeczkę",
-    "addFavorite": "Dodaj do ulubionych"
+    "addFavorite": "Dodaj do ulubionych",
+    "setAvatar": "Ustaw zdjęcie profilowe",
+    "loginStreak": "Loguj się {{count}} dni z rzędu",
+    "addBenches": "Dodaj {{count}} ławeczek",
+    "giveRatings": "Wystaw {{count}} ocen",
+    "addFavorites": "Zapisz {{count}} ulubionych"
   },
   "stats": {
     "title": "Statystyki",

@@ -34,8 +34,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         if (!cancelled && (stored === 'light' || stored === 'dark' || stored === 'system')) {
           setPreferenceState(stored);
         }
-      } catch {
-        /* ignore */
+      } catch (error) {
+        console.warn('Failed to load theme preference:', error);
       } finally {
         if (!cancelled) setLoaded(true);
       }
@@ -47,7 +47,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const setPreference = useCallback((p: ThemePreference) => {
     setPreferenceState(p);
-    AsyncStorage.setItem(STORAGE_KEY, p).catch(() => {});
+    AsyncStorage.setItem(STORAGE_KEY, p).catch((error) => {
+      console.warn('Failed to save theme preference:', error);
+    });
   }, []);
 
   const resolvedDark = useMemo(() => {

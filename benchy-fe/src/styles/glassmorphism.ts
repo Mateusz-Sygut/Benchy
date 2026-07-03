@@ -422,6 +422,13 @@ export const createPanelStyles = (t: AppTheme) =>
       marginLeft: 12,
       flex: 1,
     },
+    taskTextCompleted: {
+      color: t.text.secondary,
+      textDecorationLine: 'line-through' as 'line-through',
+    },
+    taskItemCompleted: {
+      opacity: 0.75,
+    },
     benchCard: {
       backgroundColor: 'rgba(255, 255, 255, 0.15)',
       borderRadius: 12,

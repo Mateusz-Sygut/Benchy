@@ -38,8 +38,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         if (!cancelled && isLanguagePreference(stored)) {
           setPreferenceState(stored);
         }
-      } catch {
-        /* ignore */
+      } catch (error) {
+        console.warn('Failed to load language preference:', error);
       }
     })();
     return () => {
@@ -49,13 +49,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     if (i18n.language !== language) {
-      i18n.changeLanguage(language).catch(() => {});
+      i18n.changeLanguage(language).catch((error) => {
+        console.warn('Failed to change language:', error);
+      });
     }
   }, [language]);
 
   const setPreference = useCallback((p: LanguagePreference) => {
     setPreferenceState(p);
-    AsyncStorage.setItem(STORAGE_KEY, p).catch(() => {});
+    AsyncStorage.setItem(STORAGE_KEY, p).catch((error) => {
+      console.warn('Failed to save language preference:', error);
+    });
   }, []);
 
   const value = useMemo(

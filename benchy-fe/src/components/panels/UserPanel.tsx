@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { ProfileAvatar } from '../common/ProfileAvatar';
 import { useAchievements } from '../../hooks/useAchievements';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { getTitleLabel } from '../../lib/titles';
+import { getActiveUserTasks } from '../../lib/userTasks';
 import { Achievement, UserAchievement } from '../../types/database';
 
 export const UserPanel: React.FC = () => {
@@ -17,6 +18,13 @@ export const UserPanel: React.FC = () => {
   const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
   const { user } = useAuth();
   const { userProfile, achievements, unlockedAchievements, selectedTitle } = useAchievements();
+
+  const { tasks, tierIndex, tierTotal, subtitleKey, allComplete } = useMemo(
+    () => getActiveUserTasks(userProfile, (screen) => navigation.navigate(screen)),
+    [navigation, userProfile],
+  );
+
+  const completedTasks = tasks.filter((task) => task.isComplete).length;
 
   return (
     <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
@@ -107,35 +115,42 @@ export const UserPanel: React.FC = () => {
 
       <View style={[glassmorphismStyles.glassCard]}>
         <Text style={glassmorphismStyles.cardTitle}>{t('tasks.title')}</Text>
-        <Text style={glassmorphismStyles.cardSubtitle}>{t('tasks.subtitle')}</Text>
-        
+        <Text style={glassmorphismStyles.cardSubtitle}>
+          {allComplete
+            ? t('tasks.allComplete')
+            : `${t(subtitleKey)} · ${t('tasks.tier', { current: tierIndex, total: tierTotal })} · ${t('tasks.progress', { done: completedTasks, total: tasks.length })}`}
+        </Text>
+
         <View style={{ marginTop: 15 }}>
-          <TouchableOpacity
-            style={panelStyles.taskItem}
-            onPress={() => navigation.navigate('AddBench')}
-          >
-            <Ionicons name="add-circle" size={20} color={theme.primary[400]} />
-            <Text style={panelStyles.taskText}>{t('tasks.addFirstBench')}</Text>
-            <Ionicons name="chevron-forward" size={16} color={theme.text.secondary} />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={panelStyles.taskItem}
-            onPress={() => navigation.navigate('BenchList')}
-          >
-            <Ionicons name="star" size={20} color={theme.primary[400]} />
-            <Text style={panelStyles.taskText}>{t('tasks.rateBench')}</Text>
-            <Ionicons name="chevron-forward" size={16} color={theme.text.secondary} />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={panelStyles.taskItem}
-            onPress={() => navigation.navigate('BenchList')}
-          >
-            <Ionicons name="heart" size={20} color={theme.primary[400]} />
-            <Text style={panelStyles.taskText}>{t('tasks.addFavorite')}</Text>
-            <Ionicons name="chevron-forward" size={16} color={theme.text.secondary} />
-          </TouchableOpacity>
+          {!allComplete && tasks.map((task) => (
+            <TouchableOpacity
+              key={task.id}
+              style={[
+                panelStyles.taskItem,
+                task.isComplete && panelStyles.taskItemCompleted,
+              ]}
+              onPress={task.onPress}
+            >
+              <Ionicons
+                name={task.isComplete ? 'checkmark-circle' : task.icon}
+                size={20}
+                color={task.isComplete ? theme.success : theme.primary[400]}
+              />
+              <Text
+                style={[
+                  panelStyles.taskText,
+                  task.isComplete && panelStyles.taskTextCompleted,
+                ]}
+              >
+                {t(task.labelKey, task.labelParams)}
+              </Text>
+              <Ionicons
+                name={task.isComplete ? 'checkmark' : 'chevron-forward'}
+                size={16}
+                color={task.isComplete ? theme.success : theme.text.secondary}
+              />
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
     </ScrollView>

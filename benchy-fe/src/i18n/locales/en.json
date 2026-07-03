@@ -365,9 +365,20 @@
   "tasks": {
     "title": "Tasks",
     "subtitle": "Complete tasks to unlock achievements",
+    "progress": "{{done}} / {{total}} completed",
+    "tier": "Stage {{current}}/{{total}}",
+    "tierStarter": "Getting started",
+    "tierExplorer": "Explore more",
+    "tierRegular": "Regular visitor",
+    "allComplete": "All tasks done — keep exploring benches!",
     "addFirstBench": "Add your first bench",
     "rateBench": "Rate a bench",
-    "addFavorite": "Add to favorites"
+    "addFavorite": "Add to favorites",
+    "setAvatar": "Set a profile photo",
+    "loginStreak": "Log in {{count}} days in a row",
+    "addBenches": "Add {{count}} benches",
+    "giveRatings": "Give {{count}} ratings",
+    "addFavorites": "Save {{count}} favorites"
   },
   "stats": {
     "title": "Statistics",
