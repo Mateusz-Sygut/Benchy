@@ -145,6 +145,7 @@
     "givenRatings": "Given ratings",
     "logoutConfirm": "Are you sure you want to sign out?",
     "user": "User",
+    "timeSpent": "Time in app",
     "timeSpentMin": "min",
     "unlockHint": "Unlock a title by adding 1 bench.",
     "appearance": "Appearance",
@@ -287,6 +288,8 @@
   "achievements": {
     "title": "Achievements",
     "unlocked": "unlocked",
+    "progressMinutes": "{{current}}/{{target}} min",
+    "progressCount": "{{current}}/{{target}}",
     "firstBench": "First Bench",
     "benchCreator": "Bench Creator",
     "benchMaster": "Bench Master",

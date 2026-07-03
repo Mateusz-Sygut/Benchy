@@ -130,10 +130,10 @@ const ProfileScreen = () => {
           </View>
           <View style={screenStyles.profileStatDivider} />
           <View style={screenStyles.profileStatItem}>
-            <Text style={[screenStyles.profileStatNumber, { color: theme.warning }]}>
-              {userProfile?.current_streak || 0}
+            <Text style={screenStyles.profileStatNumber}>
+              {`${userProfile?.total_time_spent ?? 0} ${t('profile.timeSpentMin')}`}
             </Text>
-            <Text style={screenStyles.profileStatLabel}>{t('streak.label')}</Text>
+            <Text style={screenStyles.profileStatLabel}>{t('profile.timeSpent')}</Text>
           </View>
         </View>
         <View style={screenStyles.profileStreakCard}>

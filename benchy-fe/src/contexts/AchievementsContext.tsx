@@ -59,6 +59,9 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [titles, setTitles] = useState<Title[]>([]);
   const [unlockedTitles, setUnlockedTitles] = useState<Title[]>([]);
   const sessionStartRef = useRef<number | null>(null);
+  const recordingMutexRef = useRef(false);
+  const titlesRef = useRef(titles);
+  titlesRef.current = titles;
 
   const startSessionTimer = useCallback(() => {
     sessionStartRef.current = Date.now();
@@ -82,7 +85,13 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         .single();
 
       if (error) {
-        console.error('Error recording app time:', error);
+        if (error.code === 'PGRST204' && (error.message?.includes('total_time_spent') ?? false)) {
+          console.warn(
+            'total_time_spent column missing in Supabase. Run benchy-be/supabase/migrations/database.sql'
+          );
+        } else {
+          console.error('Error recording app time:', error);
+        }
         return profile;
       }
 
@@ -335,6 +344,57 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     [user]
   );
 
+  const flushSessionTime = useCallback(
+    async (endSession: boolean, baseProfile?: UserProfile | null): Promise<UserProfile | null> => {
+      if (!user || recordingMutexRef.current || sessionStartRef.current === null) {
+        return baseProfile ?? null;
+      }
+
+      recordingMutexRef.current = true;
+      try {
+        let profile = baseProfile ?? null;
+        if (!profile) {
+          const { data, error } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .maybeSingle();
+
+          if (error) {
+            console.error('Error loading profile for session time:', error);
+            return null;
+          }
+          profile = data as UserProfile | null;
+        }
+
+        if (!profile) {
+          profile = await syncProfileCounts();
+          if (!profile) return null;
+        }
+
+        profile = await recordSessionTime(profile, endSession);
+        profile = await checkAchievements(profile);
+
+        const catalog = titlesRef.current;
+        if (catalog.length > 0) {
+          profile = await checkTitles(profile, catalog);
+        }
+
+        setUserProfile(profile);
+        await reloadUnlockedState(catalog);
+        return profile;
+      } finally {
+        recordingMutexRef.current = false;
+      }
+    },
+    [user, syncProfileCounts, recordSessionTime, checkAchievements, checkTitles, reloadUnlockedState]
+  );
+
+  const flushSessionTimeRef = useRef(flushSessionTime);
+  flushSessionTimeRef.current = flushSessionTime;
+
+  const loadDataRef = useRef<() => Promise<void>>(async () => {});
+
   const refreshProgress = useCallback(async () => {
     if (!user) return;
 
@@ -351,17 +411,11 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       let profile = await syncProfileCounts();
       if (!profile) return;
 
-      profile = await recordSessionTime(profile, false);
-      profile = await checkAchievements(profile);
-      if (catalog.length > 0) {
-        profile = await checkTitles(profile, catalog);
-      }
-      setUserProfile(profile);
-      await reloadUnlockedState(catalog);
+      await flushSessionTime(false, profile);
     } catch (error) {
       console.error('Error refreshing progress:', error);
     }
-  }, [user, titles, syncProfileCounts, recordSessionTime, checkAchievements, checkTitles, reloadUnlockedState]);
+  }, [user, titles, syncProfileCounts, flushSessionTime]);
 
   const loadData = useCallback(async () => {
     if (!user) {
@@ -381,7 +435,6 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       let profile = await syncProfileCounts();
       if (profile) {
-        profile = await recordSessionTime(profile, false);
         profile = await recordLoginStreak(profile);
         profile = await checkAchievements(profile);
         profile = await checkTitles(profile, catalog);
@@ -397,7 +450,9 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } catch (error) {
       console.error('Error loading achievements data:', error);
     }
-  }, [user, syncProfileCounts, recordSessionTime, recordLoginStreak, checkAchievements, checkTitles, reloadUnlockedState]);
+  }, [user, syncProfileCounts, recordLoginStreak, checkAchievements, checkTitles, reloadUnlockedState]);
+
+  loadDataRef.current = loadData;
 
   const selectTitle = useCallback(
     async (titleId: string) => {
@@ -445,38 +500,27 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const subscription = AppState.addEventListener('change', (state) => {
       if (state === 'active') {
         startSessionTimer();
-        loadData();
+        void loadDataRef.current();
         return;
       }
 
-      if (state === 'background' || state === 'inactive') {
-        void (async () => {
-          let profile = await syncProfileCounts();
-          if (!profile) return;
-
-          profile = await recordSessionTime(profile, true);
-          profile = await checkAchievements(profile);
-          if (titles.length > 0) {
-            profile = await checkTitles(profile, titles);
-          }
-          setUserProfile(profile);
-          await reloadUnlockedState(titles);
-        })();
+      if (state === 'background') {
+        void flushSessionTimeRef.current(true);
       }
     });
 
-    return () => subscription.remove();
-  }, [
-    user,
-    loadData,
-    startSessionTimer,
-    syncProfileCounts,
-    recordSessionTime,
-    checkAchievements,
-    checkTitles,
-    titles,
-    reloadUnlockedState,
-  ]);
+    const interval = setInterval(() => {
+      if (AppState.currentState === 'active') {
+        void flushSessionTimeRef.current(false);
+      }
+    }, 60_000);
+
+    return () => {
+      subscription.remove();
+      clearInterval(interval);
+      void flushSessionTimeRef.current(true);
+    };
+  }, [user, startSessionTimer]);
 
   const value = useMemo(
     () => ({

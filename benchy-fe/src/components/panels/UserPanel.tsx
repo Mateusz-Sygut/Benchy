@@ -10,6 +10,7 @@ import { useAchievements } from '../../hooks/useAchievements';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import { getTitleLabel } from '../../lib/titles';
 import { getActiveUserTasks } from '../../lib/userTasks';
+import { formatAchievementProgress } from '../../lib/achievementProgress';
 import { Achievement, UserAchievement } from '../../types/database';
 
 export const UserPanel: React.FC = () => {
@@ -80,6 +81,9 @@ export const UserPanel: React.FC = () => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 15 }}>
           {achievements.map((achievement: Achievement) => {
             const isUnlocked = unlockedAchievements.some((ua: UserAchievement) => ua.achievement_id === achievement.id);
+            const progressLabel = !isUnlocked
+              ? formatAchievementProgress(achievement, userProfile, t)
+              : null;
             return (
               <View 
                 key={achievement.id} 
@@ -100,6 +104,11 @@ export const UserPanel: React.FC = () => {
                 {!isUnlocked && achievement.description && (
                   <Text style={panelStyles.achievementCardDescription} numberOfLines={2}>
                     {t(achievement.description)}
+                  </Text>
+                )}
+                {!isUnlocked && progressLabel && (
+                  <Text style={panelStyles.achievementCardProgress}>
+                    {progressLabel}
                   </Text>
                 )}
                 {isUnlocked && (

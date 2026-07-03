@@ -379,6 +379,14 @@ export const createPanelStyles = (t: AppTheme) =>
       marginTop: 4,
       maxWidth: 70,
     },
+    achievementCardProgress: {
+      fontSize: 10,
+      fontWeight: '600',
+      color: t.primary[300],
+      textAlign: 'center',
+      marginTop: 4,
+      maxWidth: 70,
+    },
     achievementIcon: {
       fontSize: 24,
       marginBottom: 8,

@@ -204,6 +204,8 @@
   "achievements": {
     "title": "Osiągnięcia",
     "unlocked": "odblokowanych",
+    "progressMinutes": "{{current}}/{{target}} min",
+    "progressCount": "{{current}}/{{target}}",
     "firstBench": "Pierwsza Ławeczka",
     "benchCreator": "Ławeczkarz",
     "benchMaster": "Mistrz Ławeczek",
@@ -340,6 +342,7 @@
     "givenRatings": "Wystawione oceny",
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
     "user": "Użytkownik",
+    "timeSpent": "Czas w appce",
     "timeSpentMin": "min",
     "unlockHint": "Odblokuj tytuł, dodając 1 ławkę.",
     "appearance": "Wygląd",

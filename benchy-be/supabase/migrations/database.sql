@@ -316,7 +316,9 @@ INSERT INTO public.achievements (name, description, icon, points, category, requ
 ('specialist', 'achievements.specialist.description', '🎯', 400, 'favorite', 'favorite_count', 100, 'favorites', 3),
 ('streak3', 'achievements.streak3.description', '🔥', 15, 'streak', 'login_streak', 3, 'logins', 1),
 ('streak7', 'achievements.streak7.description', '🔥', 40, 'streak', 'login_streak', 7, 'logins', 2),
-('streak30', 'achievements.streak30.description', '🌟', 150, 'streak', 'login_streak', 30, 'logins', 3)
+('streak30', 'achievements.streak30.description', '🌟', 150, 'streak', 'login_streak', 30, 'logins', 3),
+('sitter', 'achievements.sitter.description', '🪑', 20, 'time', 'time_spent', 30, 'minutes', 1),
+('benchPhilosopher', 'achievements.benchPhilosopher.description', '🤔', 75, 'time', 'time_spent', 120, 'minutes', 2)
 ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO public.titles (name, description, icon, rarity_level) VALUES
