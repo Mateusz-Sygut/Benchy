@@ -36,7 +36,7 @@ const AddBenchScreen = ({ navigation }: any) => {
   const { user } = useAuth();
   const { screen: screenStyles, common: commonStyles, glass: glassmorphismStyles, theme } =
     useThemedStyles();
-  const { updateUserStats } = useAchievements();
+  const { refreshProgress } = useAchievements();
 
   const benchImages = [
     { id: 'wooden_classic', name: t('benchTypes.wooden_classic'), icon: '🪑' },
@@ -146,7 +146,7 @@ const AddBenchScreen = ({ navigation }: any) => {
         return;
       }
 
-      await updateUserStats('bench_created');
+      await refreshProgress();
 
       Alert.alert(
         t('common.success'),

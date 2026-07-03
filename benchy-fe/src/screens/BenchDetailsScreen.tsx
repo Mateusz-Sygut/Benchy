@@ -28,7 +28,7 @@ const BenchDetailsScreen = ({ route }: any) => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const { screen: screenStyles, theme } = useThemedStyles();
-  const { updateUserStats } = useAchievements();
+  const { refreshProgress } = useAchievements();
   const [bench, setBench] = useState<Bench | null>(null);
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [userRating, setUserRating] = useState(0);
@@ -209,7 +209,7 @@ const BenchDetailsScreen = ({ route }: any) => {
         return;
       }
 
-      await updateUserStats('rating_given');
+      await refreshProgress();
 
       Alert.alert(t('common.success'), t('benchDetails.ratingAdded'));
       setUserRating(0);
@@ -245,7 +245,7 @@ const BenchDetailsScreen = ({ route }: any) => {
         }
 
         setIsFavorite(false);
-        await updateUserStats('favorite', -1);
+        await refreshProgress();
       } else {
         const { error } = await supabase
           .from('favorites')
@@ -258,7 +258,7 @@ const BenchDetailsScreen = ({ route }: any) => {
         }
 
         setIsFavorite(true);
-        await updateUserStats('favorite', 1);
+        await refreshProgress();
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
