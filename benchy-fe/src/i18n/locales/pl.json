@@ -25,9 +25,9 @@
     "login": "Zaloguj się",
     "register": "Zarejestruj się",
     "logout": "Wyloguj się",
-    "loginTitle": "Witaj w ŁawAppka!",
+    "loginTitle": "Witaj w ŁawAppce!",
     "loginSubtitle": "Znajdź i oceń ławeczki w Twoim mieście",
-    "registerTitle": "Dołącz do społeczności!",
+    "registerTitle": "Dołącz do społeczności ŁawAppki!",
     "registerSubtitle": "Pomóż innym znaleźć najlepsze ławeczki",
     "confirmPassword": "Potwierdź hasło",
     "noAccount": "Nie masz konta? Zarejestruj się",
@@ -48,7 +48,33 @@
     "addBench": "Dodaj ławeczkę",
     "benchDetails": "Szczegóły ławeczki",
     "favorites": "Ulubione",
-    "settings": "Ustawienia"
+    "settings": "Ustawienia",
+    "help": "Pomoc"
+  },
+  "help": {
+    "intro": "Krótkie odpowiedzi, jak działa ŁawAppka.",
+    "faq": {
+      "addBench": {
+        "q": "Jak dodać ławkę?",
+        "a": "Otwórz prawy panel na mapie lub przejdź do Dodaj ławkę. Ustaw lokalizację przez GPS albo dotykając mapę, potem uzupełnij opis, typ i tagi."
+      },
+      "rate": {
+        "q": "Jak ocenić ławkę?",
+        "a": "Otwórz ławkę z mapy lub listy, a następnie wystaw gwiazdki i opcjonalny komentarz na ekranie szczegółów."
+      },
+      "titles": {
+        "q": "Jak działają tytuły?",
+        "a": "Tytuły odblokowujesz przez grę — dodawanie ławek, seria logowań i inne. W profilu zobaczysz odblokowane tytuły; dotknij, żeby ustawić aktywny."
+      },
+      "streak": {
+        "q": "Co to seria logowań?",
+        "a": "Wchodź do aplikacji kolejne dni z rzędu, żeby budować serię. Dłuższa seria odblokowuje osiągnięcia i tytuł Legenda."
+      },
+      "favorites": {
+        "q": "Jak działają ulubione?",
+        "a": "Dotknij serca przy ławce, żeby ją zapisać. Użyj filtra ulubionych na mapie albo wejdź w Ulubione z prawego panelu."
+      }
+    }
   },
   "settings": {
     "about": "O aplikacji",
@@ -281,6 +307,7 @@
   },
   "tips": {
     "title": "Tip",
+    "panelTitle": "Tip ŁawAppki",
     "addBench": "Dodając ławkę, pomagasz innym znaleźć ulubione miejsce.",
     "rarity": "Rzadkie ławki szybciej odblokowują osiągnięcia.",
     "explore": "Oceń ławki – Twoja opinia pomaga społeczności.",

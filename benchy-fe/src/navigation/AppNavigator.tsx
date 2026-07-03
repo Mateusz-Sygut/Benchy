@@ -10,6 +10,7 @@ import MyBenchesScreen from '../screens/MyBenchesScreen';
 import MyRatingsScreen from '../screens/MyRatingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import HelpScreen from '../screens/HelpScreen';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 
 const Stack = createNativeStackNavigator();
@@ -100,6 +101,16 @@ const AppNavigator = () => {
         component={SettingsScreen}
         options={{
           title: t('navigation.settings'),
+          headerBackTitle: t('common.back'),
+          headerStyle: common.mainHeaderStyle,
+          headerTintColor: theme.navigation.headerTint,
+        }}
+      />
+      <Stack.Screen
+        name="Help"
+        component={HelpScreen}
+        options={{
+          title: t('navigation.help'),
           headerBackTitle: t('common.back'),
           headerStyle: common.mainHeaderStyle,
           headerTintColor: theme.navigation.headerTint,

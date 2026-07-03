@@ -125,7 +125,7 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
               <Ionicons name="radio-outline" size={28} color={theme.primary[400]} />
               <Text style={[panelStyles.emptyStateTitle, { marginTop: 0, marginLeft: 8 }]}>
-                {t('tips.title')} ŁawAppki
+                {t('tips.panelTitle')}
               </Text>
             </View>
             <Text style={panelStyles.emptyStateText}>

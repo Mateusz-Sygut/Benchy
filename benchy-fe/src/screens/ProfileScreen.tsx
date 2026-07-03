@@ -79,7 +79,9 @@ const ProfileScreen = () => {
       icon: 'help-circle-outline',
       title: t('profile.help'),
       subtitle: t('profile.helpSubtitle'),
-      onPress: () => {},
+      onPress: () => {
+        navigation.navigate('Help');
+      },
     },
   ];
 

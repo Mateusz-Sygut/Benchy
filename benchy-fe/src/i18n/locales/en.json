@@ -48,7 +48,33 @@
     "addBench": "Add Bench",
     "benchDetails": "Bench Details",
     "favorites": "Favorites",
-    "settings": "Settings"
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "help": {
+    "intro": "Quick answers about how Benchy works.",
+    "faq": {
+      "addBench": {
+        "q": "How do I add a bench?",
+        "a": "Open the right panel on the map or go to Add Bench. Set a location with GPS or by tapping the map, then fill in the description, type, and tags."
+      },
+      "rate": {
+        "q": "How do I rate a bench?",
+        "a": "Open a bench from the map or bench list, then leave a star rating and optional comment on the details screen."
+      },
+      "titles": {
+        "q": "How do titles work?",
+        "a": "Titles unlock as you play — add benches, keep your streak, and more. Open Profile to see unlocked titles and tap one to equip it."
+      },
+      "streak": {
+        "q": "What is the login streak?",
+        "a": "Open the app on consecutive days to build your streak. Longer streaks unlock achievements and the Legend title."
+      },
+      "favorites": {
+        "q": "How do favorites work?",
+        "a": "Tap the heart on a bench to save it. Use the favorites filter on the map or open Favorites from the right panel."
+      }
+    }
   },
   "settings": {
     "about": "About",
@@ -360,6 +386,7 @@
   },
   "tips": {
     "title": "Tip",
+    "panelTitle": "Benchy tip",
     "addBench": "Adding a bench helps others find their favorite spot.",
     "rarity": "Rare benches unlock achievements faster.",
     "explore": "Rate benches – your opinion helps the community.",
