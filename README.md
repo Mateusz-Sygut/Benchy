@@ -17,11 +17,11 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 |------|----------|
 | `benchy-fe/` | Full Expo app: screens, components, navigation, light/dark themes, PL/EN translations, Supabase client. |
 | `benchy-fe/App.tsx` | Entry: `ThemeProvider`, `LanguageProvider`, `AuthProvider`, `AchievementsProvider`, navigation. |
-| `benchy-fe/src/screens/` | Map, bench list, bench details, add bench, profile, my benches, my ratings, favourites, login/register. |
+| `benchy-fe/src/screens/` | Map, bench list, bench details, add bench, profile, settings, help, my benches, my ratings, favourites, login/register. |
 | `benchy-fe/src/components/` | Shared UI (map, buttons, inputs), `navigation/` (e.g. panel navigator), `panels/` (side/bottom panels). |
-| `benchy-fe/src/contexts/` | `AuthContext`, `ThemeContext`, `LanguageContext`, `AchievementsContext` (stats, streaks, unlocks). |
+| `benchy-fe/src/contexts/` | `AuthContext`, `ThemeContext`, `LanguageContext`, `AchievementsContext` (stats, streaks, app time, titles, unlocks). |
 | `benchy-fe/src/theme/` + `styles/` | Colour tokens for light/dark and `create*Styles(theme)` style factories. |
-| `benchy-fe/src/lib/` | Supabase setup, helpers, geocoding, display name generation. |
+| `benchy-fe/src/lib/` | Supabase setup, geocoding, display names, titles, user tasks, achievement progress, app session time. |
 | `benchy-fe/src/i18n/locales/` | `en.json`, `pl.json` (UI strings + random nickname word lists). |
 | `benchy-be/supabase/migrations/` | SQL: schema, functions, triggers (e.g. smart rarity, rating averages). |
 | `benchy-be/supabase/config.toml` | Local Supabase CLI config (if you use it). |
@@ -39,12 +39,14 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 For a signed-in user (within what RLS allows):
 
 – **Map** – benches as pins (colour by rarity), recenter on user location, favourites filter, shortcut to profile.
-– **Panels** – left: profile, stats, achievements/tasks; right: add bench, my benches, favourites; bottom: recent nearby benches (with tips when empty).
+– **Panels** – left: profile, stats, achievements with progress, tiered onboarding tasks; right: add bench, my benches, favourites; bottom: nearby benches (GPS distance when location is on, otherwise newest with a fallback message).
 – **Bench list** – text search, open details or map.
 – **Bench details** – description, mini map, average rating, favourites, **change rarity** (if exposed in UI), add **your rating and comment**.
 – **Add bench** – description, bench type, surroundings, tags (UI limit), **GPS location or pick on map** (modal with draggable marker).
-– **Profile** – stats, login streak, achievements, shortcuts to “My benches” / “My ratings”, **Settings** (appearance & language), sign out.
+– **Profile** – stats (including time in app), login streak, equipable titles, achievements, shortcuts to “My benches” / “My ratings”, **Settings** (appearance & language), **Help** (FAQ), sign out.
 – **Registration** – optional button to fill a random nickname from word lists in the current locale.
+
+**Gamification:** achievements unlock from benches, ratings, favourites, login streaks, and **time spent in the app** (foreground minutes, flushed every minute and on background). The user panel shows **3 task tiers** (9 tasks total) that advance when a tier is completed. Locked achievement cards show progress (e.g. `18/30 min`).
 
 Without an account you typically only get login/register; everything else depends on Supabase config and RLS.
 
@@ -89,7 +91,16 @@ git clone <repo-url>
 cd Benchy
 ```
 
-**Backend:** configure a Supabase project and apply migrations from `benchy-be/supabase/migrations/` (see any docs under `benchy-be/`).
+**Backend:** configure a Supabase project and apply migrations from `benchy-be/supabase/migrations/`:
+
+| Migration | Purpose |
+|-----------|---------|
+| `database.sql` | Main schema, RLS, smart rarity, achievements (incl. time-based), titles |
+| `add_login_streak.sql` | Login streak columns on `user_profiles` |
+| `add_avatar_storage.sql` | Avatar storage bucket/policies |
+| `add_time_spent_achievements.sql` | `sitter` / `benchPhilosopher` achievements (also in `database.sql` for fresh installs) |
+
+Run any incremental migrations you have not applied yet on an existing project.
 
 **Frontend:**
 

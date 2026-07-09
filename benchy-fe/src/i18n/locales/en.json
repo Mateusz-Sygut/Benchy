@@ -73,6 +73,14 @@
       "favorites": {
         "q": "How do favorites work?",
         "a": "Tap the heart on a bench to save it. Use the favorites filter on the map or open Favorites from the right panel."
+      },
+      "timeSpent": {
+        "q": "How is time in the app counted?",
+        "a": "Foreground minutes are tracked while you use the app and saved every minute (and when you leave the app). Check Profile for your total; locked time achievements show progress like 18/30 min."
+      },
+      "tasks": {
+        "q": "What are tasks in the user panel?",
+        "a": "Tasks are a short onboarding checklist in three stages. Complete all tasks in a stage to unlock the next one. Finished tasks are checked off and link to the relevant screen."
       }
     }
   },

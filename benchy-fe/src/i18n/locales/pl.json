@@ -73,6 +73,14 @@
       "favorites": {
         "q": "Jak działają ulubione?",
         "a": "Dotknij serca przy ławce, żeby ją zapisać. Użyj filtra ulubionych na mapie albo wejdź w Ulubione z prawego panelu."
+      },
+      "timeSpent": {
+        "q": "Jak liczony jest czas w aplikacji?",
+        "a": "Minuty na pierwszym planie są zliczane podczas korzystania z appki i zapisywane co minutę (oraz przy wyjściu z aplikacji). Suma jest w profilu; zablokowane osiągnięcia czasowe pokazują postęp, np. 18/30 min."
+      },
+      "tasks": {
+        "q": "Czym są zadania w panelu użytkownika?",
+        "a": "To krótka lista onboardingowa w trzech etapach. Ukończ wszystkie zadania z etapu, żeby zobaczyć następny. Wykonane zadania są odhaczone i prowadzą do odpowiedniego ekranu."
       }
     }
   },
