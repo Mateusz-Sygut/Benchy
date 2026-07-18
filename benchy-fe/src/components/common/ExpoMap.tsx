@@ -140,6 +140,3 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
     </View>
   );
 };
-
-
-

@@ -15,6 +15,7 @@ import { useAchievements } from '../hooks/useAchievements';
 import { StarRating } from '../components/common/StarRating';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
+import { SitSessionCard } from '../components/bench/SitSessionCard';
 import supabase from '../lib/supabase';
 import { reverseGeocode, formatCityForDisplay } from '../lib/geocoding';
 import { Database, RatingInsert } from '../types/database';
@@ -387,6 +388,13 @@ const BenchDetailsScreen = ({ route }: any) => {
           </Text>
         </View>
       </View>
+
+      <SitSessionCard
+        benchId={bench.id}
+        benchName={bench.name || t('bench.unnamedBench')}
+        latitude={bench.latitude}
+        longitude={bench.longitude}
+      />
 
       <View style={screenStyles.benchDetailsSection}>
         <Text style={screenStyles.benchDetailsSectionTitle}>

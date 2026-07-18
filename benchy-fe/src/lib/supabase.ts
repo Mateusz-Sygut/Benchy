@@ -20,4 +20,3 @@ if (supabaseUrl === 'YOUR_SUPABASE_URL' || supabaseAnonKey === 'YOUR_SUPABASE_AN
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 export default supabase;
-

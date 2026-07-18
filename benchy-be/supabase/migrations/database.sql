@@ -139,7 +139,26 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'last_login_date') THEN
         ALTER TABLE public.user_profiles ADD COLUMN last_login_date DATE;
     END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_sit_sessions') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN total_sit_sessions INTEGER DEFAULT 0;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_sit_minutes') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN total_sit_minutes INTEGER DEFAULT 0;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'longest_sit_minutes') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN longest_sit_minutes INTEGER DEFAULT 0;
+    END IF;
 END $$;
+
+CREATE TABLE IF NOT EXISTS public.sit_sessions (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+    bench_id UUID REFERENCES public.benches(id) ON DELETE CASCADE NOT NULL,
+    started_at TIMESTAMPTZ NOT NULL,
+    ended_at TIMESTAMPTZ NOT NULL,
+    duration_seconds INTEGER NOT NULL CHECK (duration_seconds >= 0),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
 CREATE TABLE IF NOT EXISTS public.benches (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -318,7 +337,10 @@ INSERT INTO public.achievements (name, description, icon, points, category, requ
 ('streak7', 'achievements.streak7.description', '🔥', 40, 'streak', 'login_streak', 7, 'logins', 2),
 ('streak30', 'achievements.streak30.description', '🌟', 150, 'streak', 'login_streak', 30, 'logins', 3),
 ('sitter', 'achievements.sitter.description', '🪑', 20, 'time', 'time_spent', 30, 'minutes', 1),
-('benchPhilosopher', 'achievements.benchPhilosopher.description', '🤔', 75, 'time', 'time_spent', 120, 'minutes', 2)
+('benchPhilosopher', 'achievements.benchPhilosopher.description', '🤔', 75, 'time', 'time_spent', 120, 'minutes', 2),
+('firstSit', 'achievements.firstSit.description', '🧘', 15, 'sit', 'sit_count', 1, 'sits', 1),
+('lingerer', 'achievements.lingerer.description', '🍃', 25, 'sit', 'sit_session', 5, 'minutes', 1),
+('contemplator', 'achievements.contemplator.description', '🌅', 50, 'sit', 'sit_session', 15, 'minutes', 2)
 ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO public.titles (name, description, icon, rarity_level) VALUES
@@ -335,6 +357,7 @@ ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.benches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ratings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.favorites ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.sit_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_achievements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_titles ENABLE ROW LEVEL SECURITY;
 
@@ -354,6 +377,9 @@ DROP POLICY IF EXISTS "Users can delete own ratings" ON public.ratings;
 DROP POLICY IF EXISTS "Favorites can be read by all" ON public.favorites;
 DROP POLICY IF EXISTS "Users can insert own favorites" ON public.favorites;
 DROP POLICY IF EXISTS "Users can delete own favorites" ON public.favorites;
+DROP POLICY IF EXISTS "Sit sessions can be read by owner" ON public.sit_sessions;
+DROP POLICY IF EXISTS "Users can insert own sit sessions" ON public.sit_sessions;
+DROP POLICY IF EXISTS "Users can delete own sit sessions" ON public.sit_sessions;
 DROP POLICY IF EXISTS "User achievements can be read by all" ON public.user_achievements;
 DROP POLICY IF EXISTS "Users can insert own achievements" ON public.user_achievements;
 DROP POLICY IF EXISTS "User titles can be read by all" ON public.user_titles;
@@ -408,6 +434,15 @@ CREATE POLICY "Users can insert own favorites" ON public.favorites
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 CREATE POLICY "Users can delete own favorites" ON public.favorites
+    FOR DELETE USING (auth.uid() = user_id);
+
+CREATE POLICY "Sit sessions can be read by owner" ON public.sit_sessions
+    FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own sit sessions" ON public.sit_sessions
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own sit sessions" ON public.sit_sessions
     FOR DELETE USING (auth.uid() = user_id);
 
 CREATE POLICY "User achievements can be read by all" ON public.user_achievements
@@ -594,6 +629,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.benches TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.ratings TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.favorites TO authenticated;
+GRANT INSERT, DELETE ON public.sit_sessions TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_profiles TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_achievements TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_titles TO authenticated;

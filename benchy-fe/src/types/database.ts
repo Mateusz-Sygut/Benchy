@@ -192,6 +192,35 @@ export interface Database {
           created_at?: string;
         };
       };
+      sit_sessions: {
+        Row: {
+          id: string;
+          user_id: string;
+          bench_id: string;
+          started_at: string;
+          ended_at: string;
+          duration_seconds: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          bench_id: string;
+          started_at: string;
+          ended_at: string;
+          duration_seconds: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          bench_id?: string;
+          started_at?: string;
+          ended_at?: string;
+          duration_seconds?: number;
+          created_at?: string;
+        };
+      };
       achievements: {
         Row: {
           id: string;
@@ -305,6 +334,9 @@ export interface Database {
           total_time_spent: number;
           total_ratings_given: number;
           total_favorites: number;
+          total_sit_sessions: number;
+          total_sit_minutes: number;
+          longest_sit_minutes: number;
           current_streak: number;
           longest_streak: number;
           last_login_date: string | null;
@@ -322,6 +354,9 @@ export interface Database {
           total_time_spent?: number;
           total_ratings_given?: number;
           total_favorites?: number;
+          total_sit_sessions?: number;
+          total_sit_minutes?: number;
+          longest_sit_minutes?: number;
           current_streak?: number;
           longest_streak?: number;
           last_login_date?: string | null;
@@ -339,6 +374,9 @@ export interface Database {
           total_time_spent?: number;
           total_ratings_given?: number;
           total_favorites?: number;
+          total_sit_sessions?: number;
+          total_sit_minutes?: number;
+          longest_sit_minutes?: number;
           current_streak?: number;
           longest_streak?: number;
           last_login_date?: string | null;
@@ -372,6 +410,7 @@ export type BenchType = Database['public']['Tables']['bench_types']['Row'];
 export type Location = Database['public']['Tables']['locations']['Row'];
 export type Tag = Database['public']['Tables']['tags']['Row'];
 export type Favorite = Database['public']['Tables']['favorites']['Row'];
+export type SitSession = Database['public']['Tables']['sit_sessions']['Row'];
 export type Achievement = Database['public']['Tables']['achievements']['Row'];
 export type UserAchievement = Database['public']['Tables']['user_achievements']['Row'];
 export type Title = Database['public']['Tables']['titles']['Row'];

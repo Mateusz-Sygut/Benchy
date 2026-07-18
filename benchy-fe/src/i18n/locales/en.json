@@ -81,6 +81,10 @@
       "tasks": {
         "q": "What are tasks in the user panel?",
         "a": "Tasks are a short onboarding checklist in three stages. Complete all tasks in a stage to unlock the next one. Finished tasks are checked off and link to the relevant screen."
+      },
+      "sit": {
+        "q": "How does sitting on a bench work?",
+        "a": "Open a bench and tap Sit here when you are within about 80 m. A timer runs while you stay nearby. Sessions of at least 2 minutes count toward sit achievements (5 min, 15 min)."
       }
     }
   },
@@ -329,7 +333,34 @@
     "streak7.description": "Open the app 7 days in a row",
     "streak30.description": "Open the app 30 days in a row",
     "sitter.description": "Spend 30 minutes in the app",
-    "benchPhilosopher.description": "Spend 120 minutes in the app"
+    "benchPhilosopher.description": "Spend 120 minutes in the app",
+    "firstSit": "First Sit",
+    "lingerer": "Lingerer",
+    "contemplator": "Contemplator",
+    "firstSit.description": "Complete your first sit session on a bench",
+    "lingerer.description": "Sit on a bench for 5 minutes in one session",
+    "contemplator.description": "Sit on a bench for 15 minutes in one session"
+  },
+  "sit": {
+    "title": "Sit here",
+    "hint": "Start a sit when you are within {{meters}} m of this bench. Stay nearby — GPS checks every ~25 seconds.",
+    "start": "Sit here",
+    "end": "Stand up",
+    "sittingNow": "You are sitting",
+    "leavingRange": "You seem to be leaving the bench…",
+    "sittingElsewhere": "You are already sitting at {{name}}. End that session first.",
+    "tooFarTitle": "Too far away",
+    "tooFarBody": "Move within {{meters}} m of the bench to start sitting.",
+    "locationRequired": "Location permission is required to sit on a bench.",
+    "needLogin": "Sign in to start a sit session.",
+    "alreadySittingTitle": "Already sitting",
+    "alreadySittingBody": "End your current sit session before starting another.",
+    "endedTitle": "Sit ended",
+    "tooShort": "Session was shorter than 2 minutes — not saved.",
+    "leftRangeTooShort": "You left the bench before 2 minutes — session not saved.",
+    "saved": "Nice sit — {{minutes}} min saved.",
+    "leftRangeSaved": "You left the bench. Saved {{minutes}} min.",
+    "saveError": "Could not save the sit session."
   },
   "streak": {
     "label": "Day streak",
@@ -418,5 +449,3 @@
     "favorites": "Add to favorites – easy to find later."
   }
 }
-
-

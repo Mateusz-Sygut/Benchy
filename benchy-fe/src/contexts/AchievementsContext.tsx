@@ -109,10 +109,42 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       countForUser('favorites', user.id),
     ]);
 
+    const { data: sitRows, error: sitError } = (await supabase
+      .from('sit_sessions')
+      .select('duration_seconds')
+      .eq('user_id', user.id)) as {
+      data: { duration_seconds: number }[] | null;
+      error: { message?: string } | null;
+    };
+
+    if (sitError) {
+      console.warn(
+        'Sit sessions unavailable. Run benchy-be/supabase/migrations/add_sit_sessions.sql'
+      );
+    }
+
+    const sitSessions = sitError ? [] : sitRows ?? [];
+    const totalSitSessions = sitSessions.length;
+    const totalSitMinutes = sitSessions.reduce(
+      (sum, row) => sum + Math.floor((row.duration_seconds ?? 0) / 60),
+      0
+    );
+    const longestSitMinutes = sitSessions.reduce(
+      (max, row) => Math.max(max, Math.floor((row.duration_seconds ?? 0) / 60)),
+      0
+    );
+
     const counts = {
       total_benches_created: totalBenches,
       total_ratings_given: totalRatings,
       total_favorites: totalFavorites,
+      ...(sitError
+        ? {}
+        : {
+            total_sit_sessions: totalSitSessions,
+            total_sit_minutes: totalSitMinutes,
+            longest_sit_minutes: longestSitMinutes,
+          }),
     };
 
     const { data: existing } = await supabase
@@ -143,6 +175,21 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       .single();
 
     if (error) {
+      // Sit columns may be missing until migration is applied — keep core counts working.
+      if (error.code === 'PGRST204' || (error.message?.includes('total_sit') ?? false)) {
+        console.warn(
+          'Sit profile columns missing in Supabase. Run benchy-be/supabase/migrations/add_sit_sessions.sql'
+        );
+        const { total_sit_sessions: _s, total_sit_minutes: _m, longest_sit_minutes: _l, ...core } =
+          counts;
+        const { data: fallback, error: fallbackError } = await supabase
+          .from('user_profiles')
+          .update(core as never)
+          .eq('user_id', user.id)
+          .select('*')
+          .single();
+        if (!fallbackError && fallback) return fallback as UserProfile;
+      }
       console.error('Error syncing user profile:', error);
       return existing as UserProfile;
     }
@@ -224,6 +271,12 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             return (profile.total_favorites ?? 0) >= achievement.requirement_value;
           case 'login_streak':
             return (profile.current_streak ?? 0) >= achievement.requirement_value;
+          case 'sit_count':
+            return (profile.total_sit_sessions ?? 0) >= achievement.requirement_value;
+          case 'sit_minutes':
+            return (profile.total_sit_minutes ?? 0) >= achievement.requirement_value;
+          case 'sit_session':
+            return (profile.longest_sit_minutes ?? 0) >= achievement.requirement_value;
           default:
             return false;
         }

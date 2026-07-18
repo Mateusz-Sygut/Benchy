@@ -63,13 +63,6 @@ export const UserPanel: React.FC = () => {
             <Text style={panelStyles.statLabel}>{t('streak.label')}</Text>
           </View>
         </View>
-        {(userProfile?.current_streak ?? 0) > 0 && (
-          <Text style={[glassmorphismStyles.cardSubtitle, { marginTop: 8 }]}>
-            🔥 {t('streak.current', { count: userProfile?.current_streak ?? 0 })}
-            {(userProfile?.longest_streak ?? 0) > (userProfile?.current_streak ?? 0) &&
-              ` · ${t('streak.best', { count: userProfile?.longest_streak ?? 0 })}`}
-          </Text>
-        )}
       </View>
 
       <View style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}>

@@ -16,12 +16,14 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 | Path | Contents |
 |------|----------|
 | `benchy-fe/` | Full Expo app: screens, components, navigation, light/dark themes, PL/EN translations, Supabase client. |
-| `benchy-fe/App.tsx` | Entry: `ThemeProvider`, `LanguageProvider`, `AuthProvider`, `AchievementsProvider`, navigation. |
+| `benchy-fe/App.tsx` | Entry: `ThemeProvider`, `LanguageProvider`, `AuthProvider`, `AchievementsProvider`, `SitSessionProvider`, navigation. |
 | `benchy-fe/src/screens/` | Map, bench list, bench details, add bench, profile, settings, help, my benches, my ratings, favourites, login/register. |
-| `benchy-fe/src/components/` | Shared UI (map, buttons, inputs), `navigation/` (e.g. panel navigator), `panels/` (side/bottom panels). |
-| `benchy-fe/src/contexts/` | `AuthContext`, `ThemeContext`, `LanguageContext`, `AchievementsContext` (stats, streaks, app time, titles, unlocks). |
+| `benchy-fe/src/components/` | Shared UI (map, buttons, inputs), `bench/` (sit session card + 3D viewer), `panels/`. |
+| `benchy-fe/src/contexts/` | `AuthContext`, `ThemeContext`, `LanguageContext`, `AchievementsContext`, `SitSessionContext` (GPS sit timer). |
 | `benchy-fe/src/theme/` + `styles/` | Colour tokens for light/dark and `create*Styles(theme)` style factories. |
-| `benchy-fe/src/lib/` | Supabase setup, geocoding, display names, titles, user tasks, achievement progress, app session time. |
+| `benchy-fe/src/lib/` | Supabase, geocoding, titles, user tasks, achievement progress, app time, sit session helpers. |
+| `benchy-fe/assets/models/` | 3D sit character (`sit-character.glb`) shown during an active sit. |
+| `benchy-fe/metro.config.js` | Metro asset extensions for `.glb` / `.gltf`. |
 | `benchy-fe/src/i18n/locales/` | `en.json`, `pl.json` (UI strings + random nickname word lists). |
 | `benchy-be/supabase/migrations/` | SQL: schema, functions, triggers (e.g. smart rarity, rating averages). |
 | `benchy-be/supabase/config.toml` | Local Supabase CLI config (if you use it). |
@@ -41,12 +43,12 @@ For a signed-in user (within what RLS allows):
 – **Map** – benches as pins (colour by rarity), recenter on user location, favourites filter, shortcut to profile.
 – **Panels** – left: profile, stats, achievements with progress, tiered onboarding tasks; right: add bench, my benches, favourites; bottom: nearby benches (GPS distance when location is on, otherwise newest with a fallback message).
 – **Bench list** – text search, open details or map.
-– **Bench details** – description, mini map, average rating, favourites, **change rarity** (if exposed in UI), add **your rating and comment**.
+– **Bench details** – description, mini map, average rating, favourites, **Sit here** (GPS sit session with timer + rotating 3D character), rarity, rating and comment.
 – **Add bench** – description, bench type, surroundings, tags (UI limit), **GPS location or pick on map** (modal with draggable marker).
 – **Profile** – stats (including time in app), login streak, equipable titles, achievements, shortcuts to “My benches” / “My ratings”, **Settings** (appearance & language), **Help** (FAQ), sign out.
 – **Registration** – optional button to fill a random nickname from word lists in the current locale.
 
-**Gamification:** achievements unlock from benches, ratings, favourites, login streaks, and **time spent in the app** (foreground minutes, flushed every minute and on background). The user panel shows **3 task tiers** (9 tasks total) that advance when a tier is completed. Locked achievement cards show progress (e.g. `18/30 min`).
+**Gamification:** achievements unlock from benches, ratings, favourites, login streaks, **time spent in the app**, and **physical sit sessions** on a bench (within ~80 m GPS, timer on Bench Details, sessions ≥ 2 min; sit achievements e.g. first sit / 5 min / 15 min). Active sit shows a tinted GLB character (`assets/models/sit-character.glb`) via `expo-gl` + `three`. The user panel shows **3 task tiers** (9 tasks total). Locked achievement cards show progress (e.g. `18/30 min`).
 
 Without an account you typically only get login/register; everything else depends on Supabase config and RLS.
 
@@ -66,7 +68,8 @@ Without an account you typically only get login/register; everything else depend
 - **React Native** + **Expo** (SDK 54) – one codebase for iOS / Android / web (see Expo docs for web vs native map limitations).
 - **React Navigation** – screen stack (add bench, details, profile from map, etc.).
 - **react-native-maps** – map and markers.
-- **expo-location** – permissions and GPS.
+- **expo-location** – permissions and GPS (map + sit proximity).
+- **expo-gl** + **three** – 3D sit character on Bench Details.
 - **expo-linear-gradient**, **expo-status-bar** – gradients and status bar.
 - **react-i18next** + **i18next** – i18n.
 - **@supabase/supabase-js** – Auth and database API.
@@ -99,6 +102,7 @@ cd Benchy
 | `add_login_streak.sql` | Login streak columns on `user_profiles` |
 | `add_avatar_storage.sql` | Avatar storage bucket/policies |
 | `add_time_spent_achievements.sql` | `sitter` / `benchPhilosopher` achievements (also in `database.sql` for fresh installs) |
+| `add_sit_sessions.sql` | Physical sit sessions at benches + sit achievements |
 
 Run any incremental migrations you have not applied yet on an existing project.
 

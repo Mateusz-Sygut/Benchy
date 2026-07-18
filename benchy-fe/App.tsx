@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { AchievementsProvider } from './src/contexts/AchievementsContext';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import { LanguageProvider } from './src/contexts/LanguageContext';
+import { SitSessionProvider } from './src/contexts/SitSessionContext';
 import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -32,9 +33,11 @@ export default function App() {
       <LanguageProvider>
         <AuthProvider>
           <AchievementsProvider>
-            <NavigationContainer>
-              <AppContent />
-            </NavigationContainer>
+            <SitSessionProvider>
+              <NavigationContainer>
+                <AppContent />
+              </NavigationContainer>
+            </SitSessionProvider>
           </AchievementsProvider>
         </AuthProvider>
       </LanguageProvider>

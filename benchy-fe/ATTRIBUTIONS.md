@@ -9,3 +9,9 @@ The bench marker on the map uses an icon from Flaticon.
 Asset file: `assets/bench.png`
 
 Used under the [Flaticon Free License](https://www.flaticon.com/free-icons/bench) (attribution required).
+
+## Sit session — 3D character
+
+The sit timer UI uses a local GLB model:
+
+Asset file: `assets/models/sit-character.glb`

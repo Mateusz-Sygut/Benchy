@@ -29,6 +29,12 @@ export function getAchievementProgress(
         current: Math.max(profile.current_streak ?? 0, profile.longest_streak ?? 0),
         target,
       };
+    case 'sit_count':
+      return { current: profile.total_sit_sessions ?? 0, target };
+    case 'sit_minutes':
+      return { current: profile.total_sit_minutes ?? 0, target };
+    case 'sit_session':
+      return { current: profile.longest_sit_minutes ?? 0, target };
     default:
       return null;
   }
@@ -44,7 +50,11 @@ export function formatAchievementProgress(
 
   const current = Math.min(progress.current, progress.target);
 
-  if (achievement.requirement_type === 'time_spent') {
+  if (
+    achievement.requirement_type === 'time_spent' ||
+    achievement.requirement_type === 'sit_session' ||
+    achievement.requirement_type === 'sit_minutes'
+  ) {
     return t('achievements.progressMinutes', {
       current,
       target: progress.target,

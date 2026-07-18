@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StatusBar } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 
-const FAQ_KEYS = ['addBench', 'rate', 'titles', 'streak', 'favorites', 'timeSpent', 'tasks'] as const;
+const FAQ_KEYS = ['addBench', 'rate', 'titles', 'streak', 'favorites', 'timeSpent', 'tasks', 'sit'] as const;
 
 const HelpScreen = () => {
   const { t } = useTranslation();

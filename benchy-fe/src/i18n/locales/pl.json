@@ -81,6 +81,10 @@
       "tasks": {
         "q": "Czym są zadania w panelu użytkownika?",
         "a": "To krótka lista onboardingowa w trzech etapach. Ukończ wszystkie zadania z etapu, żeby zobaczyć następny. Wykonane zadania są odhaczone i prowadzą do odpowiedniego ekranu."
+      },
+      "sit": {
+        "q": "Jak działa siadanie na ławce?",
+        "a": "Otwórz ławkę i wybierz Usiądź, gdy jesteś w odległości ok. 80 m. Timer działa, dopóki jesteś w pobliżu. Sesje od 2 minut liczą się do osiągnięć (5 min, 15 min)."
       }
     }
   },
@@ -245,7 +249,34 @@
     "streak7.description": "Wejdź do aplikacji 7 dni z rzędu",
     "streak30.description": "Wejdź do aplikacji 30 dni z rzędu",
     "sitter.description": "Spędź 30 minut w aplikacji",
-    "benchPhilosopher.description": "Spędź 120 minut w aplikacji"
+    "benchPhilosopher.description": "Spędź 120 minut w aplikacji",
+    "firstSit": "Pierwsze siadanie",
+    "lingerer": "Przesiadywacz",
+    "contemplator": "Kontemplator",
+    "firstSit.description": "Ukończ pierwszą sesję siadania na ławce",
+    "lingerer.description": "Posiedź na ławce 5 minut w jednej sesji",
+    "contemplator.description": "Posiedź na ławce 15 minut w jednej sesji"
+  },
+  "sit": {
+    "title": "Siadanie",
+    "hint": "Zacznij sesję, gdy jesteś w odległości {{meters}} m od tej ławki. Zostań w pobliżu — GPS sprawdza pozycję co ok. 25 s.",
+    "start": "Usiądź",
+    "end": "Wstań",
+    "sittingNow": "Siedzisz",
+    "leavingRange": "Wygląda na to, że oddalasz się od ławki…",
+    "sittingElsewhere": "Już siedzisz przy {{name}}. Najpierw zakończ tę sesję.",
+    "tooFarTitle": "Za daleko",
+    "tooFarBody": "Podejdź na {{meters}} m od ławki, żeby usiąść.",
+    "locationRequired": "Do siadania potrzebna jest zgoda na lokalizację.",
+    "needLogin": "Zaloguj się, żeby zacząć sesję siadania.",
+    "alreadySittingTitle": "Już siedzisz",
+    "alreadySittingBody": "Zakończ aktualną sesję, zanim zaczniesz kolejną.",
+    "endedTitle": "Koniec siadania",
+    "tooShort": "Sesja trwała krócej niż 2 minuty — nie została zapisana.",
+    "leftRangeTooShort": "Oddaliłeś się przed upływem 2 minut — sesja nie została zapisana.",
+    "saved": "Dobre siadanie — zapisano {{minutes}} min.",
+    "leftRangeSaved": "Oddaliłeś się od ławki. Zapisano {{minutes}} min.",
+    "saveError": "Nie udało się zapisać sesji siadania."
   },
   "streak": {
     "label": "Seria dni",
