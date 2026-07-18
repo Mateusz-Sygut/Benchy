@@ -338,12 +338,6 @@ export const createScreenStyles = (t: AppTheme) =>
     alignItems: 'center' as 'center',
     paddingVertical: 8,
   },
-  sitActiveHeader: {
-    flexDirection: 'row' as 'row',
-    alignItems: 'center' as 'center',
-    gap: 8,
-    marginBottom: 8,
-  },
   sitActiveLabel: {
     fontSize: 15,
     fontWeight: '600' as '600',

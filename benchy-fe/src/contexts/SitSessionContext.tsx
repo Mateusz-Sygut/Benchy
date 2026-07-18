@@ -98,15 +98,11 @@ export const SitSessionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       const seconds = durationSeconds(session.startedAtMs, endedAtMs);
       if (seconds < SIT_MIN_DURATION_SEC) return false;
 
-      const minutes = Math.floor(seconds / 60);
-      const startedAt = new Date(session.startedAtMs).toISOString();
-      const endedAt = new Date(endedAtMs).toISOString();
-
       const { error: insertError } = await supabase.from('sit_sessions').insert({
         user_id: user.id,
         bench_id: session.benchId,
-        started_at: startedAt,
-        ended_at: endedAt,
+        started_at: new Date(session.startedAtMs).toISOString(),
+        ended_at: new Date(endedAtMs).toISOString(),
         duration_seconds: seconds,
       } as never);
 
@@ -115,35 +111,7 @@ export const SitSessionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         return false;
       }
 
-      const { data: profile } = (await supabase
-        .from('user_profiles')
-        .select('total_sit_sessions, total_sit_minutes, longest_sit_minutes')
-        .eq('user_id', user.id)
-        .maybeSingle()) as {
-        data: {
-          total_sit_sessions: number | null;
-          total_sit_minutes: number | null;
-          longest_sit_minutes: number | null;
-        } | null;
-      };
-
-      const nextSessions = (profile?.total_sit_sessions ?? 0) + 1;
-      const nextMinutes = (profile?.total_sit_minutes ?? 0) + minutes;
-      const nextLongest = Math.max(profile?.longest_sit_minutes ?? 0, minutes);
-
-      const { error: updateError } = await supabase
-        .from('user_profiles')
-        .update({
-          total_sit_sessions: nextSessions,
-          total_sit_minutes: nextMinutes,
-          longest_sit_minutes: nextLongest,
-        } as never)
-        .eq('user_id', user.id);
-
-      if (updateError) {
-        console.error('Error updating sit totals:', updateError);
-      }
-
+      // Totals + achievements come from syncProfileCounts inside refreshProgress.
       await refreshProgress();
       return true;
     },

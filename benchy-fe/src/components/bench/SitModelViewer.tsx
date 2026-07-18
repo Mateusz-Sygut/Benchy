@@ -63,9 +63,8 @@ function fitToView(root: THREE.Object3D, camera: THREE.PerspectiveCamera) {
 
   const maxDim = Math.max(size.x, size.y, size.z) || 1;
   const fov = THREE.MathUtils.degToRad(camera.fov);
-  const distance =
-    Math.max(maxDim * 0.55 / Math.tan(fov / 2), (maxDim * 0.55 / Math.tan(fov / 2)) / camera.aspect) *
-    1.15;
+  const fit = (maxDim * 0.55) / Math.tan(fov / 2);
+  const distance = Math.max(fit, fit / camera.aspect) * 1.15;
 
   camera.position.set(0, size.y * 0.05, distance);
   camera.near = distance / 100;
