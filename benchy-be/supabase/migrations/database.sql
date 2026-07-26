@@ -585,7 +585,10 @@ CREATE TRIGGER update_bench_rating_trigger
     FOR EACH ROW
     EXECUTE FUNCTION update_bench_average_rating();
 
-CREATE OR REPLACE VIEW public.bench_details AS
+DROP VIEW IF EXISTS public.bench_details;
+CREATE VIEW public.bench_details
+WITH (security_invoker = on)
+AS
 SELECT 
     b.id,
     b.name,

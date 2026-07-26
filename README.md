@@ -103,6 +103,7 @@ cd Benchy
 | `add_avatar_storage.sql` | Avatar storage bucket/policies |
 | `add_time_spent_achievements.sql` | `sitter` / `benchPhilosopher` achievements (also in `database.sql` for fresh installs) |
 | `add_sit_sessions.sql` | Physical sit sessions at benches + sit achievements |
+| `fix_bench_details_security_invoker.sql` | Recreate `bench_details` view with `security_invoker` (RLS of caller) |
 
 Run any incremental migrations you have not applied yet on an existing project.
 
