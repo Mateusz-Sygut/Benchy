@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { BenchMapMarker, BENCH_MARKER_ANCHOR } from '../components/common/BenchMapMarker';
+import { BenchTypeIcon } from '../components/common/BenchTypeIcon';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/AuthContext';
@@ -40,7 +41,8 @@ const BenchDetailsScreen = ({ route }: any) => {
   const [favoriteLoading, setFavoriteLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [locationLabel, setLocationLabel] = useState<string | null>(null);
-  const [benchTypeIcon, setBenchTypeIcon] = useState<string>('🪑');
+  const [benchTypeName, setBenchTypeName] = useState<string | null>(null);
+  const [benchTypeEmoji, setBenchTypeEmoji] = useState<string>('🪑');
 
   useEffect(() => {
     loadBenchDetails();
@@ -151,27 +153,31 @@ const BenchDetailsScreen = ({ route }: any) => {
 
   const loadBenchTypeIcon = async (benchTypeId: string | null) => {
     if (!benchTypeId) {
-      setBenchTypeIcon('🪑');
+      setBenchTypeName(null);
+      setBenchTypeEmoji('🪑');
       return;
     }
 
     try {
       const { data, error } = await supabase
         .from('bench_types')
-        .select('icon')
+        .select('name, icon')
         .eq('id', benchTypeId)
         .single();
 
       if (error) {
         console.error('Error loading bench type icon:', error);
-        setBenchTypeIcon('🪑');
+        setBenchTypeName(null);
+        setBenchTypeEmoji('🪑');
         return;
       }
 
-      setBenchTypeIcon((data as any)?.icon || '🪑');
+      setBenchTypeName((data as any)?.name ?? null);
+      setBenchTypeEmoji((data as any)?.icon || '🪑');
     } catch (error) {
       console.error('Error loading bench type icon:', error);
-      setBenchTypeIcon('🪑');
+      setBenchTypeName(null);
+      setBenchTypeEmoji('🪑');
     }
   };
 
@@ -346,7 +352,13 @@ const BenchDetailsScreen = ({ route }: any) => {
       </View>
 
       <View style={screenStyles.benchDetailsBenchInfo}>
-        <Text style={screenStyles.benchDetailsIcon}>{benchTypeIcon}</Text>
+        <View style={screenStyles.benchDetailsIcon}>
+          <BenchTypeIcon
+            typeName={benchTypeName}
+            emojiFallback={benchTypeEmoji}
+            size={56}
+          />
+        </View>
         <View style={screenStyles.benchDetailsBenchDetails}>
           <TouchableOpacity
             style={[

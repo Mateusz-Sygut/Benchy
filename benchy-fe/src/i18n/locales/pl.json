@@ -178,12 +178,11 @@
     "anomalous.description": "Niezwykle rzadkie ławeczki"
   },
   "benchTypes": {
-    "wooden_classic": "Klasyczna drewniana",
-    "metal_modern": "Nowoczesna metalowa",
-    "stone_bench": "Kamienna ławka",
-    "park_bench": "Ławka parkowa",
-    "concrete_bench": "Betonowa ławka",
-    "picnic_table": "Stół piknikowy"
+    "wooden": "Drewniana",
+    "metal": "Metalowa",
+    "stone": "Kamienna",
+    "designer": "Dizajnerska",
+    "park": "Inna"
   },
   "locations": {
     "park": "Park",

@@ -182,12 +182,11 @@
     "avatarPermissionDenied": "Gallery access is required to choose a photo"
   },
   "benchTypes": {
-    "wooden_classic": "Classic Wooden",
-    "metal_modern": "Modern Metal",
-    "stone_bench": "Stone Bench",
-    "park_bench": "Park Bench",
-    "concrete_bench": "Concrete Bench",
-    "picnic_table": "Picnic Table"
+    "wooden": "Wooden",
+    "metal": "Metal",
+    "stone": "Stone",
+    "designer": "Designer",
+    "park": "Other"
   },
   "search": {
     "title": "Search Benches",

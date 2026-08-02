@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/common/Button';
+import { BenchTypeIcon } from '../components/common/BenchTypeIcon';
 import supabase from '../lib/supabase';
 import { Bench } from '../types/database';
 import { useThemedStyles } from '../hooks/useThemedStyles';
@@ -63,7 +64,7 @@ const MyBenchesScreen = () => {
     try {
       const { data, error } = await supabase
         .from('benches')
-        .select('*')
+        .select('*, bench_type:bench_type_id(id, name, icon, created_at)')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
@@ -99,25 +100,6 @@ const MyBenchesScreen = () => {
     });
   };
 
-  const getBenchIcon = (imageType: string) => {
-    switch (imageType) {
-      case 'wooden_classic':
-        return '🪑';
-      case 'metal_modern':
-        return '🛋️';
-      case 'stone_bench':
-        return '🗿';
-      case 'park_bench':
-        return '🌳';
-      case 'concrete_bench':
-        return '⬜';
-      case 'picnic_table':
-        return '🏕️';
-      default:
-        return '🪑';
-    }
-  };
-
   const renderBenchItem = ({ item }: { item: Bench }) => (
     <TouchableOpacity
       style={screenStyles.benchListBenchCard}
@@ -127,9 +109,11 @@ const MyBenchesScreen = () => {
         style={screenStyles.benchListBenchIconContainer}
         onPress={() => navigateToMapWithBench(item)}
       >
-        <Text style={screenStyles.benchListBenchIcon}>
-          {getBenchIcon(item.image_type || 'wooden_classic')}
-        </Text>
+        <BenchTypeIcon
+          typeName={item.bench_type?.name ?? item.image_type}
+          emojiFallback={item.bench_type?.icon}
+          size={28}
+        />
       </TouchableOpacity>
 
       <View style={screenStyles.benchListBenchContent}>

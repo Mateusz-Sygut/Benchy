@@ -18,6 +18,7 @@ import { BenchInsert, BenchType, Location as LocationType, Tag } from '../types/
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import { LocationMapPicker } from '../components/common/LocationMapPicker';
+import { BenchTypeIcon } from '../components/common/BenchTypeIcon';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 
 const AddBenchScreen = ({ navigation }: any) => {
@@ -37,15 +38,6 @@ const AddBenchScreen = ({ navigation }: any) => {
   const { screen: screenStyles, common: commonStyles, glass: glassmorphismStyles, theme } =
     useThemedStyles();
   const { refreshProgress } = useAchievements();
-
-  const benchImages = [
-    { id: 'wooden_classic', name: t('benchTypes.wooden_classic'), icon: '🪑' },
-    { id: 'metal_modern', name: t('benchTypes.metal_modern'), icon: '🛋️' },
-    { id: 'stone_bench', name: t('benchTypes.stone_bench'), icon: '🗿' },
-    { id: 'park_bench', name: t('benchTypes.park_bench'), icon: '🌳' },
-    { id: 'concrete_bench', name: t('benchTypes.concrete_bench'), icon: '⬜' },
-    { id: 'picnic_table', name: t('benchTypes.picnic_table'), icon: '🏕️' },
-  ];
 
   useEffect(() => {
     loadFormData();
@@ -68,9 +60,18 @@ const AddBenchScreen = ({ navigation }: any) => {
         .select('*')
         .order('name');
 
-      if (benchTypesData) setBenchTypes(benchTypesData);
-      if (locationsData) setLocations(locationsData);
-      if (tagsData) setTags(tagsData);
+      if (benchTypesData) {
+        const types = benchTypesData as BenchType[];
+        setBenchTypes(
+          [...types].sort((a, b) => {
+            if (a.name === 'park') return 1;
+            if (b.name === 'park') return -1;
+            return a.name.localeCompare(b.name);
+          })
+        );
+      }
+      if (locationsData) setLocations(locationsData as LocationType[]);
+      if (tagsData) setTags(tagsData as Tag[]);
     } catch (error) {
       console.error('Error loading form data:', error);
     }
@@ -123,10 +124,13 @@ const AddBenchScreen = ({ navigation }: any) => {
         return;
       }
 
+      const selectedTypeName =
+        benchTypes.find((type) => type.id === selectedBenchType)?.name ?? 'wooden';
+
       const benchData: BenchInsert = {
         name: description.trim(),
         description: description.trim(),
-        image_type: selectedBenchType,
+        image_type: selectedTypeName,
         latitude: userLocation.latitude,
         longitude: userLocation.longitude,
         user_id: user.id,
@@ -253,8 +257,15 @@ const AddBenchScreen = ({ navigation }: any) => {
                     ]}
                     onPress={() => setSelectedBenchType(benchType.id)}
                   >
-                    <Text style={screenStyles.addBenchIcon}>{benchType.icon}</Text>
-                    <Text style={screenStyles.addBenchName}>{benchType.name}</Text>
+                    <BenchTypeIcon
+                      typeName={benchType.name}
+                      emojiFallback={benchType.icon}
+                      size={36}
+                      style={screenStyles.addBenchIcon}
+                    />
+                    <Text style={screenStyles.addBenchName}>
+                      {t(`benchTypes.${benchType.name}`, { defaultValue: benchType.name })}
+                    </Text>
                     {selectedBenchType === benchType.id && (
                       <View style={screenStyles.addBenchCheckmark}>
                         <Ionicons 

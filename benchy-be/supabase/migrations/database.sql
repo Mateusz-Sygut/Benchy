@@ -298,7 +298,8 @@ INSERT INTO public.bench_types (name, icon) VALUES
 ('metal', '🛋️'),
 ('wooden', '🪑'),
 ('stone', '🗿'),
-('designer', '✨')
+('designer', '✨'),
+('park', '🌳')
 ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO public.locations (name, icon) VALUES

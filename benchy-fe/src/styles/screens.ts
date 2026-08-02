@@ -176,7 +176,6 @@ export const createScreenStyles = (t: AppTheme) =>
     backgroundColor: t.gradient.light,
   },
   addBenchIcon: {
-    fontSize: 32,
     marginBottom: 8,
   },
   addBenchName: {
@@ -259,15 +258,14 @@ export const createScreenStyles = (t: AppTheme) =>
     flex: 1,
   },
   benchDetailsIcon: {
-    fontSize: 60,
     marginRight: 16,
     backgroundColor: t.gradient.lighter,
     padding: 12,
     borderRadius: 50,
-    textAlign: 'center' as 'center',
     width: 80,
     height: 80,
-    lineHeight: 56,
+    alignItems: 'center' as 'center',
+    justifyContent: 'center' as 'center',
   },
   benchDetailsBenchDetails: {
     flex: 1,
