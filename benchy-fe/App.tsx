@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AchievementsProvider } from './src/contexts/AchievementsContext';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import { LanguageProvider } from './src/contexts/LanguageContext';
@@ -29,18 +30,20 @@ const AppContent = () => {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <AuthProvider>
-          <AchievementsProvider>
-            <SitSessionProvider>
-              <NavigationContainer>
-                <AppContent />
-              </NavigationContainer>
-            </SitSessionProvider>
-          </AchievementsProvider>
-        </AuthProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <AchievementsProvider>
+              <SitSessionProvider>
+                <NavigationContainer>
+                  <AppContent />
+                </NavigationContainer>
+              </SitSessionProvider>
+            </AchievementsProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

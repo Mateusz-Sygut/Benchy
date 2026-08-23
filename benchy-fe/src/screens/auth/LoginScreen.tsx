@@ -5,23 +5,15 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ImageBackground,
   StatusBar,
   ScrollView,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
-import { 
-  PlantAnimations, 
-  BackgroundPlants, 
-  ParticleEffects, 
-  AnimatedBackground,
-  RandomLeaves 
-} from '../../components/common/AnimationSystem';
 
 const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
@@ -30,6 +22,7 @@ const LoginScreen = ({ navigation }: any) => {
   const { signIn } = useAuth();
   const { t } = useTranslation();
   const { screen: screenStyles } = useThemedStyles();
+  const insets = useSafeAreaInsets();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -51,85 +44,67 @@ const LoginScreen = ({ navigation }: any) => {
   };
 
   return (
-    <>
+    <View style={screenStyles.authContainer}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <ImageBackground
-        source={require('../../../assets/header1.jpg')}
-        style={screenStyles.authBackground}
-        resizeMode="cover"
-        imageStyle={screenStyles.authBackgroundStyle}
+      <KeyboardAvoidingView
+        style={screenStyles.authContainer}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.7)']}
-          style={screenStyles.authGradient}
+        <ScrollView
+          contentContainerStyle={[
+            screenStyles.authScrollContent,
+                { paddingBottom: Math.max(insets.bottom, 12) + 12 },
+          ]}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-        <AnimatedBackground />
-        <BackgroundPlants />
-        <PlantAnimations variant="login" />
-        <ParticleEffects />
-        <RandomLeaves />
-          <KeyboardAvoidingView 
-            style={screenStyles.authContainer}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          >
-            <ScrollView 
-              contentContainerStyle={screenStyles.authScrollContent}
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={screenStyles.authHeader}>
-                <Text style={screenStyles.authTitle}>
-                  {t('auth.loginTitle')}
-                </Text>
-                <Text style={screenStyles.authDescription}>
-                  {t('auth.loginSubtitle')}
-                </Text>
-              </View>
+          <View style={screenStyles.authHeader}>
+            <Text style={screenStyles.authTitle}>{t('auth.loginTitle')}</Text>
+            <Text style={screenStyles.authDescription}>{t('auth.loginSubtitle')}</Text>
+          </View>
 
-              <View style={screenStyles.authFormContainer}>
-                <View style={screenStyles.authCard}>
-                  <Input
-                    placeholder={t('common.email')}
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    icon="mail-outline"
-                    containerStyle={screenStyles.authInputContainer}
-                  />
-                  
-                  <Input
-                    placeholder={t('common.password')}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    icon="lock-closed-outline"
-                    containerStyle={screenStyles.authInputContainer}
-                  />
+          <View style={screenStyles.authFormContainer}>
+            <View style={screenStyles.authCard}>
+              <Input
+                placeholder={t('common.email')}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                icon="mail-outline"
+                containerStyle={screenStyles.authInputContainer}
+              />
 
-                  <Button
-                    title={loading ? t('common.loading') : t('auth.login')}
-                    onPress={handleLogin}
-                    loading={loading}
-                    disabled={loading}
-                    style={screenStyles.authButton}
-                  />
+              <Input
+                placeholder={t('common.password')}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                icon="lock-closed-outline"
+                containerStyle={screenStyles.authInputContainer}
+              />
 
-                  <Button
-                    title={t('auth.noAccount')}
-                    variant="outline"
-                    onPress={() => navigation.navigate('Register')}
-                    style={screenStyles.authSecondaryButton}
-                  />
-                </View>
-              </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </LinearGradient>
-      </ImageBackground>
-    </>
+              <Button
+                title={loading ? t('common.loading') : t('auth.login')}
+                onPress={handleLogin}
+                loading={loading}
+                disabled={loading}
+                style={screenStyles.authButton}
+              />
+
+              <Button
+                title={t('auth.noAccount')}
+                variant="outline"
+                onPress={() => navigation.navigate('Register')}
+                style={screenStyles.authSecondaryButton}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
-
 
 export default LoginScreen;

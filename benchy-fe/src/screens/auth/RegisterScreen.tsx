@@ -5,25 +5,17 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ImageBackground,
   StatusBar,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { generateRandomNickname } from '../../lib/displayName';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
-import { 
-  PlantAnimations, 
-  BackgroundPlants, 
-  ParticleEffects, 
-  AnimatedBackground,
-  RandomLeaves 
-} from '../../components/common/AnimationSystem';
 
 const RegisterScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
@@ -34,6 +26,7 @@ const RegisterScreen = ({ navigation }: any) => {
   const { signUp } = useAuth();
   const { t } = useTranslation();
   const { screen: screenStyles } = useThemedStyles();
+  const insets = useSafeAreaInsets();
 
   const handleRegister = async () => {
     if (!email || !password || !confirmPassword || !username) {
@@ -57,11 +50,9 @@ const RegisterScreen = ({ navigation }: any) => {
       if (error) {
         Alert.alert(t('auth.registerError'), error.message);
       } else {
-        Alert.alert(
-          t('common.success'), 
-          t('auth.accountCreated'),
-          [{ text: t('common.ok'), onPress: () => navigation.navigate('Login') }]
-        );
+        Alert.alert(t('common.success'), t('auth.accountCreated'), [
+          { text: t('common.ok'), onPress: () => navigation.navigate('Login') },
+        ]);
       }
     } catch (error) {
       Alert.alert(t('common.error'), t('auth.unexpectedError'));
@@ -71,115 +62,97 @@ const RegisterScreen = ({ navigation }: any) => {
   };
 
   return (
-    <>
+    <View style={screenStyles.authContainer}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <ImageBackground
-        source={require('../../../assets/header1.jpg')}
-        style={screenStyles.authBackground}
-        resizeMode="cover"
-        imageStyle={screenStyles.authBackgroundStyle}
+      <KeyboardAvoidingView
+        style={screenStyles.authContainer}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.7)']}
-          style={screenStyles.authGradient}
+        <ScrollView
+          contentContainerStyle={[
+            screenStyles.authScrollContent,
+            { paddingBottom: Math.max(insets.bottom, 12) + 12 },
+          ]}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-        <AnimatedBackground />
-        <BackgroundPlants />
-        <PlantAnimations variant="register" />
-        <ParticleEffects />
-        <RandomLeaves />
-          <KeyboardAvoidingView 
-            style={screenStyles.authContainer}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          >
-            <ScrollView 
-              contentContainerStyle={screenStyles.authScrollContent}
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={screenStyles.authHeader}>
-                <Text style={screenStyles.authTitle}>
-                  {t('auth.registerTitle')}
-                </Text>
-                <Text style={screenStyles.authDescription}>
-                  {t('auth.registerSubtitle')}
-                </Text>
+          <View style={screenStyles.authHeader}>
+            <Text style={screenStyles.authTitle}>{t('auth.registerTitle')}</Text>
+            <Text style={screenStyles.authDescription}>{t('auth.registerSubtitle')}</Text>
+          </View>
+
+          <View style={screenStyles.authFormContainer}>
+            <View style={screenStyles.authCard}>
+              <View style={screenStyles.authUsernameRow}>
+                <Input
+                  placeholder={t('common.username')}
+                  value={username}
+                  onChangeText={setUsername}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  icon="person-outline"
+                  containerStyle={[screenStyles.authInputContainer, screenStyles.authUsernameInput]}
+                />
+                <TouchableOpacity
+                  style={screenStyles.authRandomNicknameButton}
+                  onPress={() => setUsername(generateRandomNickname())}
+                  activeOpacity={0.7}
+                >
+                  <Text style={screenStyles.authRandomNicknameButtonText}>
+                    {t('auth.randomNickname')}
+                  </Text>
+                </TouchableOpacity>
               </View>
 
-              <View style={screenStyles.authFormContainer}>
-                <View style={screenStyles.authCard}>
-                  <View style={screenStyles.authUsernameRow}>
-                    <Input
-                      placeholder={t('common.username')}
-                      value={username}
-                      onChangeText={setUsername}
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      icon="person-outline"
-                      containerStyle={[screenStyles.authInputContainer, screenStyles.authUsernameInput]}
-                    />
-                    <TouchableOpacity
-                      style={screenStyles.authRandomNicknameButton}
-                      onPress={() => setUsername(generateRandomNickname())}
-                      activeOpacity={0.7}
-                    >
-                      <Text style={screenStyles.authRandomNicknameButtonText}>
-                        {t('auth.randomNickname')}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+              <Input
+                placeholder={t('common.email')}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                icon="mail-outline"
+                containerStyle={screenStyles.authInputContainer}
+              />
 
-                  <Input
-                    placeholder={t('common.email')}
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    icon="mail-outline"
-                    containerStyle={screenStyles.authInputContainer}
-                  />
-                  
-                  <Input
-                    placeholder={t('common.password')}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    icon="lock-closed-outline"
-                    containerStyle={screenStyles.authInputContainer}
-                  />
-                  
-                  <Input
-                    placeholder={t('auth.confirmPassword')}
-                    value={confirmPassword}
-                    onChangeText={setConfirmPassword}
-                    secureTextEntry
-                    icon="lock-closed-outline"
-                    containerStyle={screenStyles.authInputContainer}
-                  />
+              <Input
+                placeholder={t('common.password')}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                icon="lock-closed-outline"
+                containerStyle={screenStyles.authInputContainer}
+              />
 
-                  <Button
-                    title={loading ? t('common.loading') : t('auth.register')}
-                    onPress={handleRegister}
-                    loading={loading}
-                    disabled={loading}
-                    style={screenStyles.authButton}
-                  />
+              <Input
+                placeholder={t('auth.confirmPassword')}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+                icon="lock-closed-outline"
+                containerStyle={screenStyles.authInputContainer}
+              />
 
-                  <Button
-                    title={t('auth.haveAccount')}
-                    variant="outline"
-                    onPress={() => navigation.navigate('Login')}
-                    style={screenStyles.authSecondaryButton}
-                  />
-                </View>
-              </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
-        </LinearGradient>
-      </ImageBackground>
-    </>
+              <Button
+                title={loading ? t('common.loading') : t('auth.register')}
+                onPress={handleRegister}
+                loading={loading}
+                disabled={loading}
+                style={screenStyles.authButton}
+              />
+
+              <Button
+                title={t('auth.haveAccount')}
+                variant="outline"
+                onPress={() => navigation.navigate('Login')}
+                style={screenStyles.authSecondaryButton}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
-
 
 export default RegisterScreen;

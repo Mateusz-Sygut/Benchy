@@ -8,29 +8,29 @@ export const createScreenStyles = (t: AppTheme) =>
     width: '100%',
     height: '100%',
     justifyContent: 'flex-end',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#3d5c3a',
   },
   authBackgroundStyle: {
-    opacity: 0.9,
-    transform: [{ translateY: -120 }],
+    opacity: 1,
   },
   authGradient: {
     flex: 1,
   },
   authContainer: {
     flex: 1,
+    backgroundColor: 'transparent',
   },
   authScrollContent: {
     flexGrow: 1,
-    paddingTop: 80,
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   authHeader: {
-    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 40,
+    paddingTop: 56,
+    paddingBottom: 28,
   },
   authTitle: {
     fontSize: 36,
@@ -55,10 +55,9 @@ export const createScreenStyles = (t: AppTheme) =>
     maxWidth: 280,
   },
   authFormContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    marginTop: 'auto' as 'auto',
     paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingBottom: 8,
   },
   authCard: {
     backgroundColor: t.authCardBg,
@@ -669,14 +668,16 @@ export const createScreenStyles = (t: AppTheme) =>
     marginTop: -16,
     borderRadius: 16,
     paddingVertical: 20,
-    paddingHorizontal: 24,
+    paddingHorizontal: 12,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     ...t.shadows.medium,
   },
   profileStatItem: {
+    flex: 1,
     alignItems: 'center',
+    paddingHorizontal: 6,
   },
   profileStatNumber: {
     fontSize: 24,
@@ -686,6 +687,7 @@ export const createScreenStyles = (t: AppTheme) =>
   },
   profileStatLabel: {
     fontSize: 14,
+    lineHeight: 16,
     color: t.text.secondary,
     textAlign: 'center' as 'center',
   },
@@ -693,6 +695,7 @@ export const createScreenStyles = (t: AppTheme) =>
     width: 1,
     height: 40,
     backgroundColor: t.gray[200],
+    marginHorizontal: 2,
   },
   profileStreakCard: {
     marginHorizontal: 16,
