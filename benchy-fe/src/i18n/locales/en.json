@@ -18,8 +18,8 @@
     "name": "Benchy"
   },
   "nickname": {
-    "adjectives": ["Sharp","Quiet","Brave","Playful","Mountain","Bright","Feline","Summer","Wise","Nocturnal","Cautious","Cheerful","Morning","Sunny","Mysterious","Sleepy","Merry","Nimble","Amber","Bold","Calm","Ancient","Frosty","Misty","Shy","Vivacious","Deep","Fair-maned","Shiny","Lost","Curious","Lonely","Momentous","Unusual","Phenomenal","Azure","Amaranth","Mighty","Age-old","Red","Sweet","Savory","Stormy","Foamy","Towering","Dazzling","Big-eyed","Bouncy","Muddy","Pink","Flying","Beaky","Crested","Black","Peculiar","Exceptional","Hairy","Prickly","Twisty","Friendly","Flirty","Aquatic","Piercing","Sole","Rounded","Last","Proud","Fluffy","Furred","Swift","Ginger","Unprecedented","Ephemeral","Fleeting","Riverine","Winged","Musical","Dawn","Resourceful","Emotional","Tender","Magical","Crazy","White","Scarlet","Funny","Gloomy","Colorful","Anonymous"],
-    "nouns": ["Benchie","Wanderer","Sunflower","Traveler","Dreamer","Explorer","Guardian","Wayfarer","Stroller","Bench Fan","Bear","Fox","Beaver","Hawk","Wolf","Lynx","Stag","Raven","Catwere","Beaky","Glow","Cream","Salmon","Moose","Loner","Lucky One","Rambler","Fiend","Banana","Thought","Stream","Little Rat","Souslik","Bobby","Lion","Gust","Fennec","Tourist","Gentleman","Dragon","Tiger","Tiger Cub","Dancer","Scarab","Zephyr","Rooster","Sparrow","Asp","Snek","Piglet","Platypus","Cactus","Iris","Companion","Buddy","Thinker","Moon","Hunter","Wizard","Hatter","Drake","Wildcat","Bison","Bittern","Bumblebee","Cloud","Gloomy One","Daredevil","Wombat","Camel","Bench Lass","Wanderess","Lady Traveler","Lady Dreamer","Discoverer","Guardswoman","Roamer","Lady Stroller","Bench Keeper","She-Bear","Vixen","Lady Hawk","She-Wolf","Kitty","Fawn","Duckling","Owl","Bench","Cream Puff","Cow Moose","Seal","Lone Lass","Silence","Lucky Star","Rusalka","Nymph","Peach","Idea","Siren","Mermaid","Harpy","River","Mouse","She-Beaver","Lioness","Breeze","Lady Tourist","Ambition","Puzzle","Gentlewoman","Dragoness","Parrot","Budgie","Lady Dancer","Cicada","Fairy","Storm","Partridge","Jay","Wave","Viper","Gazelle","Panther","Oddity","Daisy","Rose","Lady Companion","Partner","Lady Thinker","Aurora","Afterglow","Star","Sweetie","Huntress","Sorceress","Lady Hatter","Ant","Bee","Wasp","Little Cloud","Echo","Phenomenon","Sky","Tree","Little Wine","Sea","Sun","Pup","Foal","Pigletkin","Chick","Calf","Kitten","Birthmark","Kiwi","Sushi","Reflection","Little Eye","Delirium","Egg","Sanctuary","Salami","Cuddlekins","Tangle","Tango","Fox Cub","Happiness","Thoughts","Little Apple","Floodplain","Mouseling","Souslik Cub","Lion Cub","Creature","Travels","Ambitions","Dragon Cub","Phantom","Apparition","Tornado","Furry","Emu","Waves","Herb","Greenery","Tofu","Avocado","Elephant Cub","Spell","Grape","Mango","Pomelo","Little Beer"]
+    "adjectives": ["Sharp","Quiet","Brave","Playful","Highland","Bright","Feline","Summer","Wise","Nocturnal","Cautious","Cheerful","Morning","Sunny","Mysterious","Sleepy","Merry","Nimble","Amber","Bold","Calm","Ancient","Frosty","Misty","Shy","Vivacious","Deep","Fair-maned","Shiny","Lost","Curious","Lonely","Momentous","Unusual","Phenomenal","Azure","Amaranth","Mighty","Elder","Red","Sweet","Savory","Stormy","Foamy","Towering","Dazzling","Big-eyed","Bouncy","Muddy","Pink","Flying","Beaky","Crested","Black","Peculiar","Exceptional","Hairy","Prickly","Twisty","Friendly","Flirty","Aquatic","Piercing","Sole","Rounded","Last","Proud","Fluffy","Furred","Swift","Ginger","Unprecedented","Ephemeral","Fleeting","Riverine","Winged","Musical","Dawn","Resourceful","Emotional","Tender","Magical","Crazy","White","Scarlet","Funny","Gloomy","Colorful","Anonymous","Liquid","Elemental","Magic","Easy","Spooky","Essential","Primary","Primal","Golden","Dark","Cute"],
+    "nouns": ["Benchie","Wanderer","Sunflower","Traveler","Dreamer","Explorer","Guardian","Wayfarer","Stroller","Benchomaniac","Bear","Fox","Beaver","Hawk","Wolf","Lynx","Stag","Raven","Werecat","Beaky","Glow","Cream","Salmon","Moose","Loner","Fluker","Rambler","Fiend","Banana","Thought","Stream","Rat","Souslik","Beavy","Lion","Gust","Fennec","Tourist","Gentleman","Dragon","Tiger","Dancer","Scarab","Zephyr","Rooster","Sparrow","Asp","Snek","Piglet","Platypus","Cactus","Iris","Companion","Buddy","Thinker","Moon","Hunter","Wizard","Hatter","Drake","Wildcat","Bison","Bittern","Bumblebee","Cloud","Gloom","Gambler","Wombat","Camel","Wanderess","Lady","Discoverer","Guardswoman","Roamer","Bench Keeper","Vixen","Kitty","Puss","Fawn","Duckling","Owl","Bench","Cream-Puff","Cow Moose","Seal","Silence","Star","Rusalka","Nymph","Peach","Idea","Siren","Mermaid","Harpy","River","Mouse","Lioness","Breeze","Ambition","Puzzle","Gentlewoman","Dragoness","Parrot","Budgie","Cicada","Fairy","Storm","Partridge","Jay","Wave","Viper","Gazelle","Panther","Oddity","Daisy","Rose","Partner","Aurora","Afterglow","Sweetie","Huntress","Sorceress","Ant","Bee","Wasp","Echo","Phenomenon","Sky","Tree","Wine","Sea","Sun","Pup","Foal","Pigletkin","Chick","Calf","Kitten","Birthmark","Kiwi","Sushi","Reflection","Eye","Delirium","Egg","Sanctuary","Salami","Cuddlekins","Tangle","Tango","Foxy","Happiness","Thoughts","Apple","Floodplain","Mouseling","Creature","Travels","Ambitions","Phantom","Apparition","Tornado","Furry","Emu","Waves","Herb","Greenery","Tofu","Avocado","Elephant Cub","Spell","Grape","Mango","Pomelo","Beer","Kitty-Cat","Brownie","Mousse","Cub","Rider","Try-hard","Spike","Calamity","Disaster","Pest","Lurker","Butterfly","Enthusiast","Storyteller","Stories","Mountain"]
   },
   "auth": {
     "login": "Sign In",
@@ -74,17 +74,13 @@
         "q": "How do favorites work?",
         "a": "Tap the heart on a bench to save it. Use the favorites filter on the map or open Favorites from the right panel."
       },
-      "timeSpent": {
-        "q": "How is time in the app counted?",
-        "a": "Foreground minutes are tracked while you use the app and saved every minute (and when you leave the app). Check Profile for your total; locked time achievements show progress like 18/30 min."
-      },
       "tasks": {
         "q": "What are tasks in the user panel?",
         "a": "Tasks are a short onboarding checklist in three stages. Complete all tasks in a stage to unlock the next one. Finished tasks are checked off and link to the relevant screen."
       },
       "sit": {
         "q": "How does sitting on a bench work?",
-        "a": "Open a bench and tap Sit here when you are within about 80 m. A timer runs while you stay nearby. Sessions of at least 2 minutes count toward sit achievements (5 min, 15 min)."
+        "a": "Open a bench and tap Sit here when you are within about 80 m. A timer runs while you stay nearby. Sessions of at least 2 minutes count toward sit achievements; your total sit time is on Profile."
       }
     }
   },
@@ -157,7 +153,7 @@
     "givenRatings": "Given ratings",
     "logoutConfirm": "Are you sure you want to sign out?",
     "user": "User",
-    "timeSpent": "Time in app",
+    "timeSpent": "Sit time",
     "timeSpentMin": "min",
     "unlockHint": "Unlock a title by adding 1 bench.",
     "appearance": "Appearance",
@@ -331,8 +327,8 @@
     "streak3.description": "Open the app 3 days in a row",
     "streak7.description": "Open the app 7 days in a row",
     "streak30.description": "Open the app 30 days in a row",
-    "sitter.description": "Spend 30 minutes in the app",
-    "benchPhilosopher.description": "Spend 120 minutes in the app",
+    "sitter.description": "Spend 30 minutes sitting on benches",
+    "benchPhilosopher.description": "Spend 120 minutes sitting on benches",
     "firstSit": "First Sit",
     "lingerer": "Lingerer",
     "contemplator": "Contemplator",

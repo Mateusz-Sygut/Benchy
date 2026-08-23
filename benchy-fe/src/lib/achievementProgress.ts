@@ -17,7 +17,8 @@ export function getAchievementProgress(
 
   switch (achievement.requirement_type) {
     case 'time_spent':
-      return { current: profile.total_time_spent ?? 0, target };
+    case 'sit_minutes':
+      return { current: profile.total_sit_minutes ?? 0, target };
     case 'bench_count':
       return { current: profile.total_benches_created ?? 0, target };
     case 'rating_count':

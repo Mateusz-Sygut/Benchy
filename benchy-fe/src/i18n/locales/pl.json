@@ -24,8 +24,8 @@
       "n": ["Bystre","Ciche","Dzielne","Figlarne","Górskie","Jasne","Kocie","Letnie","Mądre","Nocne","Ostrożne","Pogodne","Poranne","Słoneczne","Tajemnicze","Uśpione","Wesołe","Zwinne","Bursztynowe","Śmiałe","Spokojne","Zamierzchłe","Mroźne","Mgliste","Nieśmiałe","Żywiołowe","Głębokie","Jasnogrzywe","Lśniące","Zaginione","Ciekawskie","Samotne","Doniosłe","Niecodzienne","Zjawiskowe","Błękitne","Amarantowe","Potężne","Wiekowe","Czerwone","Słodkie","Wytrawne","Wzburzone","Spienione","Górujące","Olśniewające","Wielkookie","Skoczne","Utytłane","Różowe","Latające","Dziobate","Czubate","Czarne","Osobliwe","Wyjątkowe","Włochate","Kłujące","Zakręcone","Przyjazne","Zalotne","Wodne","Dojmujące","Jedyne","Obłe","Ostatnie","Pyszne","Puchate","Futrzaste","Chyże","Rude","Niebywałe","Efemeryczne","Ulotne","Rzeczne","Uskrzydlone","Muzyczne","Zaranne","Zaradne","Uczuciowe","Czułe","Magiczne","Szalone","Białe","Szkarłatne","Zabawne","Ponure","Kolorowe","Anonimowe"]
     },
     "nouns": {
-      "m": ["Ławkowicz","Wędrowiec","Słonecznik","Podróżnik","Marzyciel","Odkrywca","Strażnik","Włóczęga","Spacerowicz","Ławkarz","Niedźwiedź","Lis","Bóbr","Jastrząb","Wilk","Ryś","Jeleń","Kruk","Kocurołak","Dziubdziub","Blask","Krem","Łosoś","Łoś","Samotnik","Szczęściarz","Włóczykij","Bies","Banan","Myśl","Potok","Szczurek","Suseł","Bober","Lew","Podmuch","Fenek","Turysta","Jegomość","Smok","Tygrys","Tygrysek","Tancerz","Skarabeusz","Zefir","Kogut","Wróbel","Żmij","Wonsz","Prosiak","Dziobak","Kaktus","Irys","Towarzysz","Kompan","Myśliciel","Księżyc","Łowca","Czarodziej","Kapelusznik","Kaczor","Żbik","Żubr","Bąk","Trzmiel","Obłok","Ponurnik","Śmiałek","Wombat","Wielbłąd"],
-      "f": ["Ławkowiczka","Wędrowczyni","Podróżniczka","Marzycielka","Odkrywczyni","Strażniczka","Włóczężka","Spacerowiczka","Ławkarka","Niedźwiedzica","Lisica","Jastrzębica","Wilczyca","Kotka","Sarenka","Kaczuszka","Sowa","Ławka","Kremówka","Łosica","Foka","Samotniczka","Cisza","Szczęściara","Rusałka","Nimfa","Brzoskwinia","Idea","Syrena","Syrenka","Harpia","Rzeka","Mysz","Bobrzyca","Lwica","Bryza","Turystka","Ambicja","Zagwozdka","Jejmość","Smoczyca","Papuga","Papużka","Tancerka","Cykada","Wróżka","Burza","Kuropatwa","Sójka","Fala","Żmija","Gazela","Pantera","Osobliwość","Stokrotka","Róża","Towarzyszka","Kompanka","Myślicielka","Zorza","Łuna","Gwiazda","Papatka","Łowczyni","Magini","Kapeluszniczka","Mrówka","Pszczoła","Osa","Chmurka"],
+      "m": ["Ławkowicz","Wędrowiec","Słonecznik","Podróżnik","Marzyciel","Odkrywca","Strażnik","Włóczęga","Spacerowicz","Ławkarz","Niedźwiedź","Lis","Bóbr","Jastrząb","Wilk","Ryś","Jeleń","Kruk","Kocurołak","Dziubdziub","Blask","Krem","Łosoś","Łoś","Samotnik","Szczęściarz","Włóczykij","Bies","Banan","Potok","Szczurek","Suseł","Bober","Lew","Podmuch","Fenek","Turysta","Jegomość","Smok","Tygrys","Tygrysek","Tancerz","Skarabeusz","Zefir","Kogut","Wróbel","Żmij","Wonsz","Prosiak","Dziobak","Kaktus","Irys","Towarzysz","Kompan","Myśliciel","Księżyc","Łowca","Czarodziej","Kapelusznik","Kaczor","Żbik","Żubr","Bąk","Trzmiel","Obłok","Ponurnik","Śmiałek","Wombat","Wielbłąd"],
+      "f": ["Ławkowiczka","Wędrowczyni","Podróżniczka","Marzycielka","Odkrywczyni","Strażniczka","Włóczężka","Spacerowiczka","Ławkarka","Niedźwiedzica","Lisica","Jastrzębica","Myśl","Wilczyca","Kotka","Sarenka","Kaczuszka","Sowa","Ławka","Kremówka","Łosica","Foka","Samotniczka","Cisza","Szczęściara","Rusałka","Nimfa","Brzoskwinia","Idea","Syrena","Syrenka","Harpia","Rzeka","Mysz","Bobrzyca","Lwica","Bryza","Turystka","Ambicja","Zagwozdka","Jejmość","Smoczyca","Papuga","Papużka","Tancerka","Cykada","Wróżka","Burza","Kuropatwa","Sójka","Fala","Żmija","Gazela","Pantera","Osobliwość","Stokrotka","Róża","Towarzyszka","Kompanka","Myślicielka","Zorza","Łuna","Gwiazda","Papatka","Łowczyni","Magini","Kapeluszniczka","Mrówka","Pszczoła","Osa","Chmurka"],
       "n": ["Echo","Zjawisko","Niebo","Drzewo","Winko","Morze","Słońce","Szczenię","Źrebię","Prosię","Pisklę","Cielę","Kocię","Znamię","Kiwi","Sushi","Odbicie","Oczko","Delirium","Jajo","Sanktuarium","Salami","Kizi-mizi","Kłębowisko","Tango","Lisię","Szczęście","Myśli","Jabłuszko","Rozlewisko","Myszątko","Susełko","Lwiątko","Stworzenie","Wojaże","Ambicje","Smoczątko","Widmo","Widziadło","Tornado","Futerko","Emu","Fale","Ziółko","Ziele","Tofu","Awokado","Słoniątko","Zaklęcie","Winogrono","Mango","Pomelo","Piwko"]
     }
   },
@@ -82,17 +82,13 @@
         "q": "Jak działają ulubione?",
         "a": "Dotknij serca przy ławce, żeby ją zapisać. Użyj filtra ulubionych na mapie albo wejdź w Ulubione z prawego panelu."
       },
-      "timeSpent": {
-        "q": "Jak liczony jest czas w aplikacji?",
-        "a": "Minuty na pierwszym planie są zliczane podczas korzystania z appki i zapisywane co minutę (oraz przy wyjściu z aplikacji). Suma jest w profilu; zablokowane osiągnięcia czasowe pokazują postęp, np. 18/30 min."
-      },
       "tasks": {
         "q": "Czym są zadania w panelu użytkownika?",
         "a": "To krótka lista onboardingowa w trzech etapach. Ukończ wszystkie zadania z etapu, żeby zobaczyć następny. Wykonane zadania są odhaczone i prowadzą do odpowiedniego ekranu."
       },
       "sit": {
         "q": "Jak działa siadanie na ławce?",
-        "a": "Otwórz ławkę i wybierz Usiądź, gdy jesteś w odległości ok. 80 m. Timer działa, dopóki jesteś w pobliżu. Sesje od 2 minut liczą się do osiągnięć (5 min, 15 min)."
+        "a": "Otwórz ławkę i wybierz Usiądź, gdy jesteś w odległości ok. 80 m. Timer działa, dopóki jesteś w pobliżu. Sesje od 2 minut liczą się do osiągnięć; suma czasu siedzenia jest w profilu."
       }
     }
   },
@@ -255,8 +251,8 @@
     "streak3.description": "Wejdź do aplikacji 3 dni z rzędu",
     "streak7.description": "Wejdź do aplikacji 7 dni z rzędu",
     "streak30.description": "Wejdź do aplikacji 30 dni z rzędu",
-    "sitter.description": "Spędź 30 minut w aplikacji",
-    "benchPhilosopher.description": "Spędź 120 minut w aplikacji",
+    "sitter.description": "Spędź 30 minut siedząc na ławkach",
+    "benchPhilosopher.description": "Spędź 120 minut siedząc na ławkach",
     "firstSit": "Pierwsze siadanie",
     "lingerer": "Przesiadywacz",
     "contemplator": "Kontemplator",
@@ -388,7 +384,7 @@
     "givenRatings": "Wystawione oceny",
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
     "user": "Użytkownik",
-    "timeSpent": "Czas w appce",
+    "timeSpent": "Czas siedzenia",
     "timeSpentMin": "min",
     "unlockHint": "Odblokuj tytuł, dodając 1 ławkę.",
     "appearance": "Wygląd",

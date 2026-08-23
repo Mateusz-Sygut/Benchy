@@ -131,7 +131,7 @@ const ProfileScreen = () => {
           <View style={screenStyles.profileStatDivider} />
           <View style={screenStyles.profileStatItem}>
             <Text style={screenStyles.profileStatNumber}>
-              {`${userProfile?.total_time_spent ?? 0} ${t('profile.timeSpentMin')}`}
+              {`${userProfile?.total_sit_minutes ?? 0} ${t('profile.timeSpentMin')}`}
             </Text>
             <Text style={screenStyles.profileStatLabel}>{t('profile.timeSpent')}</Text>
           </View>

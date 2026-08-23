@@ -21,7 +21,7 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 | `benchy-fe/src/components/` | Shared UI (map, buttons, inputs), `bench/` (sit session card + 3D viewer), `panels/`. |
 | `benchy-fe/src/contexts/` | `AuthContext`, `ThemeContext`, `LanguageContext`, `AchievementsContext`, `SitSessionContext` (GPS sit timer). |
 | `benchy-fe/src/theme/` + `styles/` | Colour tokens for light/dark and `create*Styles(theme)` style factories. |
-| `benchy-fe/src/lib/` | Supabase, geocoding, titles, user tasks, achievement progress, app time, sit session helpers. |
+| `benchy-fe/src/lib/` | Supabase, geocoding, titles, user tasks, achievement progress, sit session helpers. |
 | `benchy-fe/assets/models/` | 3D sit character (`sit-character.glb`) shown during an active sit. |
 | `benchy-fe/metro.config.js` | Metro asset extensions for `.glb` / `.gltf`. |
 | `benchy-fe/src/i18n/locales/` | `en.json`, `pl.json` (UI strings + random nickname word lists). |
@@ -101,7 +101,8 @@ cd Benchy
 | `database.sql` | Main schema, RLS, smart rarity, achievements (incl. time-based), titles |
 | `add_login_streak.sql` | Login streak columns on `user_profiles` |
 | `add_avatar_storage.sql` | Avatar storage bucket/policies |
-| `add_time_spent_achievements.sql` | `sitter` / `benchPhilosopher` achievements (also in `database.sql` for fresh installs) |
+| `add_time_spent_achievements.sql` | `sitter` / `benchPhilosopher` sit-minutes achievements (also in `database.sql` for fresh installs) |
+| `remap_time_spent_to_sit_minutes.sql` | Remap legacy `time_spent` achievements to `sit_minutes` |
 | `add_sit_sessions.sql` | Physical sit sessions at benches + sit achievements |
 | `fix_bench_details_security_invoker.sql` | Recreate `bench_details` view with `security_invoker` (RLS of caller) |
 

@@ -337,8 +337,8 @@ INSERT INTO public.achievements (name, description, icon, points, category, requ
 ('streak3', 'achievements.streak3.description', '🔥', 15, 'streak', 'login_streak', 3, 'logins', 1),
 ('streak7', 'achievements.streak7.description', '🔥', 40, 'streak', 'login_streak', 7, 'logins', 2),
 ('streak30', 'achievements.streak30.description', '🌟', 150, 'streak', 'login_streak', 30, 'logins', 3),
-('sitter', 'achievements.sitter.description', '🪑', 20, 'time', 'time_spent', 30, 'minutes', 1),
-('benchPhilosopher', 'achievements.benchPhilosopher.description', '🤔', 75, 'time', 'time_spent', 120, 'minutes', 2),
+('sitter', 'achievements.sitter.description', '🪑', 20, 'sit', 'sit_minutes', 30, 'minutes', 1),
+('benchPhilosopher', 'achievements.benchPhilosopher.description', '🤔', 75, 'sit', 'sit_minutes', 120, 'minutes', 2),
 ('firstSit', 'achievements.firstSit.description', '🧘', 15, 'sit', 'sit_count', 1, 'sits', 1),
 ('lingerer', 'achievements.lingerer.description', '🍃', 25, 'sit', 'sit_session', 5, 'minutes', 1),
 ('contemplator', 'achievements.contemplator.description', '🌅', 50, 'sit', 'sit_session', 15, 'minutes', 2)
