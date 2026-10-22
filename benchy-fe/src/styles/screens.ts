@@ -714,7 +714,7 @@ export const createScreenStyles = (t: AppTheme) =>
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: t.isDark ? 'rgba(255, 152, 0, 0.18)' : 'rgba(255, 152, 0, 0.14)',
+    backgroundColor: 'rgba(255, 152, 0, 0.14)',
     alignItems: 'center' as 'center',
     justifyContent: 'center' as 'center',
     flexShrink: 0,

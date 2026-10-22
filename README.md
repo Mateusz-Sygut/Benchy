@@ -15,12 +15,12 @@ Mobile app for discovering, adding, and rating public benches on a map. Frontend
 
 | Path | Contents |
 |------|----------|
-| `benchy-fe/` | Full Expo app: screens, components, navigation, light/dark themes, PL/EN translations, Supabase client. |
+| `benchy-fe/` | Full Expo app: screens, components, navigation, theme, PL/EN translations, Supabase client. |
 | `benchy-fe/App.tsx` | Entry: `ThemeProvider`, `LanguageProvider`, `AuthProvider`, `AchievementsProvider`, `SitSessionProvider`, navigation. |
 | `benchy-fe/src/screens/` | Map, bench list, bench details, add bench, profile, settings, help, my benches, my ratings, favourites, login/register. |
 | `benchy-fe/src/components/` | Shared UI (map, buttons, inputs), `bench/` (sit session card + 3D viewer), `panels/`. |
 | `benchy-fe/src/contexts/` | `AuthContext`, `ThemeContext`, `LanguageContext`, `AchievementsContext`, `SitSessionContext` (GPS sit timer). |
-| `benchy-fe/src/theme/` + `styles/` | Colour tokens for light/dark and `create*Styles(theme)` style factories. |
+| `benchy-fe/src/theme/` + `styles/` | Colour tokens and `create*Styles(theme)` style factories. |
 | `benchy-fe/src/lib/` | Supabase, geocoding, titles, user tasks, achievement progress, sit session helpers. |
 | `benchy-fe/assets/models/` | 3D sit character (`sit-character.glb`) shown during an active sit. |
 | `benchy-fe/metro.config.js` | Metro asset extensions for `.glb` / `.gltf`. |
@@ -45,7 +45,7 @@ For a signed-in user (within what RLS allows):
 – **Bench list** – text search, open details or map.
 – **Bench details** – description, mini map, average rating, favourites, **Sit here** (GPS sit session with timer + rotating 3D character), rarity, rating and comment.
 – **Add bench** – description, bench type, surroundings, tags (UI limit), **GPS location or pick on map** (modal with draggable marker).
-– **Profile** – stats (including time in app), login streak, equipable titles, achievements, shortcuts to “My benches” / “My ratings”, **Settings** (appearance & language), **Help** (FAQ), sign out.
+– **Profile** – stats, login streak, equipable titles, achievements, shortcuts to “My benches” / “My ratings”, **Settings** (language), **Help** (FAQ), sign out.
 – **Registration** – optional button to fill a random nickname from word lists in the current locale.
 
 **Gamification:** achievements unlock from benches, ratings, favourites, login streaks, **time spent in the app**, and **physical sit sessions** on a bench (within ~80 m GPS, timer on Bench Details, sessions ≥ 2 min; sit achievements e.g. first sit / 5 min / 15 min). Active sit shows a tinted GLB character (`assets/models/sit-character.glb`) via `expo-gl` + `three`. The user panel shows **3 task tiers** (9 tasks total). Locked achievement cards show progress (e.g. `18/30 min`).
@@ -73,7 +73,7 @@ Without an account you typically only get login/register; everything else depend
 - **expo-linear-gradient**, **expo-status-bar** – gradients and status bar.
 - **react-i18next** + **i18next** – i18n.
 - **@supabase/supabase-js** – Auth and database API.
-- **@react-native-async-storage/async-storage** – e.g. theme preference.
+- **@react-native-async-storage/async-storage** – language preference.
 
 **Backend**
 
@@ -156,12 +156,10 @@ Typical permissions: **location**. Camera/storage may be needed for future photo
 - User-owned data (`favorites`, `ratings`, `user_profiles`, etc.) should have owner-based policies (typically `user_id = auth.uid()` for write operations).
 - After schema changes, re-check Supabase **Security Advisor** and verify no new public write paths were introduced.
 
-## Theming and dark mode
+## Theme
 
-- **`ThemeProvider`** (`App.tsx`) + **`buildAppTheme(isDark, preference)`** in `src/theme/theme.ts`.
-- **`useThemedStyles()`** – consistent screen and component styles for the active theme.
-- Preference: **system** / **light** / **dark**, stored in AsyncStorage (`@benchy_theme_preference`).
-- Controlled from **Profile** → Appearance section.
+- One fixed theme from **`appTheme`** in `src/theme/theme.ts`, provided by **`ThemeProvider`**.
+- **`useThemedStyles()`** builds screen and component styles from that theme.
 
 ## Smart rarity (database)
 

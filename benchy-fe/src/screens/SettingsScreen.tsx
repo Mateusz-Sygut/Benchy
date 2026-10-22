@@ -3,24 +3,15 @@ import { View, Text, TouchableOpacity, ScrollView, StatusBar } from 'react-nativ
 import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
-import { useTheme } from '../contexts/ThemeContext';
 import { LanguagePreference } from '../i18n/language';
-import { ThemePreference } from '../theme/theme';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 
 const SettingsScreen = () => {
   const { t } = useTranslation();
-  const { preference, setPreference } = useTheme();
   const { preference: languagePreference, setPreference: setLanguagePreference } = useLanguage();
   const { screen: screenStyles, theme } = useThemedStyles();
 
   const appVersion = Constants.expoConfig?.version ?? '1.0.0';
-
-  const themeOptions: { key: ThemePreference; label: string }[] = [
-    { key: 'system', label: t('profile.themeSystem') },
-    { key: 'light', label: t('profile.themeLight') },
-    { key: 'dark', label: t('profile.themeDark') },
-  ];
 
   const languageOptions: { key: LanguagePreference; label: string }[] = [
     { key: 'system', label: t('profile.languageSystem') },
@@ -52,28 +43,7 @@ const SettingsScreen = () => {
       <ScrollView style={screenStyles.profileContainer}>
         <View style={[screenStyles.profileMenuCard, { marginTop: 16 }]}>
           <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 16 }}>
-            <Text style={screenStyles.profileMenuTitle}>{t('profile.appearance')}</Text>
-            <Text style={[screenStyles.profileMenuSubtitle, { marginBottom: 12 }]}>
-              {t('profile.appearanceSubtitle')}
-            </Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-              {themeOptions.map((opt) => {
-                const selected = preference === opt.key;
-                return (
-                  <TouchableOpacity
-                    key={opt.key}
-                    onPress={() => setPreference(opt.key)}
-                    style={chipStyle(selected)}
-                  >
-                    <Text style={chipTextStyle(selected)}>{opt.label}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            <Text style={[screenStyles.profileMenuTitle, { marginTop: 24 }]}>
-              {t('profile.language')}
-            </Text>
+            <Text style={screenStyles.profileMenuTitle}>{t('profile.language')}</Text>
             <Text style={[screenStyles.profileMenuSubtitle, { marginBottom: 12 }]}>
               {t('profile.languageSubtitle')}
             </Text>

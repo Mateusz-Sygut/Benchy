@@ -12,7 +12,7 @@ export const createGlassmorphismStyles = (t: AppTheme) =>
       borderColor: t.glass.sheetBorder,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: t.isDark ? 0.45 : 0.3,
+      shadowOpacity: 0.3,
       shadowRadius: 8,
       elevation: 8,
     },
@@ -37,7 +37,7 @@ export const createGlassmorphismStyles = (t: AppTheme) =>
       padding: 20,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: t.isDark ? 0.4 : 0.3,
+      shadowOpacity: 0.3,
       shadowRadius: 12,
       elevation: 8,
     },
@@ -48,7 +48,7 @@ export const createGlassmorphismStyles = (t: AppTheme) =>
       marginBottom: 4,
     },
     cardSubtitle: {
-      color: t.isDark ? t.glass.textMuted : t.text.secondary,
+      color: t.text.secondary,
       fontSize: 14,
     },
 
