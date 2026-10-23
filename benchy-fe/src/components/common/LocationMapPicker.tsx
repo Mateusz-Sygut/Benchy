@@ -7,10 +7,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 
 const DEFAULT_REGION = {
-  latitude: 35.6595,
-  longitude: 139.7004,
-  latitudeDelta: 0.005,
-  longitudeDelta: 0.005,
+  latitude: 52.2297,
+  longitude: 21.0122,
+  latitudeDelta: 0.05,
+  longitudeDelta: 0.05,
 };
 
 interface LocationMapPickerProps {
