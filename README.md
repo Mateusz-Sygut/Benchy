@@ -1,4 +1,4 @@
-# ŁawAppka
+# ŁawAppka (Benchy)
 
 A map-first mobile app for finding, adding, and rating public benches, with location-aware gameplay that only counts when you are actually sitting on one.
 
