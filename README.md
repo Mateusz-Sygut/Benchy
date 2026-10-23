@@ -1,139 +1,89 @@
-# ŁawAppka (Benchy)
+# ŁawAppka
 
-Mobile app for discovering, adding, and rating public benches on a map. Frontend: React Native (Expo) and TypeScript; backend: Supabase (PostgreSQL).
+A map-first mobile app for finding, adding, and rating public benches, with location-aware gameplay that only counts when you are actually sitting on one.
 
-[![React Native](https://img.shields.io/badge/React%20Native-0.81-blue.svg)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-54-blue.svg)](https://expo.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green.svg)](https://supabase.com/)
+Built by **Me** as a full product: React Native client, Supabase backend, and the rules that keep those two honest with each other.
 
-## What this project is
+[![React Native](https://img.shields.io/badge/React%20Native-0.81-20232A.svg)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-54-000020.svg)](https://expo.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6.svg)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E.svg)](https://supabase.com/)
 
-**ŁawAppka** is a cross-platform mobile app (Expo / React Native) for sharing and exploring public benches. Data is stored in **Supabase** (PostgreSQL): you see benches on a map and in lists, can add your own with a description, type, tags, and location, and rate what others added. Heavier rules—how new benches get a rarity tier, achievements, login streaks, rolling average ratings—are enforced in the database with SQL triggers and functions, not only in the app code.
+## Why this exists
 
-## Repository layout
+Cities are full of places to sit, and almost none of them are easy to find on purpose. ŁawAppka treats a bench like a place worth returning to: you pin it, describe it, rate it, and, if you are close enough, sit on it. The sit is the point. Time in the app does not count. Time on the bench does.
 
-| Path | Contents |
-|------|----------|
-| `benchy-fe/` | Full Expo app: screens, components, navigation, theme, PL/EN translations, Supabase client. |
-| `benchy-fe/App.tsx` | Entry: `ThemeProvider`, `LanguageProvider`, `AuthProvider`, `AchievementsProvider`, `SitSessionProvider`, navigation. |
-| `benchy-fe/src/screens/` | Map, bench list, bench details, add bench, profile, settings, help, my benches, my ratings, favourites, login/register. |
-| `benchy-fe/src/components/` | Shared UI (map, buttons, inputs), `bench/` (sit session card + 3D viewer), `panels/`. |
-| `benchy-fe/src/contexts/` | `AuthContext`, `ThemeContext`, `LanguageContext`, `AchievementsContext`, `SitSessionContext` (GPS sit timer). |
-| `benchy-fe/src/theme/` + `styles/` | Colour tokens and `create*Styles(theme)` style factories. |
-| `benchy-fe/src/lib/` | Supabase, geocoding, titles, user tasks, achievement progress, sit session helpers. |
-| `benchy-fe/assets/models/` | 3D sit character (`sit-character.glb`) shown during an active sit. |
-| `benchy-fe/metro.config.js` | Metro asset extensions for `.glb` / `.gltf`. |
-| `benchy-fe/src/i18n/locales/` | `en.json`, `pl.json` (UI strings + random nickname word lists). |
-| `benchy-be/supabase/migrations/` | SQL: schema, functions, triggers (e.g. smart rarity, rating averages). |
-| `benchy-be/supabase/config.toml` | Local Supabase CLI config (if you use it). |
+The interesting part of the project is not the map pin. It is keeping a playful product strict: GPS has to match the claim, progress has to survive a restart, and the database has to refuse writes the client should never be trusted to police.
 
-## How it works (short)
+## What the product does
 
-1. The **app** talks to your Supabase project via URL and anon key (`app.json` –> `expo.extra`). Users sign in with Supabase Auth (email/password).
-2. **Data** (benches, ratings, profile, favourites, rarity) lives in PostgreSQL tables. Access is governed by **Row Level Security (RLS)** policies from migrations.
-3. On **new bench** `INSERT`, `rarity_id` is set by trigger `set_smart_rarity`, which calls `calculate_smart_rarity()` – see below.
-4. **Map UI** uses `react-native-maps` and `expo-location`. Navigation is **React Navigation** (stack) plus a custom **`PanelNavigator`**: left/right/bottom slide-in panels controlled from the map.
-5. **Theme** (light/dark/system) is provided by `ThemeProvider`; preference is stored in AsyncStorage; screen styles come from `useThemedStyles()` and factories under `styles/`.
+A signed-in user can:
 
-## What you can do in the app
+- browse benches on a map, coloured by rarity, and filter to favourites
+- add a bench from GPS or by dropping a marker on the map
+- pick a bench type from local 2D icons (wooden, metal, stone, designer, or “other”)
+- rate and comment, save favourites, and open a list or “nearby” panel sorted by real distance
+- start a sit session on Bench Details when they are within about 80 m, with a live timer and a 3D character
+- collect achievements, titles, and a login streak from actions that happened, not from opening the app
 
-For a signed-in user (within what RLS allows):
+The interface is Polish and English. Registration can fill a random nickname; in Polish the adjective agrees with the noun (`Bystra Sowa`, not `Bystry Sowa`).
 
-– **Map** – benches as pins (colour by rarity), recenter on user location, favourites filter, shortcut to profile.
-– **Panels** – left: profile, stats, achievements with progress, tiered onboarding tasks; right: add bench, my benches, favourites; bottom: nearby benches (GPS distance when location is on, otherwise newest with a fallback message).
-– **Bench list** – text search, open details or map.
-– **Bench details** – description, mini map, average rating, favourites, **Sit here** (GPS sit session with timer + rotating 3D character), rarity, rating and comment.
-– **Add bench** – description, bench type, surroundings, tags (UI limit), **GPS location or pick on map** (modal with draggable marker).
-– **Profile** – stats, login streak, equipable titles, achievements, shortcuts to “My benches” / “My ratings”, **Settings** (language), **Help** (FAQ), sign out.
-– **Registration** – optional button to fill a random nickname from word lists in the current locale.
+## Engineering decisions worth reading
 
-**Gamification:** achievements unlock from benches, ratings, favourites, login streaks, **time spent in the app**, and **physical sit sessions** on a bench (within ~80 m GPS, timer on Bench Details, sessions ≥ 2 min; sit achievements e.g. first sit / 5 min / 15 min). Active sit shows a tinted GLB character (`assets/models/sit-character.glb`) via `expo-gl` + `three`. The user panel shows **3 task tiers** (9 tasks total). Locked achievement cards show progress (e.g. `18/30 min`).
+**The server owns the rules.** New benches get a rarity tier from a Postgres trigger (`set_smart_rarity`), not from whatever the phone sends. Rating averages, achievements, and profile totals follow the same idea: the client displays state, the database decides it.
 
-Without an account you typically only get login/register; everything else depends on Supabase config and RLS.
+**Access is row-level, not “the anon key is secret”.** User-owned rows (ratings, favourites, sit sessions, profiles) are scoped to `auth.uid()`. Dictionary tables stay readable. The `bench_details` view runs as the caller (`security_invoker`), so it cannot bypass those policies.
 
-## Languages and tooling
+**A sit is a location claim.** The timer starts only near the bench, sessions under two minutes do not count, and achievements such as a 30- or 120-minute sit read `total_sit_minutes`. Leaving the app open is not progress.
 
-**Languages (code and assets)**
+**The map is the home screen.** Lists, profile, add-bench, and nearby results are slide-in panels around that map, not a tab bar fighting the map for space.
 
-| Area | Language / format |
-|------|-------------------|
-| Mobile app | **TypeScript** (`.ts`, `.tsx`) |
-| Backend migrations | **SQL** (PostgreSQL) |
-| Translations | **JSON** (`en.json`, `pl.json`) |
-| Expo config | **JSON** (`app.json`) |
+**Assets stay on the device when they should.** Bench-type icons are a local name → PNG map. The database keeps a short type name and an emoji fallback. The map marker stays one icon plus a rarity colour, so a busy map does not download a different image per pin.
 
-**Application stack (frontend)**
+**One theme, two languages.** Colour comes from a single `appTheme`. Language follows the system or an explicit PL/EN choice stored on the device.
 
-- **React Native** + **Expo** (SDK 54) – one codebase for iOS / Android / web (see Expo docs for web vs native map limitations).
-- **React Navigation** – screen stack (add bench, details, profile from map, etc.).
-- **react-native-maps** – map and markers.
-- **expo-location** – permissions and GPS (map + sit proximity).
-- **expo-gl** + **three** – 3D sit character on Bench Details.
-- **expo-linear-gradient**, **expo-status-bar** – gradients and status bar.
-- **react-i18next** + **i18next** – i18n.
-- **@supabase/supabase-js** – Auth and database API.
-- **@react-native-async-storage/async-storage** – language preference.
+## How it fits together
 
-**Backend**
+```mermaid
+flowchart LR
+  App["Expo app<br/>map, panels, sit timer"] --> Auth["Supabase Auth"]
+  App --> DB["Postgres + RLS"]
+  DB --> Triggers["Triggers<br/>rarity, rating average"]
+  App --> GPS["expo-location"]
+  GPS --> Sit["Sit session<br/>~80 m, timer, persist"]
+  Sit --> DB
+```
 
-- **Supabase** – hosted PostgreSQL, Auth, optional Realtime (app mainly uses queries as needed).
-- **RLS policies**, **triggers**, and **SQL functions** – server-side logic on inserts/updates.
+1. The app signs in with email and password and talks to Supabase with the public anon key.
+2. Reads and writes go through RLS. A stolen anon key still cannot edit someone else’s bench.
+3. Inserting a bench runs `calculate_smart_rarity()` and stores `rarity_id` before the row is visible as “chosen by the user”.
+4. Sitting writes a `sit_sessions` row and rolls the minutes into the profile. Achievement checks read those totals.
 
-**Developer tools**
+Rarity, in short: the function looks at how many benches already exist in each tier and promotes the new one when rarer tiers are under-represented (thresholds use `ceil(1.2 × …)` and `ceil(1.5 × …)`). An empty database starts at **normal**. A bench can still be adjusted later from its details screen, within what RLS allows.
 
-- **Node.js** + **npm** – install and scripts.
-- **Metro** (via Expo) – dev bundler.
-- **TypeScript compiler** (`tsc --noEmit`) – static checks (useful in CI).
-- **EAS CLI** (optional) – store builds (`eas build`).
+## Stack
 
-## Quick start
+| Layer | Choice |
+| --- | --- |
+| Client | React Native, Expo SDK 54, TypeScript |
+| Navigation | React Navigation, plus a custom panel navigator on the map |
+| Maps and place | `react-native-maps`, `expo-location`, reverse geocoding |
+| Sit scene | `expo-gl` and Three.js, local `sit-character.glb` |
+| Copy | `i18next` (`en.json`, `pl.json`) |
+| Backend | Supabase: Auth, Postgres, Storage for avatars |
+| Safety | RLS, triggers, `security_invoker` views |
+
+Repository map: `benchy-fe/` is the app (`src/screens`, `src/components`, `src/contexts`, `src/lib`, `src/theme`). `benchy-be/supabase/migrations/` is the schema. `database.sql` is the full install; the other SQL files are incremental updates for a database that already exists.
+
+## Run it
 
 ```bash
 git clone <repo-url>
-cd Benchy
-```
-
-**Backend:** configure a Supabase project and apply migrations from `benchy-be/supabase/migrations/`:
-
-| Migration | Purpose |
-|-----------|---------|
-| `database.sql` | Main schema, RLS, smart rarity, achievements (incl. time-based), titles |
-| `add_login_streak.sql` | Login streak columns on `user_profiles` |
-| `add_avatar_storage.sql` | Avatar storage bucket/policies |
-| `add_time_spent_achievements.sql` | `sitter` / `benchPhilosopher` sit-minutes achievements (also in `database.sql` for fresh installs) |
-| `remap_time_spent_to_sit_minutes.sql` | Remap legacy `time_spent` achievements to `sit_minutes` |
-| `add_sit_sessions.sql` | Physical sit sessions at benches + sit achievements |
-| `fix_bench_details_security_invoker.sql` | Recreate `bench_details` view with `security_invoker` (RLS of caller) |
-
-Run any incremental migrations you have not applied yet on an existing project.
-
-**Frontend:**
-
-```bash
-cd benchy-fe
+cd Benchy/benchy-fe
 npm install
-npx expo start
 ```
 
-- **Expo Go** – scan QR (maps may need a dev build on some platforms).
-- **Web** – press `w` in the Expo CLI.
-- **Full native maps / production-like behaviour** – `expo run:android` / `expo run:ios` or an EAS build.
-
-### Typecheck (no JS emit)
-
-Run inside **`benchy-fe/`** (after `npm install` there):
-
-```bash
-cd benchy-fe
-npm run build
-```
-
-This runs `tsc --noEmit` (TypeScript only; no Expo bundle). From the repo root you can use `npm run build --prefix benchy-fe` instead.
-
-## Configuration
-
-Supabase in Expo config, e.g. `app.json` → `expo.extra`:
+Point the app at a Supabase project in `app.json` → `expo.extra`:
 
 ```json
 {
@@ -146,59 +96,29 @@ Supabase in Expo config, e.g. `app.json` → `expo.extra`:
 }
 ```
 
-Typical permissions: **location**. Camera/storage may be needed for future photo features.
+Apply `benchy-be/supabase/migrations/database.sql` on a new project (SQL editor or the Supabase CLI). On an existing project, apply only the incremental files you have not run yet: login streak, avatars, sit sessions, park bench type, sit-minute achievements, and the `bench_details` security-invoker fix.
 
-## Security notes
+```bash
+npx expo start
+```
 
-- `SUPABASE_URL` and `SUPABASE_ANON_KEY` are expected in the client app, but they are **not** a replacement for database security.
-- **Never commit secrets** (service role keys, database passwords, personal access tokens). Keep sensitive values in local env/config only.
-- Keep **RLS enabled** on all application tables. For dictionary-like tables (e.g. `rarity`, `bench_types`, `locations`, `tags`, `achievements`, `titles`), allow read-only policies for `anon/authenticated` as needed.
-- User-owned data (`favorites`, `ratings`, `user_profiles`, etc.) should have owner-based policies (typically `user_id = auth.uid()` for write operations).
-- After schema changes, re-check Supabase **Security Advisor** and verify no new public write paths were introduced.
+Expo Go is enough to click through most screens. Maps and the sit flow are most reliable in a dev build (`npx expo run:android` / `run:ios`) or an EAS build. Typecheck from `benchy-fe/` with `npm run build` (`tsc --noEmit`).
 
-## Theme
+The anon key belongs in the client. The service role key does not. Do not commit it.
 
-- One fixed theme from **`appTheme`** in `src/theme/theme.ts`, provided by **`ThemeProvider`**.
-- **`useThemedStyles()`** builds screen and component styles from that theme.
-
-## Smart rarity (database)
-
-New rows in `benches` get `rarity_id` from trigger **`set_smart_rarity`** → function **`calculate_smart_rarity()`** (`benchy-be/supabase/migrations/database.sql`):
-
-1. No benches yet → **normal**.
-2. `rare_count = unique_count` and both `> 0` → **anomalous**.
-3. **unique** if unique count meets the threshold vs common or normal (`ceil(1.5 × …)`).
-4. **rare** if rare count meets the threshold (`ceil(1.2 × …)`).
-5. **common** vs **normal**: higher count wins; on a tie **normal** is chosen.
-
-Rarity can also be changed manually from bench details (subject to UI and RLS).
-
-## Database (outline)
-
-Tables include `benches`, `ratings`, `rarity`, `bench_types`, `locations`, `tags`, achievements, titles, favourites, `user_profiles`. Details and policies are in the SQL migration files.
-
-## Production build
+## Production builds
 
 ```bash
 npm install -g eas-cli
 eas login
-eas build:configure
 eas build --platform android
 eas build --platform ios
 ```
 
-Store setup (bundle IDs, map keys, signing) is outside this repo.
+Signing, map provider keys, and store listings live outside this repo.
 
-## Contributing
+## Credits
 
-Conventional commit prefixes are fine (`feat:`, `fix:`, `docs:`, etc.).
+Map marker: bench icon by [Freepik](https://www.flaticon.com/authors/freepik) via [Flaticon](https://www.flaticon.com/free-icons/bench). See [benchy-fe/ATTRIBUTIONS.md](benchy-fe/ATTRIBUTIONS.md).
 
-## License
-
-MIT – see [LICENSE](LICENSE).
-
-## Authors
-
-Frontend: React Native / Expo. Backend: Supabase. UI: custom (panels, map-first flow).
-
-Map bench marker icon: [Freepik](https://www.flaticon.com/authors/freepik) via [Flaticon](https://www.flaticon.com/free-icons/bench) — see [benchy-fe/ATTRIBUTIONS.md](benchy-fe/ATTRIBUTIONS.md).
+MIT. See [LICENSE](LICENSE).
