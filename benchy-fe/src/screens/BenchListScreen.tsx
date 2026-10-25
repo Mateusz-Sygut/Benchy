@@ -195,10 +195,7 @@ const BenchListScreen = () => {
 
   return (
     <>
-      <StatusBar
-        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
-        backgroundColor={theme.primary[900]}
-      />
+      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
       <View style={screenStyles.benchListContainer}>
         {renderSearchBar()}
         <FlatList
@@ -213,7 +210,7 @@ const BenchListScreen = () => {
               tintColor={theme.primary[900]}
             />
           }
-          ListEmptyComponent={filteredBenches.length === 0 ? () => (loading ? renderSkeleton() : renderEmptyState()) : null}
+          ListEmptyComponent={filteredBenches.length === 0 ? () => (loading ? renderSkeleton() : renderEmptyState()) : undefined}
           contentContainerStyle={filteredBenches.length === 0 ? screenStyles.benchListEmptyContentContainer : screenStyles.benchListListContent}
           showsVerticalScrollIndicator={false}
         />

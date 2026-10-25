@@ -146,10 +146,7 @@ const MyRatingsScreen = () => {
 
   return (
     <>
-      <StatusBar
-        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
-        backgroundColor={theme.primary[900]}
-      />
+      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
       <View style={screenStyles.benchDetailsContainer}>
         <FlatList
           data={ratings}
@@ -163,7 +160,7 @@ const MyRatingsScreen = () => {
               tintColor={theme.primary[900]}
             />
           }
-          ListEmptyComponent={ratings.length === 0 ? renderEmptyState : null}
+          ListEmptyComponent={ratings.length === 0 ? renderEmptyState : undefined}
           contentContainerStyle={
             ratings.length === 0
               ? screenStyles.benchListEmptyContentContainer

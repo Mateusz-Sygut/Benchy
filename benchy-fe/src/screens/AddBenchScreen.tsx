@@ -177,10 +177,7 @@ const AddBenchScreen = ({ navigation }: any) => {
 
   return (
     <>
-      <StatusBar
-        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
-        backgroundColor={theme.primary[900]}
-      />
+      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
       <LinearGradient
         colors={[theme.gradient.light, theme.gradient.lighter]}
         style={commonStyles.container}

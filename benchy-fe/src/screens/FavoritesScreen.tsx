@@ -189,10 +189,7 @@ const FavoritesScreen = () => {
 
   return (
     <>
-      <StatusBar
-        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
-        backgroundColor={theme.primary[900]}
-      />
+      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
       <View style={screenStyles.benchListContainer}>
         {renderSearchBar()}
         <FlatList
@@ -208,7 +205,7 @@ const FavoritesScreen = () => {
             />
           }
           ListEmptyComponent={
-            filteredBenches.length === 0 ? () => renderEmptyState() : null
+            filteredBenches.length === 0 ? () => renderEmptyState() : undefined
           }
           contentContainerStyle={
             filteredBenches.length === 0

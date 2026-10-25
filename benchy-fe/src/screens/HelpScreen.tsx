@@ -11,10 +11,7 @@ const HelpScreen = () => {
 
   return (
     <>
-      <StatusBar
-        barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'}
-        backgroundColor={theme.background.primary}
-      />
+      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
       <ScrollView style={screenStyles.profileContainer} contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={[screenStyles.profileMenuCard, { marginTop: 16 }]}>
           <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8 }}>

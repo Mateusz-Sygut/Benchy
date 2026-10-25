@@ -45,7 +45,7 @@ const LoginScreen = ({ navigation }: any) => {
 
   return (
     <View style={screenStyles.authContainer}>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+      <StatusBar barStyle="light-content" />
       <KeyboardAvoidingView
         style={screenStyles.authContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

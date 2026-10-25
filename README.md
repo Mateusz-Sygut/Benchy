@@ -4,8 +4,8 @@ A map-first mobile app for finding, adding, and rating public benches, with loca
 
 Built by **Me** as a full product: React Native client, Supabase backend, and the rules that keep those two honest with each other.
 
-[![React Native](https://img.shields.io/badge/React%20Native-0.81-20232A.svg)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-54-000020.svg)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.88-20232A.svg)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-58-000020.svg)](https://expo.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6.svg)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E.svg)](https://supabase.com/)
 
@@ -65,7 +65,7 @@ Rarity, in short: the function looks at how many benches already exist in each t
 
 | Layer | Choice |
 | --- | --- |
-| Client | React Native, Expo SDK 54, TypeScript |
+| Client | React Native, Expo SDK 58, TypeScript |
 | Navigation | React Navigation, plus a custom panel navigator on the map |
 | Maps and place | `react-native-maps`, `expo-location`, reverse geocoding |
 | Sit scene | `expo-gl` and Three.js, local `sit-character.glb` |

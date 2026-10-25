@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -26,28 +26,26 @@ const AuthNavigator = () => {
   return (
     <View style={styles.root}>
       <View style={styles.background} pointerEvents="none">
-        <ImageBackground
+        <Image
           source={authHero}
-          style={StyleSheet.absoluteFill}
+          style={[StyleSheet.absoluteFill, screenStyles.authBackgroundStyle]}
           resizeMode="cover"
-          imageStyle={screenStyles.authBackgroundStyle}
+        />
+        <LinearGradient
+          colors={[
+            'rgba(0, 0, 0, 0.2)',
+            'rgba(0, 0, 0, 0.3)',
+            'rgba(0, 0, 0, 0.5)',
+            'rgba(0, 0, 0, 0.7)',
+          ]}
+          style={StyleSheet.absoluteFill}
         >
-          <LinearGradient
-            colors={[
-              'rgba(0, 0, 0, 0.2)',
-              'rgba(0, 0, 0, 0.3)',
-              'rgba(0, 0, 0, 0.5)',
-              'rgba(0, 0, 0, 0.7)',
-            ]}
-            style={StyleSheet.absoluteFill}
-          >
-            <AnimatedBackground />
-            <BackgroundPlants />
-            <PlantAnimations variant="login" />
-            <ParticleEffects />
-            <RandomLeaves />
-          </LinearGradient>
-        </ImageBackground>
+          <AnimatedBackground />
+          <BackgroundPlants />
+          <PlantAnimations variant="login" />
+          <ParticleEffects />
+          <RandomLeaves />
+        </LinearGradient>
       </View>
 
       <View
@@ -81,7 +79,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3d5c3a',
   },
   background: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
   transparent: {
     backgroundColor: 'transparent',

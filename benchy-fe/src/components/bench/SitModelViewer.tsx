@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   loader: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 1,
