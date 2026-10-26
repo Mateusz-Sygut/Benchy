@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 const authHero = require('../../assets/benchy-title-hero.png');
 
 const AuthNavigator = () => {
-  const { common, screen: screenStyles } = useThemedStyles();
+  const { common } = useThemedStyles();
   const insets = useSafeAreaInsets();
 
   return (
@@ -28,7 +28,7 @@ const AuthNavigator = () => {
       <View style={styles.background} pointerEvents="none">
         <Image
           source={authHero}
-          style={[StyleSheet.absoluteFill, screenStyles.authBackgroundStyle]}
+          style={StyleSheet.absoluteFill}
           resizeMode="cover"
         />
         <LinearGradient

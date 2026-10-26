@@ -3,19 +3,6 @@ import { AppTheme } from '../theme/theme';
 
 export const createScreenStyles = (t: AppTheme) =>
   StyleSheet.create({
-  authBackground: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'flex-end',
-    backgroundColor: '#3d5c3a',
-  },
-  authBackgroundStyle: {
-    opacity: 1,
-  },
-  authGradient: {
-    flex: 1,
-  },
   authContainer: {
     flex: 1,
     backgroundColor: 'transparent',

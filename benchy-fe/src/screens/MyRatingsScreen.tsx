@@ -146,7 +146,7 @@ const MyRatingsScreen = () => {
 
   return (
     <>
-      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle="dark-content" />
       <View style={screenStyles.benchDetailsContainer}>
         <FlatList
           data={ratings}

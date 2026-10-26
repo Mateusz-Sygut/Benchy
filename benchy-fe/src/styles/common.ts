@@ -61,31 +61,11 @@ export const createCommonStyles = (t: AppTheme) =>
       alignItems: 'center',
     },
 
-    backgroundPrimary: {
-      backgroundColor: t.background.primary,
-    },
-    backgroundSecondary: {
-      backgroundColor: t.background.secondary,
-    },
-
     authHeaderContainer: {
       backgroundColor: t.navigation.authHeaderBg,
-      paddingTop: 40,
       paddingBottom: 8,
-    },
-    authHeaderStyle: {
-      backgroundColor: t.navigation.authHeaderBg,
-    },
-    authHeaderTitleStyle: {
-      fontWeight: 'bold' as const,
     },
     mainHeaderStyle: {
       backgroundColor: t.navigation.mainHeaderBg,
-    },
-    tabHeaderStyle: {
-      backgroundColor: t.navigation.tabHeaderBg,
-    },
-    tabHeaderTitleStyle: {
-      fontWeight: 'bold' as const,
     },
   });

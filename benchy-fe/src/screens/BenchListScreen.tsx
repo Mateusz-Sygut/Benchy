@@ -195,7 +195,7 @@ const BenchListScreen = () => {
 
   return (
     <>
-      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle="dark-content" />
       <View style={screenStyles.benchListContainer}>
         {renderSearchBar()}
         <FlatList

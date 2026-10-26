@@ -6,7 +6,7 @@ import { AchievementsProvider } from './src/contexts/AchievementsContext';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import { LanguageProvider } from './src/contexts/LanguageContext';
 import { SitSessionProvider } from './src/contexts/SitSessionContext';
-import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
+import { ThemeProvider } from './src/contexts/ThemeContext';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import AppNavigator from './src/navigation/AppNavigator';
 import LoadingScreen from './src/screens/LoadingScreen';
@@ -14,7 +14,6 @@ import './src/i18n';
 
 const AppContent = () => {
   const { user, loading } = useAuth();
-  const { theme } = useTheme();
 
   if (loading) {
     return <LoadingScreen />;
@@ -22,7 +21,7 @@ const AppContent = () => {
 
   return (
     <>
-      <StatusBar style={theme.statusBarStyle} />
+      <StatusBar style="dark" />
       {user ? <AppNavigator /> : <AuthNavigator />}
     </>
   );

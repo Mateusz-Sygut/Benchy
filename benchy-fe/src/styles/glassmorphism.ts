@@ -17,18 +17,6 @@ export const createGlassmorphismStyles = (t: AppTheme) =>
       elevation: 8,
     },
 
-    glassContainerDark: {
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      borderRadius: 20,
-      borderWidth: 1,
-      borderColor: 'rgba(255, 255, 255, 0.1)',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.5,
-      shadowRadius: 8,
-      elevation: 8,
-    },
-
     glassCard: {
       backgroundColor: t.glass.cardFill,
       borderRadius: 20,

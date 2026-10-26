@@ -87,7 +87,7 @@ const ProfileScreen = () => {
 
   return (
     <>
-      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle="dark-content" />
       <ScrollView style={screenStyles.profileContainer}>
         <LinearGradient
           colors={[...theme.gradient.primary] as [string, string, string]}

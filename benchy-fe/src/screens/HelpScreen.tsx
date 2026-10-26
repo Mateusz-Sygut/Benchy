@@ -7,11 +7,11 @@ const FAQ_KEYS = ['addBench', 'rate', 'titles', 'streak', 'favorites', 'tasks', 
 
 const HelpScreen = () => {
   const { t } = useTranslation();
-  const { screen: screenStyles, theme } = useThemedStyles();
+  const { screen: screenStyles } = useThemedStyles();
 
   return (
     <>
-      <StatusBar barStyle={theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle="dark-content" />
       <ScrollView style={screenStyles.profileContainer} contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={[screenStyles.profileMenuCard, { marginTop: 16 }]}>
           <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8 }}>

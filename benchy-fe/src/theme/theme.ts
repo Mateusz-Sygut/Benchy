@@ -6,11 +6,9 @@ function withShadowColor(shadow: ViewStyle, shadowColor: string): ViewStyle {
 }
 
 export interface AppTheme {
-  statusBarStyle: 'light' | 'dark';
   navigation: {
     mainHeaderBg: string;
     authHeaderBg: string;
-    tabHeaderBg: string;
     headerTint: string;
   };
   background: {
@@ -74,11 +72,9 @@ export interface AppTheme {
 const shadowBase = colors.gray[900];
 
 export const appTheme: AppTheme = {
-  statusBarStyle: 'dark',
   navigation: {
     mainHeaderBg: colors.primary[800],
     authHeaderBg: colors.primary[600],
-    tabHeaderBg: colors.primary[800],
     headerTint: colors.text.white,
   },
   background: { ...colors.background },
