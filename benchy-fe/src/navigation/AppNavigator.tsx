@@ -7,7 +7,6 @@ import BenchDetailsScreen from '../screens/BenchDetailsScreen';
 import BenchListScreen from '../screens/BenchListScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MyBenchesScreen from '../screens/MyBenchesScreen';
-import MyRatingsScreen from '../screens/MyRatingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import HelpScreen from '../screens/HelpScreen';
@@ -71,16 +70,6 @@ const AppNavigator = () => {
         component={FavoritesScreen}
         options={{
           title: t('swipe.favorites'),
-          headerBackTitle: t('common.back'),
-          headerStyle: common.mainHeaderStyle,
-          headerTintColor: theme.navigation.headerTint,
-        }}
-      />
-      <Stack.Screen
-        name="MyRatings"
-        component={MyRatingsScreen}
-        options={{
-          title: t('profile.myRatings'),
           headerBackTitle: t('common.back'),
           headerStyle: common.mainHeaderStyle,
           headerTintColor: theme.navigation.headerTint,

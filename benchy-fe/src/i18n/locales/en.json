@@ -26,7 +26,7 @@
     "register": "Sign Up",
     "logout": "Sign Out",
     "loginTitle": "Welcome to Benchy!",
-    "loginSubtitle": "Find and rate benches in your city",
+    "loginSubtitle": "Find benches in your city",
     "registerTitle": "Join the Benchy community!",
     "registerSubtitle": "Help others find the best benches",
     "confirmPassword": "Confirm Password",
@@ -59,8 +59,8 @@
         "a": "Open the right panel on the map or go to Add Bench. Set a location with GPS or by tapping the map, then fill in the description, type, and tags."
       },
       "rate": {
-        "q": "How do I rate a bench?",
-        "a": "Open a bench from the map or bench list, then leave a star rating and optional comment on the details screen."
+        "q": "What can I do on a bench?",
+        "a": "Open a bench to set its rarity. When you are there, start a sit session."
       },
       "titles": {
         "q": "How do titles work?",
@@ -100,15 +100,13 @@
     "noDescription": "No description",
     "addedBy": "by user",
     "total": "benches",
-    "unnamedBench": "Unnamed bench",
-    "noRating": "0.0"
+    "unnamedBench": "Unnamed bench"
   },
   "benchList": {
     "noBenches": "No benches",
     "noBenchesTitle": "No benches found",
     "noBenchesText": "Be the first to add a bench in your area!",
     "addFirstBench": "Add first bench",
-    "noRating": "No ratings",
     "searchPlaceholder": "Find a place to sit...",
     "noSearchResults": "No search results",
     "noSearchResultsText": "Try changing your search query"
@@ -143,14 +141,11 @@
   "profile": {
     "myBenches": "My Benches",
     "myBenchesSubtitle": "Benches you added",
-    "myRatings": "My Ratings",
-    "myRatingsSubtitle": "Your bench reviews",
     "settings": "Settings",
     "settingsSubtitle": "App configuration",
     "help": "Help",
     "helpSubtitle": "FAQ and support",
     "addedBenches": "Added benches",
-    "givenRatings": "Given ratings",
     "logoutConfirm": "Are you sure you want to sign out?",
     "user": "User",
     "timeSpent": "Sit time",
@@ -219,28 +214,13 @@
     "locationPermissionDenied": "Permission to access location was denied",
     "locationFailed": "Failed to get location",
     "mustBeLoggedIn": "You must be logged in",
-    "mustBeLoggedInToRate": "You must be logged in to add a rating",
     "failedToLoadBench": "Failed to load bench details",
     "failedToLoadData": "An error occurred while loading data",
     "failedToAddBench": "Failed to add bench",
-    "failedToAddRating": "Failed to add rating",
     "failedToUpdateRarity": "Failed to update rarity"
   },
   "benchDetails": {
-    "addRating": "Add your rating",
-    "userRatings": "User ratings",
-    "addedBy": "Added by",
-    "selectRating": "Please select a rating",
-    "addComment": "Please add a comment",
-    "commentPlaceholder": "Write a comment about this bench...",
-    "ratingAdded": "Your rating has been added",
-    "ratingError": "Failed to add rating",
-    "adding": "Adding...",
-    "addRatingButton": "Add Rating",
-    "beFirst": "Be the first!",
-    "ratings": "ratings",
     "addedOn": "Added on",
-    "user": "User",
     "setRarity": "Set Rarity",
     "selectRarity": "Please select a rarity",
     "rarityUpdated": "Rarity has been updated",
@@ -297,12 +277,9 @@
     "benchMaster": "Bench Master",
     "sitter": "Sitter",
     "benchPhilosopher": "Bench Philosopher",
-    "rater": "Rater",
-    "critic": "Critic",
     "collector": "Collector",
     "expert": "Expert",
     "master": "Master",
-    "judge": "Judge",
     "favorite": "Favorite",
     "connoisseur": "Connoisseur",
     "specialist": "Specialist",
@@ -310,9 +287,6 @@
     "collector.description": "Add 10 benches",
     "expert.description": "Add 50 benches",
     "master.description": "Add 100 benches",
-    "rater.description": "Rate 10 benches",
-    "critic.description": "Rate 50 benches",
-    "judge.description": "Rate 100 benches",
     "favorite.description": "Add 10 benches to favorites",
     "connoisseur.description": "Add 50 benches to favorites",
     "specialist.description": "Add 100 benches to favorites",
@@ -404,20 +378,19 @@
     "tierRegular": "Regular visitor",
     "allComplete": "All tasks done — keep exploring benches!",
     "addFirstBench": "Add your first bench",
-    "rateBench": "Rate a bench",
+    "rateBench": "Sit on a bench",
     "addFavorite": "Add to favorites",
     "setAvatar": "Set a profile photo",
     "loginStreak": "Log in {{count}} days in a row",
     "addBenches": "Add {{count}} benches",
-    "giveRatings": "Give {{count}} ratings",
+    "giveRatings": "Sit {{count}} times",
     "addFavorites": "Save {{count}} favorites"
   },
   "stats": {
     "title": "Statistics",
     "subtitle": "Your results in the app",
     "myBenches": "My benches",
-    "favorites": "Favorites",
-    "ratings": "Ratings"
+    "favorites": "Favorites"
   },
   "nearby": {
     "title": "Nearby",
@@ -435,7 +408,7 @@
     "panelTitle": "Benchy tip",
     "addBench": "Adding a bench helps others find their favorite spot.",
     "rarity": "Rare benches unlock achievements faster.",
-    "explore": "Rate benches – your opinion helps the community.",
+    "explore": "Sit on a bench when you are there. That time is what the app counts.",
     "favorites": "Add to favorites – easy to find later."
   }
 }

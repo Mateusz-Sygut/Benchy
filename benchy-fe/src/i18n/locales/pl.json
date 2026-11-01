@@ -34,7 +34,7 @@
     "register": "Zarejestruj się",
     "logout": "Wyloguj się",
     "loginTitle": "Witaj w ŁawAppce!",
-    "loginSubtitle": "Znajdź i oceń ławeczki w Twoim mieście",
+    "loginSubtitle": "Znajdź ławeczki w Twoim mieście",
     "registerTitle": "Dołącz do społeczności ŁawAppki!",
     "registerSubtitle": "Pomóż innym znaleźć najlepsze ławeczki",
     "confirmPassword": "Potwierdź hasło",
@@ -67,8 +67,8 @@
         "a": "Otwórz prawy panel na mapie lub przejdź do Dodaj ławkę. Ustaw lokalizację przez GPS albo dotykając mapę, potem uzupełnij opis, typ i tagi."
       },
       "rate": {
-        "q": "Jak ocenić ławkę?",
-        "a": "Otwórz ławkę z mapy lub listy, a następnie wystaw gwiazdki i opcjonalny komentarz na ekranie szczegółów."
+        "q": "Co mogę zrobić przy ławce?",
+        "a": "Otwórz ławkę i ustaw jej rzadkość. Na miejscu uruchom siedzenie."
       },
       "titles": {
         "q": "Jak działają tytuły?",
@@ -108,15 +108,13 @@
     "noDescription": "Brak opisu",
     "addedBy": "dodana przez",
     "total": "ławeczek",
-    "unnamedBench": "Bezimienna ławeczka",
-    "noRating": "0.0"
+    "unnamedBench": "Bezimienna ławeczka"
   },
   "benchList": {
     "noBenches": "Brak ławeczek",
     "noBenchesTitle": "Brak ławeczek",
     "noBenchesText": "Bądź pierwszy i dodaj ławeczkę w Twojej okolicy!",
     "addFirstBench": "Dodaj pierwszą ławeczkę",
-    "noRating": "Brak ocen",
     "searchPlaceholder": "Znajdź miejsce, żeby sobie klapnąć...",
     "noSearchResults": "Brak wyników wyszukiwania",
     "noSearchResultsText": "Spróbuj zmienić zapytanie wyszukiwania"
@@ -149,20 +147,7 @@
     "tagsCount": "Tagi ({{count}}/4)"
   },
   "benchDetails": {
-    "addRating": "Dodaj swoją ocenę",
-    "userRatings": "Oceny użytkowników",
-    "addedBy": "Dodane przez",
-    "selectRating": "Proszę wybrać ocenę",
-    "addComment": "Proszę dodać komentarz",
-    "commentPlaceholder": "Napisz komentarz o tej ławeczce...",
-    "ratingAdded": "Twoja ocena została dodana",
-    "ratingError": "Nie udało się dodać oceny",
-    "adding": "Dodawanie...",
-    "addRatingButton": "Dodaj ocenę",
-    "beFirst": "Bądź pierwszy!",
-    "ratings": "ocen",
     "addedOn": "Dodane",
-    "user": "Użytkownik",
     "setRarity": "Ustaw rzadkość",
     "selectRarity": "Proszę wybrać rzadkość",
     "rarityUpdated": "Rzadkość została zaktualizowana",
@@ -226,12 +211,9 @@
     "benchMaster": "Mistrz Ławeczek",
     "sitter": "Siedzący",
     "benchPhilosopher": "Ławeczkowy Filozof",
-    "rater": "Oceniacz",
-    "critic": "Krytyk",
     "collector": "Kolekcjoner",
     "expert": "Ekspert",
     "master": "Mistrz",
-    "judge": "Sędzia",
     "favorite": "Ulubieniec",
     "connoisseur": "Koneser",
     "specialist": "Znawca",
@@ -239,9 +221,6 @@
     "collector.description": "Dodaj 10 ławek",
     "expert.description": "Dodaj 50 ławek",
     "master.description": "Dodaj 100 ławek",
-    "rater.description": "Oceń 10 ławek",
-    "critic.description": "Oceń 50 ławek",
-    "judge.description": "Oceń 100 ławek",
     "favorite.description": "Dodaj 10 ławek do ulubionych",
     "connoisseur.description": "Dodaj 50 ławek do ulubionych",
     "specialist.description": "Dodaj 100 ławek do ulubionych",
@@ -337,20 +316,19 @@
     "tierRegular": "Stały bywalec",
     "allComplete": "Wszystkie zadania ukończone — odkrywaj dalej!",
     "addFirstBench": "Dodaj pierwszą ławeczkę",
-    "rateBench": "Oceń ławeczkę",
+    "rateBench": "Posiedź na ławce",
     "addFavorite": "Dodaj do ulubionych",
     "setAvatar": "Ustaw zdjęcie profilowe",
     "loginStreak": "Loguj się {{count}} dni z rzędu",
     "addBenches": "Dodaj {{count}} ławeczek",
-    "giveRatings": "Wystaw {{count}} ocen",
+    "giveRatings": "Posiedź {{count}} razy",
     "addFavorites": "Zapisz {{count}} ulubionych"
   },
   "stats": {
     "title": "Statystyki",
     "subtitle": "Twoje wyniki w aplikacji",
     "myBenches": "Moje ławeczki",
-    "favorites": "Ulubione",
-    "ratings": "Oceny"
+    "favorites": "Ulubione"
   },
   "nearby": {
     "title": "W pobliżu",
@@ -368,20 +346,17 @@
     "panelTitle": "Tip ŁawAppki",
     "addBench": "Dodając ławkę, pomagasz innym znaleźć ulubione miejsce.",
     "rarity": "Rzadkie ławki szybciej odblokowują osiągnięcia.",
-    "explore": "Oceń ławki – Twoja opinia pomaga społeczności.",
+    "explore": "Usiądź na ławce, kiedy jesteś na miejscu. Liczy się czas siedzenia.",
     "favorites": "Dodawaj do ulubionych – potem łatwo wrócisz."
   },
   "profile": {
     "myBenches": "Moje ławeczki",
     "myBenchesSubtitle": "Ławeczki które dodałeś",
-    "myRatings": "Moje oceny",
-    "myRatingsSubtitle": "Twoje recenzje ławeczek",
     "settings": "Ustawienia",
     "settingsSubtitle": "Konfiguracja aplikacji",
     "help": "Pomoc",
     "helpSubtitle": "FAQ i wsparcie",
     "addedBenches": "Ławeczki",
-    "givenRatings": "Oceny",
     "logoutConfirm": "Czy na pewno chcesz się wylogować?",
     "user": "Użytkownik",
     "timeSpent": "Czas siedzenia",
@@ -443,11 +418,9 @@
     "locationPermissionDenied": "Odmowa dostępu do lokalizacji",
     "locationFailed": "Nie udało się pobrać lokalizacji",
     "mustBeLoggedIn": "Musisz być zalogowany",
-    "mustBeLoggedInToRate": "Musisz być zalogowany żeby dodać ocenę",
     "failedToLoadBench": "Nie udało się załadować szczegółów ławeczki",
     "failedToLoadData": "Wystąpił błąd podczas ładowania danych",
     "failedToAddBench": "Nie udało się dodać ławeczki",
-    "failedToAddRating": "Nie udało się dodać oceny",
     "failedToUpdateRarity": "Nie udało się zaktualizować rzadkości"
   }
 }

@@ -124,14 +124,6 @@ const FavoritesScreen = () => {
         </Text>
 
         <View style={screenStyles.benchListBenchMeta}>
-          <View style={screenStyles.benchListRatingContainer}>
-            <Ionicons name="star" size={16} color={theme.star} />
-            <Text style={screenStyles.benchListRatingText}>
-              {item.average_rating && item.average_rating > 0
-                ? item.average_rating.toFixed(1)
-                : t('benchList.noRating')}
-            </Text>
-          </View>
           <Ionicons name="heart" size={14} color={theme.error} />
         </View>
 

@@ -16,7 +16,6 @@ SELECT
     b.bench_type_id,
     b.location_id,
     b.tags,
-    b.average_rating,
     b.created_at,
     b.updated_at,
     r.name AS rarity_name,

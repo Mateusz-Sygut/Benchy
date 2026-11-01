@@ -151,13 +151,6 @@ export const NearbyBenchesPanel: React.FC<NearbyBenchesPanelProps> = ({ onBenchP
             </Text>
           </View>
 
-          <View style={panelStyles.benchCardRatingContainer}>
-            <Ionicons name="star" size={14} color={theme.warning} />
-            <Text style={[panelStyles.benchRating, panelStyles.benchCardRatingText]}>
-              {bench.average_rating ? bench.average_rating.toFixed(1) : t('bench.noRating')}
-            </Text>
-          </View>
-
           {bench.distanceKm !== undefined && (
             <View style={panelStyles.benchCardRatingContainer}>
               <Ionicons name="navigate-outline" size={14} color={theme.primary[400]} />

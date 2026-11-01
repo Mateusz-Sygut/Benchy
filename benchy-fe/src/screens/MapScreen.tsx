@@ -98,7 +98,6 @@ const MapScreen = forwardRef<MapScreenRef>((_, ref) => {
       const convertedBenches = (data || []).map((bench: any) => ({
         ...bench,
         description: bench.description || undefined,
-        average_rating: bench.average_rating || undefined,
         rarity: bench.rarity,
         bench_type: bench.bench_type,
         location: bench.location,

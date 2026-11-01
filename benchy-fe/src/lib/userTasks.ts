@@ -38,7 +38,7 @@ const TASK_TIERS: TaskTierDef[] = [
     subtitleKey: 'tasks.tierStarter',
     build: (profile, navigate) => {
       const benches = profile?.total_benches_created ?? 0;
-      const ratings = profile?.total_ratings_given ?? 0;
+      const sits = profile?.total_sit_sessions ?? 0;
       const favorites = profile?.total_favorites ?? 0;
 
       return [
@@ -50,11 +50,11 @@ const TASK_TIERS: TaskTierDef[] = [
           onPress: () => navigate(benches >= 1 ? 'MyBenches' : 'AddBench'),
         },
         {
-          id: 'rateBench',
-          icon: 'star',
+          id: 'sitOnce',
+          icon: 'time',
           labelKey: 'tasks.rateBench',
-          isComplete: ratings >= 1,
-          onPress: () => navigate(ratings >= 1 ? 'MyRatings' : 'BenchList'),
+          isComplete: sits >= 1,
+          onPress: () => navigate('BenchList'),
         },
         {
           id: 'addFavorite',
@@ -103,18 +103,18 @@ const TASK_TIERS: TaskTierDef[] = [
   {
     subtitleKey: 'tasks.tierRegular',
     build: (profile, navigate) => {
-      const ratings = profile?.total_ratings_given ?? 0;
+      const sits = profile?.total_sit_sessions ?? 0;
       const favorites = profile?.total_favorites ?? 0;
       const streak = streakDays(profile);
 
       return [
         {
-          id: 'rateTen',
-          icon: 'star-half',
+          id: 'sitThree',
+          icon: 'time',
           labelKey: 'tasks.giveRatings',
-          labelParams: { count: 10 },
-          isComplete: ratings >= 10,
-          onPress: () => navigate(ratings >= 10 ? 'MyRatings' : 'BenchList'),
+          labelParams: { count: 3 },
+          isComplete: sits >= 3,
+          onPress: () => navigate('BenchList'),
         },
         {
           id: 'favoriteTen',

@@ -4,7 +4,6 @@ import { Title, UserProfile } from '../types/database';
 type TitleRequirementType =
   | 'always'
   | 'bench_count'
-  | 'rating_count'
   | 'favorite_count'
   | 'login_streak';
 
@@ -26,8 +25,6 @@ export function meetsTitleRequirement(titleName: string, profile: UserProfile): 
       return true;
     case 'bench_count':
       return profile.total_benches_created >= rule.value;
-    case 'rating_count':
-      return profile.total_ratings_given >= rule.value;
     case 'favorite_count':
       return (profile.total_favorites ?? 0) >= rule.value;
     case 'login_streak':

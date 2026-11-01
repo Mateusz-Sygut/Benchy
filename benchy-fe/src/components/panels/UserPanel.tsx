@@ -53,10 +53,6 @@ export const UserPanel: React.FC = () => {
             <Text style={panelStyles.statLabel}>{t('profile.addedBenches')}</Text>
           </View>
           <View style={panelStyles.statItem}>
-            <Text style={panelStyles.statNumber}>{userProfile?.total_ratings_given || 0}</Text>
-            <Text style={panelStyles.statLabel}>{t('profile.givenRatings')}</Text>
-          </View>
-          <View style={panelStyles.statItem}>
             <Text style={[panelStyles.statNumber, { color: theme.warning }]}>
               {userProfile?.current_streak || 0}
             </Text>

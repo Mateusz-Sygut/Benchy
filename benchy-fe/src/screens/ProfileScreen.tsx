@@ -60,14 +60,6 @@ const ProfileScreen = () => {
       },
     },
     {
-      icon: 'star-outline',
-      title: t('profile.myRatings'),
-      subtitle: t('profile.myRatingsSubtitle'),
-      onPress: () => {
-        navigation.navigate('MyRatings');
-      },
-    },
-    {
       icon: 'settings-outline',
       title: t('profile.settings'),
       subtitle: t('profile.settingsSubtitle'),
@@ -119,11 +111,6 @@ const ProfileScreen = () => {
           <View style={screenStyles.profileStatItem}>
             <Text style={screenStyles.profileStatNumber}>{userProfile?.total_benches_created || 0}</Text>
             <Text style={screenStyles.profileStatLabel}>{t('profile.addedBenches')}</Text>
-          </View>
-          <View style={screenStyles.profileStatDivider} />
-          <View style={screenStyles.profileStatItem}>
-            <Text style={screenStyles.profileStatNumber}>{userProfile?.total_ratings_given || 0}</Text>
-            <Text style={screenStyles.profileStatLabel}>{t('profile.givenRatings')}</Text>
           </View>
           <View style={screenStyles.profileStatDivider} />
           <View style={screenStyles.profileStatItem}>

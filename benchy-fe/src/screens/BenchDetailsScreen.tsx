@@ -13,17 +13,14 @@ import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useAchievements } from '../hooks/useAchievements';
-import { StarRating } from '../components/common/StarRating';
-import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import { SitSessionCard } from '../components/bench/SitSessionCard';
 import supabase from '../lib/supabase';
 import { reverseGeocode, formatCityForDisplay } from '../lib/geocoding';
-import { Database, RatingInsert } from '../types/database';
+import { Database } from '../types/database';
 import { useThemedStyles } from '../hooks/useThemedStyles';
 
 type Bench = Database['public']['Tables']['benches']['Row'];
-type Rating = Database['public']['Tables']['ratings']['Row'];
 
 const BenchDetailsScreen = ({ route }: any) => {
   const { benchId } = route.params;
@@ -32,9 +29,6 @@ const BenchDetailsScreen = ({ route }: any) => {
   const { screen: screenStyles, theme } = useThemedStyles();
   const { refreshProgress } = useAchievements();
   const [bench, setBench] = useState<Bench | null>(null);
-  const [ratings, setRatings] = useState<Rating[]>([]);
-  const [userRating, setUserRating] = useState(0);
-  const [userComment, setUserComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedRarity, setSelectedRarity] = useState<string | null>(null);
   const [rarities, setRarities] = useState<any[]>([]);
@@ -88,18 +82,6 @@ const BenchDetailsScreen = ({ route }: any) => {
         loadLocation(typedBench.latitude, typedBench.longitude),
         loadBenchTypeIcon(typedBench.bench_type_id),
       ]);
-
-      const { data: ratingsData, error: ratingsError } = await supabase
-        .from('ratings')
-        .select('*')
-        .eq('bench_id', benchId)
-        .order('created_at', { ascending: false });
-
-      if (ratingsError) {
-        console.error('Error loading ratings:', ratingsError);
-      } else {
-        setRatings(ratingsData || []);
-      }
     } catch (error) {
       console.error('Error loading bench details:', error);
       Alert.alert(t('common.error'), t('errors.failedToLoadData'));
@@ -178,55 +160,6 @@ const BenchDetailsScreen = ({ route }: any) => {
       console.error('Error loading bench type icon:', error);
       setBenchTypeName(null);
       setBenchTypeEmoji('🪑');
-    }
-  };
-
-  const submitRating = async () => {
-    if (userRating === 0) {
-      Alert.alert(t('common.error'), t('benchDetails.selectRating'));
-      return;
-    }
-
-    if (!userComment.trim()) {
-      Alert.alert(t('common.error'), t('benchDetails.addComment'));
-      return;
-    }
-
-    if (!user) {
-      Alert.alert(t('common.error'), t('errors.mustBeLoggedInToRate'));
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const ratingData: RatingInsert = {
-        bench_id: benchId,
-        user_id: user.id,
-        rating: userRating,
-        comment: userComment.trim(),
-      };
-
-      const { error } = await supabase
-        .from('ratings')
-        .upsert([ratingData] as any);
-
-      if (error) {
-        console.error('Error submitting rating:', error);
-        Alert.alert(t('common.error'), t('errors.failedToAddRating'));
-        return;
-      }
-
-      await refreshProgress();
-
-      Alert.alert(t('common.success'), t('benchDetails.ratingAdded'));
-      setUserRating(0);
-      setUserComment('');
-      loadBenchDetails();
-    } catch (error) {
-      console.error('Error submitting rating:', error);
-      Alert.alert(t('common.error'), t('errors.failedToAddRating'));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -382,16 +315,6 @@ const BenchDetailsScreen = ({ route }: any) => {
               {bench.description}
             </Text>
           )}
-          <View style={screenStyles.benchDetailsRatingRow}>
-            <StarRating 
-              rating={Math.round(bench.average_rating || 0)} 
-              readonly={true}
-              size={20}
-            />
-            <Text style={screenStyles.benchDetailsRatingText}>
-              {(bench.average_rating || 0).toFixed(1)} ({ratings.length} {t('benchDetails.ratings')})
-            </Text>
-          </View>
           <Text style={screenStyles.benchDetailsLocation}>
             📍 {locationLabel || t('geocoding.unknownLocation')}
           </Text>
@@ -410,47 +333,13 @@ const BenchDetailsScreen = ({ route }: any) => {
 
       <View style={screenStyles.benchDetailsSection}>
         <Text style={screenStyles.benchDetailsSectionTitle}>
-          {t('benchDetails.addRating')}
-        </Text>
-        <View style={screenStyles.benchDetailsRatingForm}>
-          <View style={screenStyles.benchDetailsStarContainer}>
-            <StarRating 
-              rating={userRating} 
-              onRatingChange={setUserRating}
-              readonly={false}
-              size={32}
-            />
-          </View>
-          <View style={screenStyles.benchDetailsCommentInput}>
-            <Input
-              placeholder={t('benchDetails.commentPlaceholder')}
-              value={userComment}
-              onChangeText={setUserComment}
-              multiline
-              numberOfLines={3}
-              containerStyle={{ minHeight: 80 }}
-            />
-          </View>
-          <View style={screenStyles.benchDetailsSubmitButton}>
-            <Button
-              title={loading ? t('benchDetails.adding') : t('benchDetails.addRatingButton')}
-              onPress={submitRating}
-              loading={loading}
-              disabled={loading}
-            />
-          </View>
-        </View>
-      </View>
-
-      <View style={screenStyles.benchDetailsSection}>
-        <Text style={screenStyles.benchDetailsSectionTitle}>
           {t('benchDetails.setRarity')}
         </Text>
         <View style={screenStyles.benchDetailsRarityContainer}>
           {rarities.map((rarity) => (
             <Button
               key={rarity.id}
-              title={rarity.name}
+              title={t(`rarity.${rarity.name}`)}
               onPress={() => setSelectedRarity(rarity.id)}
               style={[
                 screenStyles.benchDetailsRarityButton,
@@ -467,41 +356,6 @@ const BenchDetailsScreen = ({ route }: any) => {
             disabled={loading || !selectedRarity}
           />
         </View>
-      </View>
-
-      <View style={screenStyles.benchDetailsSection}>
-        <Text style={screenStyles.benchDetailsSectionTitle}>
-          {t('benchDetails.userRatings')} ({ratings.length})
-        </Text>
-        {ratings.length === 0 ? (
-          <Text style={screenStyles.benchDetailsNoRatings}>{t('benchList.noRating')}. {t('benchDetails.beFirst')}</Text>
-        ) : (
-          ratings.map((rating, index) => (
-            <View key={rating.id} style={[
-              screenStyles.benchDetailsRatingItem,
-              index === ratings.length - 1 && { borderBottomWidth: 0, marginBottom: 0 }
-            ]}>
-              <View style={screenStyles.benchDetailsRatingHeader}>
-                <Text style={screenStyles.benchDetailsRatingUser}>
-                  {t('benchDetails.user')}
-                </Text>
-                <View style={screenStyles.benchDetailsRatingInfo}>
-                  <StarRating 
-                    rating={rating.rating} 
-                    readonly={true}
-                    size={16}
-                  />
-                  <Text style={screenStyles.benchDetailsRatingDate}>
-                    {formatDate(rating.created_at)}
-                  </Text>
-                </View>
-              </View>
-              <Text style={screenStyles.benchDetailsRatingComment}>
-                {rating.comment}
-              </Text>
-            </View>
-          ))
-        )}
       </View>
     </ScrollView>
   );

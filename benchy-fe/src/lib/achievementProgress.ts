@@ -21,8 +21,6 @@ export function getAchievementProgress(
       return { current: profile.total_sit_minutes ?? 0, target };
     case 'bench_count':
       return { current: profile.total_benches_created ?? 0, target };
-    case 'rating_count':
-      return { current: profile.total_ratings_given ?? 0, target };
     case 'favorite_count':
       return { current: profile.total_favorites ?? 0, target };
     case 'login_streak':

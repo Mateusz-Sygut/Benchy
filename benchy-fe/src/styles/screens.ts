@@ -279,16 +279,6 @@ export const createScreenStyles = (t: AppTheme) =>
     marginBottom: 12,
     lineHeight: 22,
   },
-  benchDetailsRatingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  benchDetailsRatingText: {
-    fontSize: 16,
-    color: t.text.secondary,
-    marginLeft: 8,
-  },
   benchDetailsLocation: {
     fontSize: 14,
     color: t.text.disabled,
@@ -349,56 +339,8 @@ export const createScreenStyles = (t: AppTheme) =>
     marginBottom: 12,
     lineHeight: 18,
   },
-  benchDetailsRatingForm: {
-    marginTop: 16,
-  },
-  benchDetailsStarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  benchDetailsCommentInput: {
-    marginBottom: 16,
-  },
   benchDetailsSubmitButton: {
     marginTop: 8,
-  },
-  benchDetailsNoRatings: {
-    fontSize: 16,
-    color: t.text.secondary,
-    textAlign: 'center' as 'center',
-    fontStyle: 'italic' as 'italic',
-  },
-  benchDetailsRatingItem: {
-    backgroundColor: t.gray[50],
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  benchDetailsRatingHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  benchDetailsRatingUser: {
-    fontSize: 16,
-    fontWeight: '600' as '600',
-    color: t.text.primary,
-  },
-  benchDetailsRatingInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  benchDetailsRatingDate: {
-    fontSize: 14,
-    color: t.text.secondary,
-    marginLeft: 8,
-  },
-  benchDetailsRatingComment: {
-    fontSize: 14,
-    color: t.text.primary,
-    lineHeight: 20,
   },
 
   mapScreenContainer: {
@@ -533,15 +475,6 @@ export const createScreenStyles = (t: AppTheme) =>
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 4,
-  },
-  benchListRatingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  benchListRatingText: {
-    fontSize: 14,
-    color: t.text.secondary,
-    marginLeft: 4,
   },
   benchListUsernameText: {
     fontSize: 12,

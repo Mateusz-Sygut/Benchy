@@ -3,9 +3,6 @@ BEGIN
     IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'benches') THEN
         DELETE FROM public.benches;
     END IF;
-    IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'ratings') THEN
-        DELETE FROM public.ratings;
-    END IF;
     IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'favorites') THEN
         DELETE FROM public.favorites;
     END IF;
@@ -92,7 +89,6 @@ CREATE TABLE IF NOT EXISTS public.user_profiles (
     avatar_url TEXT,
     total_benches_created INTEGER DEFAULT 0,
     total_time_spent INTEGER DEFAULT 0,
-    total_ratings_given INTEGER DEFAULT 0,
     total_favorites INTEGER DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -123,9 +119,6 @@ BEGIN
     END IF;
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_time_spent') THEN
         ALTER TABLE public.user_profiles ADD COLUMN total_time_spent INTEGER DEFAULT 0;
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_ratings_given') THEN
-        ALTER TABLE public.user_profiles ADD COLUMN total_ratings_given INTEGER DEFAULT 0;
     END IF;
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_favorites') THEN
         ALTER TABLE public.user_profiles ADD COLUMN total_favorites INTEGER DEFAULT 0;
@@ -173,7 +166,6 @@ CREATE TABLE IF NOT EXISTS public.benches (
     bench_type_id UUID REFERENCES public.bench_types(id),
     location_id UUID REFERENCES public.locations(id),
     tags TEXT[],
-    average_rating DECIMAL(3, 2) DEFAULT 0.0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -195,21 +187,7 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'benches' AND column_name = 'tags') THEN
         ALTER TABLE public.benches ADD COLUMN tags TEXT[];
     END IF;
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'benches' AND column_name = 'average_rating') THEN
-        ALTER TABLE public.benches ADD COLUMN average_rating DECIMAL(3, 2) DEFAULT 0.0;
-    END IF;
 END $$;
-
-CREATE TABLE IF NOT EXISTS public.ratings (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    bench_id UUID REFERENCES public.benches(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
-    rating INTEGER CHECK (rating >= 1 AND rating <= 5),
-    comment TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(bench_id, user_id)
-);
 
 CREATE TABLE IF NOT EXISTS public.favorites (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -328,9 +306,6 @@ INSERT INTO public.achievements (name, description, icon, points, category, requ
 ('collector', 'achievements.collector.description', '📚', 50, 'bench', 'bench_count', 10, 'benches', 2),
 ('expert', 'achievements.expert.description', '🏆', 200, 'bench', 'bench_count', 50, 'benches', 3),
 ('master', 'achievements.master.description', '👑', 500, 'bench', 'bench_count', 100, 'benches', 4),
-('rater', 'achievements.rater.description', '⭐', 25, 'rating', 'rating_count', 10, 'ratings', 1),
-('critic', 'achievements.critic.description', '📝', 100, 'rating', 'rating_count', 50, 'ratings', 2),
-('judge', 'achievements.judge.description', '⚖️', 250, 'rating', 'rating_count', 100, 'ratings', 3),
 ('favorite', 'achievements.favorite.description', '❤️', 30, 'favorite', 'favorite_count', 10, 'favorites', 1),
 ('connoisseur', 'achievements.connoisseur.description', '💎', 150, 'favorite', 'favorite_count', 50, 'favorites', 2),
 ('specialist', 'achievements.specialist.description', '🎯', 400, 'favorite', 'favorite_count', 100, 'favorites', 3),
@@ -356,7 +331,6 @@ ON CONFLICT (name) DO NOTHING;
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.benches ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.ratings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.favorites ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.sit_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_achievements ENABLE ROW LEVEL SECURITY;
@@ -370,11 +344,9 @@ DROP POLICY IF EXISTS "Users can insert own user profile" ON public.user_profile
 DROP POLICY IF EXISTS "Benches can be read by all" ON public.benches;
 DROP POLICY IF EXISTS "Users can insert own benches" ON public.benches;
 DROP POLICY IF EXISTS "Users can update own benches" ON public.benches;
+DROP POLICY IF EXISTS "System can update average rating" ON public.benches;
+DROP POLICY IF EXISTS "Authenticated users can update benches" ON public.benches;
 DROP POLICY IF EXISTS "Users can delete own benches" ON public.benches;
-DROP POLICY IF EXISTS "Ratings can be read by all" ON public.ratings;
-DROP POLICY IF EXISTS "Users can insert own ratings" ON public.ratings;
-DROP POLICY IF EXISTS "Users can update own ratings" ON public.ratings;
-DROP POLICY IF EXISTS "Users can delete own ratings" ON public.ratings;
 DROP POLICY IF EXISTS "Favorites can be read by all" ON public.favorites;
 DROP POLICY IF EXISTS "Users can insert own favorites" ON public.favorites;
 DROP POLICY IF EXISTS "Users can delete own favorites" ON public.favorites;
@@ -410,22 +382,10 @@ CREATE POLICY "Users can insert own benches" ON public.benches
 CREATE POLICY "Users can update own benches" ON public.benches
     FOR UPDATE USING (auth.uid() = user_id);
 
-CREATE POLICY "System can update average rating" ON public.benches
+CREATE POLICY "Authenticated users can update benches" ON public.benches
     FOR UPDATE USING (true);
 
 CREATE POLICY "Users can delete own benches" ON public.benches
-    FOR DELETE USING (auth.uid() = user_id);
-
-CREATE POLICY "Ratings can be read by all" ON public.ratings
-    FOR SELECT USING (true);
-
-CREATE POLICY "Users can insert own ratings" ON public.ratings
-    FOR INSERT WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Users can update own ratings" ON public.ratings
-    FOR UPDATE USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can delete own ratings" ON public.ratings
     FOR DELETE USING (auth.uid() = user_id);
 
 CREATE POLICY "Favorites can be read by all" ON public.favorites
@@ -463,8 +423,6 @@ CREATE INDEX IF NOT EXISTS idx_benches_rarity_id ON public.benches(rarity_id);
 CREATE INDEX IF NOT EXISTS idx_benches_bench_type_id ON public.benches(bench_type_id);
 CREATE INDEX IF NOT EXISTS idx_benches_location_id ON public.benches(location_id);
 CREATE INDEX IF NOT EXISTS idx_benches_created_at ON public.benches(created_at);
-CREATE INDEX IF NOT EXISTS idx_ratings_bench_id ON public.ratings(bench_id);
-CREATE INDEX IF NOT EXISTS idx_ratings_user_id ON public.ratings(user_id);
 CREATE INDEX IF NOT EXISTS idx_favorites_bench_id ON public.favorites(bench_id);
 CREATE INDEX IF NOT EXISTS idx_favorites_user_id ON public.favorites(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_achievements_user_id ON public.user_achievements(user_id);
@@ -489,9 +447,6 @@ CREATE TRIGGER update_user_profiles_updated_at BEFORE UPDATE ON public.user_prof
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_benches_updated_at BEFORE UPDATE ON public.benches
-    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
-CREATE TRIGGER update_ratings_updated_at BEFORE UPDATE ON public.ratings
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 DROP FUNCTION IF EXISTS calculate_smart_rarity() CASCADE;
@@ -555,37 +510,6 @@ CREATE TRIGGER set_smart_rarity_trigger
     FOR EACH ROW
     EXECUTE FUNCTION set_smart_rarity();
 
-DROP FUNCTION IF EXISTS update_bench_average_rating() CASCADE;
-
-CREATE OR REPLACE FUNCTION update_bench_average_rating()
-RETURNS TRIGGER AS $$
-DECLARE
-    target_bench_id UUID;
-    avg_rating DECIMAL(3, 2);
-BEGIN
-    IF TG_OP = 'DELETE' THEN
-        target_bench_id := OLD.bench_id;
-    ELSE
-        target_bench_id := NEW.bench_id;
-    END IF;
-    
-    SELECT AVG(rating)::DECIMAL(3, 2) INTO avg_rating
-    FROM public.ratings
-    WHERE ratings.bench_id = target_bench_id;
-    
-    UPDATE public.benches
-    SET average_rating = COALESCE(avg_rating, 0.0)
-    WHERE id = target_bench_id;
-    
-    RETURN COALESCE(NEW, OLD);
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_bench_rating_trigger
-    AFTER INSERT OR UPDATE OR DELETE ON public.ratings
-    FOR EACH ROW
-    EXECUTE FUNCTION update_bench_average_rating();
-
 DROP VIEW IF EXISTS public.bench_details;
 CREATE VIEW public.bench_details
 WITH (security_invoker = on)
@@ -603,7 +527,6 @@ SELECT
     b.bench_type_id,
     b.location_id,
     b.tags,
-    b.average_rating,
     b.created_at,
     b.updated_at,
     r.name as rarity_name,
@@ -631,7 +554,6 @@ LEFT JOIN public.favorites f ON b.id = f.bench_id AND f.user_id = auth.uid();
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.benches TO authenticated;
-GRANT INSERT, UPDATE, DELETE ON public.ratings TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.favorites TO authenticated;
 GRANT INSERT, DELETE ON public.sit_sessions TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_profiles TO authenticated;
@@ -649,8 +571,8 @@ BEGIN
   )
   ON CONFLICT (id) DO NOTHING;
 
-  INSERT INTO public.user_profiles (user_id, total_benches_created, total_ratings_given, total_time_spent)
-  SELECT NEW.id, 0, 0, 0
+  INSERT INTO public.user_profiles (user_id, total_benches_created, total_time_spent)
+  SELECT NEW.id, 0, 0
   WHERE NOT EXISTS (SELECT 1 FROM public.user_profiles WHERE user_id = NEW.id);
 
   RETURN NEW;

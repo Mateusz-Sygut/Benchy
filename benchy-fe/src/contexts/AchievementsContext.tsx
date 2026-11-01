@@ -35,7 +35,7 @@ function isStreakSchemaError(error: { code?: string; message?: string }): boolea
 }
 
 async function countForUser(
-  table: 'benches' | 'ratings' | 'favorites',
+  table: 'benches' | 'favorites',
   userId: string
 ): Promise<number> {
   const { count, error } = await supabase
@@ -61,9 +61,8 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const syncProfileCounts = useCallback(async (): Promise<UserProfile | null> => {
     if (!user) return null;
 
-    const [totalBenches, totalRatings, totalFavorites] = await Promise.all([
+    const [totalBenches, totalFavorites] = await Promise.all([
       countForUser('benches', user.id),
-      countForUser('ratings', user.id),
       countForUser('favorites', user.id),
     ]);
 
@@ -94,7 +93,6 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     const counts = {
       total_benches_created: totalBenches,
-      total_ratings_given: totalRatings,
       total_favorites: totalFavorites,
       ...(sitError
         ? {}
@@ -221,8 +219,6 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         switch (achievement.requirement_type) {
           case 'bench_count':
             return profile.total_benches_created >= achievement.requirement_value;
-          case 'rating_count':
-            return profile.total_ratings_given >= achievement.requirement_value;
           case 'time_spent':
           case 'sit_minutes':
             return (profile.total_sit_minutes ?? 0) >= achievement.requirement_value;
@@ -410,7 +406,11 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const { data: achievementsData } = await supabase.from('achievements').select('*');
       if (achievementsData) {
-        setAchievements(achievementsData as Achievement[]);
+        setAchievements(
+          (achievementsData as Achievement[]).filter(
+            (achievement) => achievement.requirement_type !== 'rating_count'
+          )
+        );
       }
 
       await reloadUnlockedState(catalog);

@@ -87,10 +87,6 @@ export const BenchPanel: React.FC = () => {
             <Text style={panelStyles.statNumber}>{userProfile?.total_favorites || 0}</Text>
             <Text style={panelStyles.statLabel}>{t('stats.favorites')}</Text>
           </View>
-          <View style={panelStyles.statItem}>
-            <Text style={panelStyles.statNumber}>{userProfile?.total_ratings_given || 0}</Text>
-            <Text style={panelStyles.statLabel}>{t('stats.ratings')}</Text>
-          </View>
         </View>
       </View>
     </ScrollView>

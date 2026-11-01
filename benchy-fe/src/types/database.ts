@@ -12,7 +12,6 @@ export interface Database {
           user_id: string;
           created_at: string;
           updated_at: string;
-          average_rating: number | null;
           rarity_id: string;
           bench_type_id: string | null;
           location_id: string | null;
@@ -30,7 +29,6 @@ export interface Database {
           user_id: string;
           created_at?: string;
           updated_at?: string;
-          average_rating?: number | null;
           rarity_id?: string;
           bench_type_id?: string | null;
           location_id?: string | null;
@@ -48,42 +46,12 @@ export interface Database {
           user_id?: string;
           created_at?: string;
           updated_at?: string;
-          average_rating?: number | null;
           rarity_id?: string;
           bench_type_id?: string | null;
           location_id?: string | null;
           tags?: string[] | null;
           image_url?: string | null;
           is_favorite?: boolean;
-        };
-      };
-      ratings: {
-        Row: {
-          id: string;
-          user_id: string;
-          bench_id: string;
-          rating: number;
-          comment: string | null;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          user_id: string;
-          bench_id: string;
-          rating: number;
-          comment?: string | null;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          user_id?: string;
-          bench_id?: string;
-          rating?: number;
-          comment?: string | null;
-          created_at?: string;
-          updated_at?: string;
         };
       };
       rarity: {
@@ -332,7 +300,6 @@ export interface Database {
           avatar_url: string | null;
           total_benches_created: number;
           total_time_spent: number;
-          total_ratings_given: number;
           total_favorites: number;
           total_sit_sessions: number;
           total_sit_minutes: number;
@@ -352,7 +319,6 @@ export interface Database {
           avatar_url?: string | null;
           total_benches_created?: number;
           total_time_spent?: number;
-          total_ratings_given?: number;
           total_favorites?: number;
           total_sit_sessions?: number;
           total_sit_minutes?: number;
@@ -372,7 +338,6 @@ export interface Database {
           avatar_url?: string | null;
           total_benches_created?: number;
           total_time_spent?: number;
-          total_ratings_given?: number;
           total_favorites?: number;
           total_sit_sessions?: number;
           total_sit_minutes?: number;
@@ -398,12 +363,7 @@ export type Bench = Omit<Database['public']['Tables']['benches']['Row'], 'descri
   location?: Database['public']['Tables']['locations']['Row'];
 };
 
-export type Rating = Database['public']['Tables']['ratings']['Row'] & {
-  username?: string;
-};
-
 export type BenchInsert = Database['public']['Tables']['benches']['Insert'];
-export type RatingInsert = Database['public']['Tables']['ratings']['Insert'];
 
 export type Rarity = Database['public']['Tables']['rarity']['Row'];
 export type BenchType = Database['public']['Tables']['bench_types']['Row'];

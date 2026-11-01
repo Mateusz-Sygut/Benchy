@@ -161,12 +161,4 @@ export const createComponentStyles = (t: AppTheme) =>
       fontWeight: '500' as '500',
       fontStyle: 'italic' as 'italic',
     },
-
-    starRatingContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    starRatingStar: {
-      marginHorizontal: 2,
-    },
   });
