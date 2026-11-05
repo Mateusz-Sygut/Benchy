@@ -141,6 +141,9 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'longest_sit_minutes') THEN
         ALTER TABLE public.user_profiles ADD COLUMN longest_sit_minutes INTEGER DEFAULT 0;
     END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'user_profiles' AND column_name = 'total_messages_left') THEN
+        ALTER TABLE public.user_profiles ADD COLUMN total_messages_left INTEGER DEFAULT 0;
+    END IF;
 END $$;
 
 CREATE TABLE IF NOT EXISTS public.sit_sessions (
@@ -195,6 +198,30 @@ CREATE TABLE IF NOT EXISTS public.favorites (
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(bench_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.bench_messages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    bench_id UUID NOT NULL REFERENCES public.benches(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    template_id TEXT NOT NULL,
+    word_id TEXT,
+    conjunction_id TEXT,
+    template2_id TEXT,
+    word2_id TEXT,
+    gesture_id TEXT,
+    praise_count INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (bench_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.bench_message_praises (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    message_id UUID NOT NULL REFERENCES public.bench_messages(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE (message_id, user_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.achievements (
@@ -316,7 +343,11 @@ INSERT INTO public.achievements (name, description, icon, points, category, requ
 ('benchPhilosopher', 'achievements.benchPhilosopher.description', '🤔', 75, 'sit', 'sit_minutes', 120, 'minutes', 2),
 ('firstSit', 'achievements.firstSit.description', '🧘', 15, 'sit', 'sit_count', 1, 'sits', 1),
 ('lingerer', 'achievements.lingerer.description', '🍃', 25, 'sit', 'sit_session', 5, 'minutes', 1),
-('contemplator', 'achievements.contemplator.description', '🌅', 50, 'sit', 'sit_session', 15, 'minutes', 2)
+('contemplator', 'achievements.contemplator.description', '🌅', 50, 'sit', 'sit_session', 15, 'minutes', 2),
+('firstMessage', 'achievements.firstMessage.description', '✉️', 15, 'message', 'message_count', 1, 'messages', 1),
+('messenger', 'achievements.messenger.description', '📜', 25, 'message', 'message_count', 10, 'messages', 1),
+('chronicler', 'achievements.chronicler.description', '📖', 100, 'message', 'message_count', 50, 'messages', 2),
+('herald', 'achievements.herald.description', '📯', 250, 'message', 'message_count', 100, 'messages', 3)
 ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO public.titles (name, description, icon, rarity_level) VALUES
@@ -332,6 +363,8 @@ ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.benches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.favorites ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.bench_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.bench_message_praises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.sit_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_achievements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_titles ENABLE ROW LEVEL SECURITY;
@@ -397,6 +430,50 @@ CREATE POLICY "Users can insert own favorites" ON public.favorites
 CREATE POLICY "Users can delete own favorites" ON public.favorites
     FOR DELETE USING (auth.uid() = user_id);
 
+CREATE POLICY "Bench messages can be read by all" ON public.bench_messages
+    FOR SELECT USING (true);
+
+CREATE POLICY "Users can insert own bench messages" ON public.bench_messages
+    FOR INSERT WITH CHECK (
+        auth.uid() = user_id
+        AND EXISTS (
+            SELECT 1 FROM public.sit_sessions s
+            WHERE s.user_id = auth.uid()
+              AND s.bench_id = bench_messages.bench_id
+              AND s.duration_seconds >= 120
+        )
+    );
+
+CREATE POLICY "Users can update own bench messages" ON public.bench_messages
+    FOR UPDATE USING (auth.uid() = user_id)
+    WITH CHECK (
+        auth.uid() = user_id
+        AND EXISTS (
+            SELECT 1 FROM public.sit_sessions s
+            WHERE s.user_id = auth.uid()
+              AND s.bench_id = bench_messages.bench_id
+              AND s.duration_seconds >= 120
+        )
+    );
+
+CREATE POLICY "Users can delete own bench messages" ON public.bench_messages
+    FOR DELETE USING (auth.uid() = user_id);
+
+CREATE POLICY "Message praises can be read by all" ON public.bench_message_praises
+    FOR SELECT USING (true);
+
+CREATE POLICY "Users can praise others messages" ON public.bench_message_praises
+    FOR INSERT WITH CHECK (
+        auth.uid() = user_id
+        AND NOT EXISTS (
+            SELECT 1 FROM public.bench_messages m
+            WHERE m.id = message_id AND m.user_id = auth.uid()
+        )
+    );
+
+CREATE POLICY "Users can remove own praise" ON public.bench_message_praises
+    FOR DELETE USING (auth.uid() = user_id);
+
 CREATE POLICY "Sit sessions can be read by owner" ON public.sit_sessions
     FOR SELECT USING (auth.uid() = user_id);
 
@@ -448,6 +525,41 @@ CREATE TRIGGER update_user_profiles_updated_at BEFORE UPDATE ON public.user_prof
 
 CREATE TRIGGER update_benches_updated_at BEFORE UPDATE ON public.benches
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_bench_messages_updated_at ON public.bench_messages;
+CREATE TRIGGER update_bench_messages_updated_at
+    BEFORE UPDATE ON public.bench_messages
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE OR REPLACE FUNCTION public.sync_message_praise_count()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    target UUID;
+BEGIN
+    IF TG_OP = 'DELETE' THEN
+        target := OLD.message_id;
+    ELSE
+        target := NEW.message_id;
+    END IF;
+
+    UPDATE public.bench_messages
+    SET praise_count = (
+        SELECT COUNT(*) FROM public.bench_message_praises WHERE message_id = target
+    )
+    WHERE id = target;
+
+    RETURN COALESCE(NEW, OLD);
+END;
+$$;
+
+DROP TRIGGER IF EXISTS sync_message_praise_count ON public.bench_message_praises;
+CREATE TRIGGER sync_message_praise_count
+    AFTER INSERT OR DELETE ON public.bench_message_praises
+    FOR EACH ROW EXECUTE FUNCTION public.sync_message_praise_count();
 
 DROP FUNCTION IF EXISTS calculate_smart_rarity() CASCADE;
 DROP FUNCTION IF EXISTS set_smart_rarity() CASCADE;
@@ -555,6 +667,8 @@ GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.benches TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.favorites TO authenticated;
+GRANT INSERT, UPDATE, DELETE ON public.bench_messages TO authenticated;
+GRANT INSERT, DELETE ON public.bench_message_praises TO authenticated;
 GRANT INSERT, DELETE ON public.sit_sessions TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_profiles TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_achievements TO authenticated;

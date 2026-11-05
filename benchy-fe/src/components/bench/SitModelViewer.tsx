@@ -37,14 +37,15 @@ function createRenderer(gl: ExpoWebGLRenderingContext): THREE.WebGLRenderer {
   const canvas = {
     width: gl.drawingBufferWidth,
     height: gl.drawingBufferHeight,
+    clientWidth: gl.drawingBufferWidth,
+    clientHeight: gl.drawingBufferHeight,
     style: {},
     addEventListener: () => {},
     removeEventListener: () => {},
-    clientHeight: gl.drawingBufferHeight,
+    getContext: () => gl,
   };
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas as unknown as HTMLCanvasElement,
-    context: gl as unknown as WebGLRenderingContext,
     antialias: true,
     alpha: true,
   });

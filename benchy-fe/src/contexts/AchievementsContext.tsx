@@ -76,7 +76,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     if (sitError) {
       console.warn(
-        'Sit sessions unavailable. Run benchy-be/supabase/migrations/add_sit_sessions.sql'
+        'Sit sessions unavailable. The Supabase schema is missing sit_sessions.'
       );
     }
 
@@ -91,9 +91,21 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       0
     );
 
+    const { count: messageCount, error: messageError } = await supabase
+      .from('bench_messages')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id);
+
+    if (messageError) {
+      console.warn(
+        'Bench messages unavailable. The Supabase schema is missing bench_messages.'
+      );
+    }
+
     const counts = {
       total_benches_created: totalBenches,
       total_favorites: totalFavorites,
+      ...(messageError ? {} : { total_messages_left: messageCount ?? 0 }),
       ...(sitError
         ? {}
         : {
@@ -134,10 +146,15 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       // Sit columns may be missing until migration is applied — keep core counts working.
       if (error.code === 'PGRST204' || (error.message?.includes('total_sit') ?? false)) {
         console.warn(
-          'Sit profile columns missing in Supabase. Run benchy-be/supabase/migrations/add_sit_sessions.sql'
+          'Sit profile columns missing in Supabase.'
         );
-        const { total_sit_sessions: _s, total_sit_minutes: _m, longest_sit_minutes: _l, ...core } =
-          counts;
+        const {
+          total_sit_sessions: _s,
+          total_sit_minutes: _m,
+          longest_sit_minutes: _l,
+          total_messages_left: _msg,
+          ...core
+        } = counts;
         const { data: fallback, error: fallbackError } = await supabase
           .from('user_profiles')
           .update(core as never)
@@ -180,7 +197,7 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         if (isStreakSchemaError(error)) {
           streakSchemaUnavailable = true;
           console.warn(
-            'Login streak columns missing in Supabase. Run benchy-be/supabase/migrations/add_login_streak.sql'
+            'Login streak columns missing in Supabase.'
           );
         } else {
           console.error('Error recording login streak:', error);
@@ -230,6 +247,8 @@ export const AchievementsProvider: React.FC<{ children: React.ReactNode }> = ({ 
             return (profile.total_sit_sessions ?? 0) >= achievement.requirement_value;
           case 'sit_session':
             return (profile.longest_sit_minutes ?? 0) >= achievement.requirement_value;
+          case 'message_count':
+            return (profile.total_messages_left ?? 0) >= achievement.requirement_value;
           default:
             return false;
         }

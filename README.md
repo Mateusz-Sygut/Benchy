@@ -1,6 +1,6 @@
 # ŁawAppka (Benchy)
 
-A map-first mobile app for finding, adding, and rating public benches, with location-aware gameplay that only counts when you are actually sitting on one.
+A map-first mobile app for finding, adding, and sitting on public benches, and for leaving a short message once you have actually sat there.
 
 Built by **Me** as a full product: React Native client, Supabase backend, and the rules that keep those two honest with each other.
 
@@ -11,7 +11,7 @@ Built by **Me** as a full product: React Native client, Supabase backend, and th
 
 ## Why this exists
 
-Cities are full of places to sit, and almost none of them are easy to find on purpose. ŁawAppka treats a bench like a place worth returning to: you pin it, describe it, rate it, and, if you are close enough, sit on it. The sit is the point. Time in the app does not count. Time on the bench does.
+Cities are full of places to sit, and almost none of them are easy to find on purpose. ŁawAppka treats a bench like a place worth returning to: you pin it, describe it, sit on it, and leave a line for the next person. The sit is the point. Time in the app does not count. Time on the bench does.
 
 The interesting part of the project is not the map pin. It is keeping a playful product strict: GPS has to match the claim, progress has to survive a restart, and the database has to refuse writes the client should never be trusted to police.
 
@@ -22,19 +22,22 @@ A signed-in user can:
 - browse benches on a map, coloured by rarity, and filter to favourites
 - add a bench from GPS or by dropping a marker on the map
 - pick a bench type from local 2D icons (wooden, metal, stone, designer, or “other”)
-- rate and comment, save favourites, and open a list or “nearby” panel sorted by real distance
+- set a rarity, save favourites, and open a list or “nearby” panel sorted by real distance
 - start a sit session on Bench Details when they are within about 80 m, with a live timer and a 3D character
+- leave one message on that bench after a two-minute sit, and praise other people’s messages
 - collect achievements, titles, and a login streak from actions that happened, not from opening the app
 
 The interface is Polish and English. Registration can fill a random nickname; in Polish the adjective agrees with the noun (`Bystra Sowa`, not `Bystry Sowa`).
 
 ## Engineering decisions worth reading
 
-**The server owns the rules.** New benches get a rarity tier from a Postgres trigger (`set_smart_rarity`), not from whatever the phone sends. Rating averages, achievements, and profile totals follow the same idea: the client displays state, the database decides it.
+**The server owns the rules.** New benches get a rarity tier from a Postgres trigger (`set_smart_rarity`), not from whatever the phone sends. Praise totals, achievements, and profile totals follow the same idea: the client displays state, the database decides it.
 
-**Access is row-level, not “the anon key is secret”.** User-owned rows (ratings, favourites, sit sessions, profiles) are scoped to `auth.uid()`. Dictionary tables stay readable. The `bench_details` view runs as the caller (`security_invoker`), so it cannot bypass those policies.
+**Access is row-level, not “the anon key is secret”.** User-owned rows (messages, praises, favourites, sit sessions, profiles) are scoped to `auth.uid()`. Dictionary tables stay readable. The `bench_details` view runs as the caller (`security_invoker`), so it cannot bypass those policies.
 
 **A sit is a location claim.** The timer starts only near the bench, sessions under two minutes do not count, and achievements such as a 30- or 120-minute sit read `total_sit_minutes`. Leaving the app open is not progress.
+
+**A message is earned by sitting, and it is not a comment box.** Free text would turn every bench into a thread. The composer only offers templates, words, an optional second line, and a small gesture, and the app renders that choice in Polish or English. The write button stays visible while it is locked, so the two-minute sit reads as an invitation. The database refuses the insert until that sit exists on that bench. One person leaves one line; editing replaces it. Anyone can leave a heart on someone else’s message, and the bench shows the lines people actually liked.
 
 **The map is the home screen.** Lists, profile, add-bench, and nearby results are slide-in panels around that map, not a tab bar fighting the map for space.
 
@@ -48,7 +51,7 @@ The interface is Polish and English. Registration can fill a random nickname; in
 flowchart LR
   App["Expo app<br/>map, panels, sit timer"] --> Auth["Supabase Auth"]
   App --> DB["Postgres + RLS"]
-  DB --> Triggers["Triggers<br/>rarity, rating average"]
+  DB --> Triggers["Triggers<br/>rarity, praise count"]
   App --> GPS["expo-location"]
   GPS --> Sit["Sit session<br/>~80 m, timer, persist"]
   Sit --> DB
@@ -58,6 +61,7 @@ flowchart LR
 2. Reads and writes go through RLS. A stolen anon key still cannot edit someone else’s bench.
 3. Inserting a bench runs `calculate_smart_rarity()` and stores `rarity_id` before the row is visible as “chosen by the user”.
 4. Sitting writes a `sit_sessions` row and rolls the minutes into the profile. Achievement checks read those totals.
+5. A message is accepted only after that two-minute sit. Hearts are counted in the database, not on the phone.
 
 Rarity, in short: the function looks at how many benches already exist in each tier and promotes the new one when rarer tiers are under-represented (thresholds use `ceil(1.2 × …)` and `ceil(1.5 × …)`). An empty database starts at **normal**. A bench can still be adjusted later from its details screen, within what RLS allows.
 
@@ -73,7 +77,7 @@ Rarity, in short: the function looks at how many benches already exist in each t
 | Backend | Supabase: Auth, Postgres, Storage for avatars |
 | Safety | RLS, triggers, `security_invoker` views |
 
-Repository map: `benchy-fe/` is the app (`src/screens`, `src/components`, `src/contexts`, `src/lib`, `src/theme`). `benchy-be/supabase/migrations/` is the schema. `database.sql` is the full install; the other SQL files are incremental updates for a database that already exists.
+Repository map: `benchy-fe/` is the app (`src/screens`, `src/components`, `src/contexts`, `src/lib`, `src/theme`). `benchy-be/supabase/migrations/database.sql` is the full schema. `add_avatar_storage.sql` adds the public avatar bucket.
 
 ## Run it
 
@@ -96,7 +100,7 @@ Point the app at a Supabase project in `app.json` → `expo.extra`:
 }
 ```
 
-Apply `benchy-be/supabase/migrations/database.sql` on a new project (SQL editor or the Supabase CLI). On an existing project, apply only the incremental files you have not run yet: login streak, avatars, sit sessions, park bench type, sit-minute achievements, and the `bench_details` security-invoker fix.
+Apply `benchy-be/supabase/migrations/database.sql` on a new project, then `add_avatar_storage.sql` for the avatar bucket. `database.sql` clears benches and users, so it is a fresh install.
 
 ```bash
 npx expo start

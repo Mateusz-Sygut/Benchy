@@ -189,6 +189,72 @@ export interface Database {
           created_at?: string;
         };
       };
+      bench_messages: {
+        Row: {
+          id: string;
+          bench_id: string;
+          user_id: string;
+          template_id: string;
+          word_id: string | null;
+          conjunction_id: string | null;
+          template2_id: string | null;
+          word2_id: string | null;
+          gesture_id: string | null;
+          praise_count: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          bench_id: string;
+          user_id: string;
+          template_id: string;
+          word_id?: string | null;
+          conjunction_id?: string | null;
+          template2_id?: string | null;
+          word2_id?: string | null;
+          gesture_id?: string | null;
+          praise_count?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          bench_id?: string;
+          user_id?: string;
+          template_id?: string;
+          word_id?: string | null;
+          conjunction_id?: string | null;
+          template2_id?: string | null;
+          word2_id?: string | null;
+          gesture_id?: string | null;
+          praise_count?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      bench_message_praises: {
+        Row: {
+          id: string;
+          message_id: string;
+          user_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          message_id: string;
+          user_id: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          message_id?: string;
+          user_id?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       achievements: {
         Row: {
           id: string;
@@ -304,6 +370,7 @@ export interface Database {
           total_sit_sessions: number;
           total_sit_minutes: number;
           longest_sit_minutes: number;
+          total_messages_left: number;
           current_streak: number;
           longest_streak: number;
           last_login_date: string | null;
@@ -323,6 +390,7 @@ export interface Database {
           total_sit_sessions?: number;
           total_sit_minutes?: number;
           longest_sit_minutes?: number;
+          total_messages_left?: number;
           current_streak?: number;
           longest_streak?: number;
           last_login_date?: string | null;
@@ -342,6 +410,7 @@ export interface Database {
           total_sit_sessions?: number;
           total_sit_minutes?: number;
           longest_sit_minutes?: number;
+          total_messages_left?: number;
           current_streak?: number;
           longest_streak?: number;
           last_login_date?: string | null;

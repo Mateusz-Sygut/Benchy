@@ -34,6 +34,8 @@ export function getAchievementProgress(
       return { current: profile.total_sit_minutes ?? 0, target };
     case 'sit_session':
       return { current: profile.longest_sit_minutes ?? 0, target };
+    case 'message_count':
+      return { current: profile.total_messages_left ?? 0, target };
     default:
       return null;
   }

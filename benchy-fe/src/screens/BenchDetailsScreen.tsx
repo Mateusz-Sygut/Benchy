@@ -15,6 +15,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useAchievements } from '../hooks/useAchievements';
 import { Button } from '../components/common/Button';
 import { SitSessionCard } from '../components/bench/SitSessionCard';
+import { BenchMessagesSection } from '../components/bench/BenchMessagesSection';
 import supabase from '../lib/supabase';
 import { reverseGeocode, formatCityForDisplay } from '../lib/geocoding';
 import { Database } from '../types/database';
@@ -329,6 +330,12 @@ const BenchDetailsScreen = ({ route }: any) => {
         benchName={bench.name || t('bench.unnamedBench')}
         latitude={bench.latitude}
         longitude={bench.longitude}
+      />
+
+      <BenchMessagesSection
+        benchId={bench.id}
+        userId={user?.id ?? null}
+        onMessagesChanged={refreshProgress}
       />
 
       <View style={screenStyles.benchDetailsSection}>
