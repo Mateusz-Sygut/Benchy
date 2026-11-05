@@ -41,6 +41,24 @@ export function getAchievementProgress(
   }
 }
 
+const SHOWCASE_BADGE_COUNT = 3;
+
+export function pickShowcaseAchievements(
+  achievements: Achievement[],
+  unlockedIds: ReadonlySet<string>,
+): Achievement[] {
+  return achievements
+    .filter((achievement) => unlockedIds.has(achievement.id))
+    .sort((a, b) => {
+      const byTier = b.token_tier - a.token_tier;
+      if (byTier !== 0) return byTier;
+      const byPoints = b.points - a.points;
+      if (byPoints !== 0) return byPoints;
+      return a.name.localeCompare(b.name);
+    })
+    .slice(0, SHOWCASE_BADGE_COUNT);
+}
+
 export function formatAchievementProgress(
   achievement: Achievement,
   profile: UserProfile | null | undefined,
