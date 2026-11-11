@@ -146,7 +146,7 @@ const AddBenchScreen = ({ navigation }: any) => {
 
       if (error) {
         console.error('Supabase error:', error);
-        Alert.alert(t('common.error'), t('errors.failedToAddBench') + ': ' + error.message);
+        Alert.alert(t('common.error'), t('errors.failedToAddBench'));
         return;
       }
 

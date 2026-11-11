@@ -149,6 +149,7 @@ export const BenchMessagesSection = ({
     const { error } = await query;
     if (error) {
       console.error('Error praising message:', error);
+      Alert.alert(t('common.error'), t('messages.praiseError'));
       return;
     }
     await load();

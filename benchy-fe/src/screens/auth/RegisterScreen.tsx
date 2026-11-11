@@ -12,7 +12,9 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import { registrationErrorKey } from '../../lib/authErrors';
 import { generateRandomNickname } from '../../lib/displayName';
+import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
@@ -44,11 +46,28 @@ const RegisterScreen = ({ navigation }: any) => {
       return;
     }
 
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedUsername = username.trim();
+
     setLoading(true);
     try {
-      const { error } = await signUp(email, password, username);
+      const [{ data: emailOwner }, { data: nicknameOwner }] = await Promise.all([
+        supabase.from('users').select('id').eq('email', trimmedEmail).maybeSingle(),
+        supabase.from('users').select('id').eq('username', trimmedUsername).maybeSingle(),
+      ]);
+
+      if (emailOwner) {
+        Alert.alert(t('auth.registerError'), t('auth.emailTaken'));
+        return;
+      }
+      if (nicknameOwner) {
+        Alert.alert(t('auth.registerError'), t('auth.usernameTaken'));
+        return;
+      }
+
+      const { error } = await signUp(trimmedEmail, password, trimmedUsername);
       if (error) {
-        Alert.alert(t('auth.registerError'), error.message);
+        Alert.alert(t('auth.registerError'), t(registrationErrorKey(error)));
       } else {
         Alert.alert(t('common.success'), t('auth.accountCreated'), [
           { text: t('common.ok'), onPress: () => navigation.navigate('Login') },

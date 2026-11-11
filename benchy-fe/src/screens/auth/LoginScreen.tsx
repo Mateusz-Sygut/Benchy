@@ -11,6 +11,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import { loginErrorKey } from '../../lib/authErrors';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
@@ -34,7 +35,7 @@ const LoginScreen = ({ navigation }: any) => {
     try {
       const { error } = await signIn(email, password);
       if (error) {
-        Alert.alert(t('auth.loginError'), error.message);
+        Alert.alert(t('auth.loginError'), t(loginErrorKey(error)));
       }
     } catch (error) {
       Alert.alert(t('common.error'), t('auth.unexpectedError'));
