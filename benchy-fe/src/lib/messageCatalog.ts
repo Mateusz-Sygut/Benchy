@@ -4,13 +4,19 @@ export type MessageWordCategory =
   | 'creatures'
   | 'objects'
   | 'items'
+  | 'actions'
   | 'geography'
   | 'directions'
   | 'body'
+  | 'landscape'
+  | 'times'
   | 'concepts'
   | 'phrases';
 
 export type MessageTemplateId =
+  | 'bare'
+  | 'bang'
+  | 'ask'
   | 'ahead'
   | 'missing'
   | 'useful'
@@ -20,17 +26,18 @@ export type MessageTemplateId =
   | 'ifOnly'
   | 'iSee'
   | 'timeFor'
-  | 'bare'
-  | 'bang'
-  | 'ask'
   | 'ohIts'
-  | 'praise'
+  | 'ah'
   | 'letItBe'
-  | 'ah';
+  | 'admire'
+  | 'praise';
 
 export type MessageGestureId = 'wave' | 'sit' | 'point' | 'shrug' | 'cheer' | 'quiet';
 
 export const MESSAGE_TEMPLATES: MessageTemplateId[] = [
+  'bare',
+  'bang',
+  'ask',
   'ahead',
   'missing',
   'useful',
@@ -40,22 +47,22 @@ export const MESSAGE_TEMPLATES: MessageTemplateId[] = [
   'ifOnly',
   'iSee',
   'timeFor',
-  'bare',
-  'bang',
-  'ask',
   'ohIts',
-  'praise',
-  'letItBe',
   'ah',
+  'letItBe',
+  'admire',
 ];
 
 export const MESSAGE_WORD_CATEGORIES: MessageWordCategory[] = [
   'creatures',
   'objects',
   'items',
+  'actions',
   'geography',
   'directions',
   'body',
+  'landscape',
+  'times',
   'concepts',
   'phrases',
 ];
@@ -67,16 +74,68 @@ export const MESSAGE_WORDS: Record<MessageWordCategory, string[]> = {
     'dog',
     'cat',
     'bird',
+    'critter',
+    'amphibian',
+    'insect',
+    'pup',
+    'game',
+    'bear',
     'woman',
     'man',
-    'child',
-    'critter',
+    'stranger',
     'sigma',
-    'insect',
     'loafer',
+    'acquaintance',
+    'couple',
   ],
-  objects: ['bench', 'fountain', 'building', 'shrine'],
-  items: ['coffee', 'cigarette', 'water'],
+  objects: [
+    'bench',
+    'fountain',
+    'bin',
+    'sculpture',
+    'sign',
+    'tracks',
+    'stop',
+    'building',
+    'shrine',
+    'office',
+    'shop',
+    'school',
+    'moloch',
+    'academy',
+  ],
+  items: [
+    'coffee',
+    'water',
+    'boar',
+    'donut',
+    'sandwich',
+    'chips',
+    'chocolate',
+    'backpack',
+    'phone',
+    'briefcase',
+    'book',
+    'painting',
+    'flower',
+    'stick',
+    'mushroom',
+    'cigarette',
+  ],
+  actions: [
+    'sitDown',
+    'eat',
+    'drink',
+    'lightUp',
+    'work',
+    'rest',
+    'lieDown',
+    'avoid',
+    'watch',
+    'talk',
+    'doVerb',
+    'hide',
+  ],
   geography: [
     'park',
     'forest',
@@ -84,15 +143,18 @@ export const MESSAGE_WORDS: Record<MessageWordCategory, string[]> = {
     'hiddenPath',
     'river',
     'lake',
+    'sea',
     'hill',
     'valley',
     'hole',
     'mountain',
-    'sun',
-    'moon',
-    'stars',
-    'shadow',
-    'light',
+    'grass',
+    'tree',
+    'rock',
+    'thicket',
+    'road',
+    'edge',
+    'mud',
   ],
   directions: [
     'front',
@@ -105,10 +167,47 @@ export const MESSAGE_WORDS: Record<MessageWordCategory, string[]> = {
     'beyond',
     'between',
   ],
-  body: ['head', 'neck', 'stomach', 'spine', 'shoulder', 'finger', 'leg', 'butt'],
-  concepts: [
+  body: [
+    'head',
+    'neck',
+    'stomach',
+    'spine',
+    'chest',
+    'shoulder',
+    'finger',
+    'leg',
+    'butt',
+    'ear',
+    'eye',
+    'nose',
+  ],
+  landscape: [
+    'beautifulView',
     'concreteSprawl',
     'freshAir',
+    'sun',
+    'moon',
+    'stars',
+    'shadow',
+    'light',
+    'rainbow',
+    'horizon',
+    'rain',
+    'storm',
+  ],
+  times: [
+    'time',
+    'day',
+    'night',
+    'dusk',
+    'summer',
+    'autumn',
+    'winter',
+    'spring',
+    'midnight',
+    'noon',
+  ],
+  concepts: [
     'solitude',
     'chance',
     'trouble',
@@ -121,6 +220,14 @@ export const MESSAGE_WORDS: Record<MessageWordCategory, string[]> = {
     'death',
     'downfall',
     'aura',
+    'noise',
+    'silence',
+    'cold',
+    'warmth',
+    'safety',
+    'love',
+    'void',
+    'despair',
   ],
   phrases: [
     'goodLuck',
@@ -132,6 +239,12 @@ export const MESSAGE_WORDS: Record<MessageWordCategory, string[]> = {
     'cantBear',
     'dontYouDare',
     'doIt',
+    'praiseTheSun',
+    'sitWithMe',
+    'forThoseAfter',
+    'whatARelief',
+    'likeADream',
+    'breathtaking',
   ],
 };
 
