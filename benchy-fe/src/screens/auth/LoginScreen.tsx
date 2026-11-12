@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { loginErrorKey } from '../../lib/authErrors';
+import { consumePendingActivation } from '../../lib/emailConfirm';
 import { Button } from '../../components/common/Button';
 import { Input } from '../../components/common/Input';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
@@ -33,9 +34,17 @@ const LoginScreen = ({ navigation }: any) => {
 
     setLoading(true);
     try {
-      const { error } = await signIn(email, password);
+      const { data, error } = await signIn(email, password);
       if (error) {
         Alert.alert(t('auth.loginError'), t(loginErrorKey(error)));
+        return;
+      }
+      const activated = await consumePendingActivation(
+        data.session?.user.email,
+        data.session?.user.email_confirmed_at,
+      );
+      if (activated) {
+        Alert.alert(t('auth.accountActivatedTitle'), t('auth.accountActivated'));
       }
     } catch (error) {
       Alert.alert(t('common.error'), t('auth.unexpectedError'));
