@@ -44,8 +44,6 @@
     "passwordsDontMatch": "Hasła nie są identyczne",
     "passwordTooShort": "Hasło musi mieć co najmniej 6 znaków",
     "accountCreated": "Wysłaliśmy link aktywacyjny. Otwórz go, a potem wróć tutaj i zaloguj się.",
-    "accountActivatedTitle": "Konto aktywowane",
-    "accountActivated": "Adres e-mail jest potwierdzony. Możesz korzystać z ŁawAppki.",
     "loginError": "Błąd logowania",
     "registerError": "Błąd rejestracji",
     "emailTaken": "Ten adres e-mail jest już używany. Zaloguj się albo podaj inny.",
@@ -330,10 +328,10 @@
       "ohIts": "Och, to {{word}}",
       "ah": "Ach, {{word}}...",
       "letItBe": "Niech będzie {{word}}",
-      "admire": "Podziwiaj {{word}}",
-      "praise": "Chwalmy {{word}}!"
+      "admire": "Podziwiaj {{word}}"
     },
     "conjunctions": {
+      "comma": ",",
       "then": "a potem",
       "but": "ale",
       "therefore": "zatem",
@@ -362,7 +360,6 @@
       "bird": "ptak",
       "woman": "kobieta",
       "man": "mężczyzna",
-      "child": "dziecko",
       "critter": "robal",
       "amphibian": "płaz",
       "sigma": "sigma",
@@ -390,7 +387,7 @@
       "academy": "akademia",
       "coffee": "kawa",
       "water": "woda",
-      "boar": "Dzik",
+      "boar": "DZIK",
       "donut": "pączek",
       "sandwich": "kanapka",
       "chips": "chipsy",

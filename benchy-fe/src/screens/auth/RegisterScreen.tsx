@@ -13,7 +13,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { registrationErrorKey } from '../../lib/authErrors';
-import { rememberPendingEmailConfirm } from '../../lib/emailConfirm';
 import { generateRandomNickname } from '../../lib/displayName';
 import { supabase } from '../../lib/supabase';
 import { Button } from '../../components/common/Button';
@@ -66,13 +65,10 @@ const RegisterScreen = ({ navigation }: any) => {
         return;
       }
 
-      const { data, error } = await signUp(trimmedEmail, password, trimmedUsername);
+      const { error } = await signUp(trimmedEmail, password, trimmedUsername);
       if (error) {
         Alert.alert(t('auth.registerError'), t(registrationErrorKey(error)));
       } else {
-        if (!data.session) {
-          await rememberPendingEmailConfirm(trimmedEmail);
-        }
         Alert.alert(t('common.success'), t('auth.accountCreated'), [
           { text: t('common.ok'), onPress: () => navigation.navigate('Login') },
         ]);

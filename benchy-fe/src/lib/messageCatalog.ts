@@ -249,6 +249,7 @@ export const MESSAGE_WORDS: Record<MessageWordCategory, string[]> = {
 };
 
 export const MESSAGE_CONJUNCTIONS = [
+  'comma',
   'then',
   'but',
   'therefore',

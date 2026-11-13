@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { emailConfirmRedirectUrl } from '../lib/emailConfirm';
 import { supabase } from '../lib/supabase';
 import { User, Session } from '@supabase/supabase-js';
 
@@ -47,7 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email,
       password,
       options: {
-        emailRedirectTo: emailConfirmRedirectUrl(),
         data: {
           username,
         },

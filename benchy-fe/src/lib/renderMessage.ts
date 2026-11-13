@@ -20,6 +20,7 @@ export function renderBenchMessage(message: StoredBenchMessage, t: TFunction): s
   if (!message.conjunction_id || !message.template2_id) return line;
   const conj = t(`messages.conjunctions.${message.conjunction_id}`);
   const line2 = renderLine(message.template2_id, message.word2_id, t);
+  if (message.conjunction_id === 'comma') return `${line}, ${line2}`;
   return `${line} ${conj} ${line2}`;
 }
 
