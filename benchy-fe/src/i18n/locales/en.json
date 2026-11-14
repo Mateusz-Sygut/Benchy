@@ -661,5 +661,23 @@
     "rarity": "Rare benches unlock achievements faster.",
     "explore": "Sit on a bench when you are there. That time is what the app counts.",
     "favorites": "Add to favorites – easy to find later."
+  },
+  "notifications": {
+    "sitNudge": {
+      "title": "The bench remembers",
+      "body": "It has been a while. Placeholder for a gentle nudge."
+    },
+    "streakSoft": {
+      "title": "The streak is cooling",
+      "body": "There is still time to sit. Placeholder."
+    },
+    "nearbyBench": {
+      "title": "A free bench",
+      "body": "A bench is standing somewhere nearby. Placeholder."
+    },
+    "messageHeart": {
+      "title": "Someone liked your message",
+      "body": "Your bench message got a heart. Placeholder."
+    }
   }
 }

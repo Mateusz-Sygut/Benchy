@@ -673,5 +673,23 @@
     "failedToLoadData": "Wystąpił błąd podczas ładowania danych",
     "failedToAddBench": "Nie udało się dodać ławeczki",
     "failedToUpdateRarity": "Nie udało się zaktualizować rzadkości"
+  },
+  "notifications": {
+    "sitNudge": {
+      "title": "Ławka pamięta",
+      "body": "Dawno Cię nie było. Placeholder na łagodne przypomnienie."
+    },
+    "streakSoft": {
+      "title": "Seria stygnie",
+      "body": "Jeszcze zdążysz usiąść. Placeholder."
+    },
+    "nearbyBench": {
+      "title": "Wolna ławka",
+      "body": "Gdzieś blisko stoi ławka. Placeholder."
+    },
+    "messageHeart": {
+      "title": "Ktoś docenił wiadomość",
+      "body": "Twoja wiadomość dostała serduszko. Placeholder."
+    }
   }
 }

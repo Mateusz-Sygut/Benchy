@@ -39,6 +39,9 @@ port = 54323
 enabled = true
 port = 54325
 
+[functions.dispatch-reminders]
+verify_jwt = true
+
 [analytics]
 enabled = false
 

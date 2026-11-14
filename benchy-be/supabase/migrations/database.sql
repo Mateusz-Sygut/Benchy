@@ -359,6 +359,29 @@ INSERT INTO public.titles (name, description, icon, rarity_level) VALUES
 ('legend', 'titles.legend.description', '🌟', 6)
 ON CONFLICT (name) DO NOTHING;
 
+CREATE TABLE IF NOT EXISTS public.user_push_tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    provider TEXT NOT NULL CHECK (provider IN ('expo', 'fcm', 'apns')),
+    token TEXT NOT NULL,
+    platform TEXT,
+    locale TEXT,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (user_id, provider, token)
+);
+
+CREATE TABLE IF NOT EXISTS public.notification_dispatches (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    template_id TEXT NOT NULL,
+    sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_notification_dispatches_user_sent
+    ON public.notification_dispatches (user_id, sent_at DESC);
+
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.benches ENABLE ROW LEVEL SECURITY;
@@ -368,6 +391,8 @@ ALTER TABLE public.bench_message_praises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.sit_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_achievements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_titles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_push_tokens ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.notification_dispatches ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Users can read all users" ON public.users;
 DROP POLICY IF EXISTS "Users can update own profile" ON public.users;
@@ -390,6 +415,10 @@ DROP POLICY IF EXISTS "User achievements can be read by all" ON public.user_achi
 DROP POLICY IF EXISTS "Users can insert own achievements" ON public.user_achievements;
 DROP POLICY IF EXISTS "User titles can be read by all" ON public.user_titles;
 DROP POLICY IF EXISTS "Users can insert own titles" ON public.user_titles;
+DROP POLICY IF EXISTS "Users can read own push tokens" ON public.user_push_tokens;
+DROP POLICY IF EXISTS "Users can insert own push tokens" ON public.user_push_tokens;
+DROP POLICY IF EXISTS "Users can update own push tokens" ON public.user_push_tokens;
+DROP POLICY IF EXISTS "Users can delete own push tokens" ON public.user_push_tokens;
 
 CREATE POLICY "Users can read all users" ON public.users
     FOR SELECT USING (true);
@@ -494,6 +523,18 @@ CREATE POLICY "User titles can be read by all" ON public.user_titles
 
 CREATE POLICY "Users can insert own titles" ON public.user_titles
     FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can read own push tokens" ON public.user_push_tokens
+    FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own push tokens" ON public.user_push_tokens
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own push tokens" ON public.user_push_tokens
+    FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own push tokens" ON public.user_push_tokens
+    FOR DELETE USING (auth.uid() = user_id);
 
 CREATE INDEX IF NOT EXISTS idx_benches_user_id ON public.benches(user_id);
 CREATE INDEX IF NOT EXISTS idx_benches_rarity_id ON public.benches(rarity_id);
@@ -673,6 +714,7 @@ GRANT INSERT, DELETE ON public.sit_sessions TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_profiles TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_achievements TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.user_titles TO authenticated;
+GRANT INSERT, UPDATE, DELETE ON public.user_push_tokens TO authenticated;
 
 CREATE OR REPLACE FUNCTION public.handle_new_auth_user()
 RETURNS TRIGGER AS $$

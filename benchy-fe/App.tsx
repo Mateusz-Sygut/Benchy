@@ -9,8 +9,14 @@ import { SitSessionProvider } from './src/contexts/SitSessionContext';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import AppNavigator from './src/navigation/AppNavigator';
+import { usePushRegistration } from './src/hooks/usePushRegistration';
 import LoadingScreen from './src/screens/LoadingScreen';
 import './src/i18n';
+
+const PushRegistration = () => {
+  usePushRegistration();
+  return null;
+};
 
 const AppContent = () => {
   const { user, loading } = useAuth();
@@ -22,7 +28,14 @@ const AppContent = () => {
   return (
     <>
       <StatusBar style="dark" />
-      {user ? <AppNavigator /> : <AuthNavigator />}
+      {user ? (
+        <>
+          <PushRegistration />
+          <AppNavigator />
+        </>
+      ) : (
+        <AuthNavigator />
+      )}
     </>
   );
 };
