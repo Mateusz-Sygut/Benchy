@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
@@ -27,6 +28,7 @@ export const UserPanel: React.FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
   const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
+  const insets = useSafeAreaInsets();
   const { user } = useAuth();
   const { userProfile, achievements, unlockedAchievements, selectedTitle } = useAchievements();
 
@@ -130,7 +132,7 @@ export const UserPanel: React.FC = () => {
         </View>
       </ScrollView>
 
-      <View style={panelStyles.badgeFooter}>
+      <View style={[panelStyles.badgeFooter, { paddingBottom: insets.bottom + 16 }]}>
         {selectedBadge && (
           <>
             <Text style={panelStyles.badgeCaption}>

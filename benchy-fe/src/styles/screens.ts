@@ -20,7 +20,7 @@ export const createScreenStyles = (t: AppTheme) =>
     paddingBottom: 28,
   },
   authTitle: {
-    fontSize: 36,
+    fontSize: 34,
     fontWeight: '700' as '700',
     color: t.text.white,
     marginBottom: 16,
@@ -28,7 +28,8 @@ export const createScreenStyles = (t: AppTheme) =>
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 6,
-    letterSpacing: 0.5,
+    lineHeight: 42,
+    width: '100%',
   },
   authDescription: {
     fontSize: 18,
@@ -125,8 +126,9 @@ export const createScreenStyles = (t: AppTheme) =>
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: t.gray[300],
+    backgroundColor: t.background.secondary,
   },
   addBenchLocationOptionIcon: {
     marginBottom: 8,
@@ -153,7 +155,7 @@ export const createScreenStyles = (t: AppTheme) =>
     padding: 16,
     alignItems: 'center',
     marginBottom: 12,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: t.gray[300],
     position: 'relative',
   },

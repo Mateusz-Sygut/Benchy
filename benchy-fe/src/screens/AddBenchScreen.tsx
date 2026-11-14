@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import * as Location from 'expo-location';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { useAchievements } from '../hooks/useAchievements';
 import supabase from '../lib/supabase';
@@ -35,8 +36,9 @@ const AddBenchScreen = ({ navigation }: any) => {
   const [tags, setTags] = useState<Tag[]>([]);
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { screen: screenStyles, common: commonStyles, glass: glassmorphismStyles, theme } =
+  const { screen: screenStyles, common: commonStyles, theme } =
     useThemedStyles();
+  const insets = useSafeAreaInsets();
   const { refreshProgress } = useAchievements();
 
   useEffect(() => {
@@ -182,7 +184,10 @@ const AddBenchScreen = ({ navigation }: any) => {
         colors={[theme.gradient.light, theme.gradient.lighter]}
         style={commonStyles.container}
       >
-        <ScrollView style={commonStyles.scrollView}>
+        <ScrollView
+          style={commonStyles.scrollView}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
+        >
           <View style={commonStyles.content}>
             <View style={screenStyles.addBenchHeaderCard}>
               <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.description')}</Text>
@@ -201,7 +206,7 @@ const AddBenchScreen = ({ navigation }: any) => {
               <Text style={screenStyles.addBenchInfoSubtext}>{t('addBench.locationInfo')}</Text>
               <View style={screenStyles.addBenchLocationOptions}>
                 <TouchableOpacity
-                  style={[screenStyles.addBenchLocationOption, glassmorphismStyles.glassContainer]}
+                  style={screenStyles.addBenchLocationOption}
                   onPress={async () => {
                     await getCurrentLocation();
                   }}
@@ -213,7 +218,7 @@ const AddBenchScreen = ({ navigation }: any) => {
                   <Text style={screenStyles.addBenchInfoSubtext}>{t('addBench.yourLocationDesc')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[screenStyles.addBenchLocationOption, glassmorphismStyles.glassContainer]}
+                  style={screenStyles.addBenchLocationOption}
                   onPress={() => setShowMapPicker(true)}
                 >
                   <View style={screenStyles.addBenchLocationOptionIcon}>
@@ -249,7 +254,6 @@ const AddBenchScreen = ({ navigation }: any) => {
                     key={benchType.id}
                     style={[
                       screenStyles.addBenchOption,
-                      glassmorphismStyles.glassContainer,
                       selectedBenchType === benchType.id && { borderColor: theme.primary[400] }
                     ]}
                     onPress={() => setSelectedBenchType(benchType.id)}
@@ -277,7 +281,7 @@ const AddBenchScreen = ({ navigation }: any) => {
               </View>
             </View>
 
-            <View style={[screenStyles.addBenchSectionCard, glassmorphismStyles.glassCard]}>
+            <View style={screenStyles.addBenchSectionCard}>
               <Text style={screenStyles.addBenchSectionTitle}>{t('addBench.surroundings')}</Text>
               <View style={screenStyles.addBenchGrid}>
                 {locations.map((location) => (
@@ -285,7 +289,6 @@ const AddBenchScreen = ({ navigation }: any) => {
                     key={location.id}
                     style={[
                       screenStyles.addBenchOption,
-                      glassmorphismStyles.glassContainer,
                       selectedLocation === location.id && { borderColor: theme.primary[400] }
                     ]}
                     onPress={() => setSelectedLocation(location.id)}
@@ -306,7 +309,7 @@ const AddBenchScreen = ({ navigation }: any) => {
               </View>
             </View>
 
-            <View style={[screenStyles.addBenchSectionCard, glassmorphismStyles.glassCard]}>
+            <View style={screenStyles.addBenchSectionCard}>
               <Text style={screenStyles.addBenchSectionTitle}>
                 {t('addBench.tagsCount', { count: selectedTags.length })}
               </Text>
@@ -316,7 +319,6 @@ const AddBenchScreen = ({ navigation }: any) => {
                     key={tag.id}
                     style={[
                       screenStyles.addBenchOption,
-                      glassmorphismStyles.glassContainer,
                       selectedTags.includes(tag.name) && { borderColor: theme.primary[400] }
                     ]}
                     onPress={() => toggleTag(tag.name)}

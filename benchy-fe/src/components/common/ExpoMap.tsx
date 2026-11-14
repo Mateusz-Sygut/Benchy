@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, Alert } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import { ExtendedBench } from '../../types/database';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
-import { BenchMapMarker, BENCH_MARKER_ANCHOR } from './BenchMapMarker';
+import { TrackedBenchMarker } from './BenchMapMarker';
 
 interface ExpoMapProps {
   benches: ExtendedBench[];
@@ -121,7 +121,7 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
         mapType="standard"
       >
         {benches.map((bench) => (
-          <Marker
+          <TrackedBenchMarker
             key={bench.id}
             coordinate={{
               latitude: bench.latitude,
@@ -129,12 +129,10 @@ export const ExpoMap: React.FC<ExpoMapProps> = ({ benches, onMarkerPress, mapRef
             }}
             title={bench.name}
             description={bench.description || t('bench.noDescription')}
-            anchor={BENCH_MARKER_ANCHOR}
-            tracksViewChanges={false}
+            rarityLevel={bench.rarity?.level || 1}
+            size={22}
             onPress={() => onMarkerPress?.(bench)}
-          >
-            <BenchMapMarker rarityLevel={bench.rarity?.level || 1} size={22} />
-          </Marker>
+          />
         ))}
       </MapView>
     </View>

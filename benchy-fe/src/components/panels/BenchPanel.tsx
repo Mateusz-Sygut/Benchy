@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +10,7 @@ import { useAchievements } from '../../hooks/useAchievements';
 export const BenchPanel: React.FC = () => {
   const { t } = useTranslation();
   const { glass: glassmorphismStyles, panel: panelStyles, theme } = useThemedStyles();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<any>();
   const { userProfile } = useAchievements();
 
@@ -25,7 +27,10 @@ export const BenchPanel: React.FC = () => {
   };
 
   return (
-    <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}>
+    <ScrollView
+      style={{ flex: 1, paddingHorizontal: 20, paddingTop: 10 }}
+      contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
+    >
       <TouchableOpacity 
         style={[glassmorphismStyles.glassCard, { marginBottom: 20 }]}
         onPress={handleAddBench}

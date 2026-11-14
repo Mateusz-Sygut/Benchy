@@ -61,6 +61,7 @@ export const Input: React.FC<InputProps> = ({
           numberOfLines={numberOfLines}
           textAlignVertical={multiline ? 'top' : undefined}
           placeholderTextColor={theme.text.disabled}
+          underlineColorAndroid="transparent"
         />
       </View>
       {error && <Text style={componentStyles.inputErrorText}>{error}</Text>}

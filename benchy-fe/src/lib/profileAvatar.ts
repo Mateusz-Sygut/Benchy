@@ -1,3 +1,4 @@
+import { File } from 'expo-file-system';
 import supabase from './supabase';
 
 const AVATAR_BUCKET = 'avatars';
@@ -16,49 +17,63 @@ function extensionFromMime(mimeType: string | undefined): string {
   }
 }
 
-export function getAvatarStoragePath(userId: string, mimeType?: string): string {
-  const ext = extensionFromMime(mimeType);
-  return `${userId}/avatar.${ext}`;
-}
-
 export async function uploadProfileAvatar(
   userId: string,
   localUri: string,
   mimeType?: string
 ): Promise<string> {
   const contentType = mimeType ?? 'image/jpeg';
-  const path = getAvatarStoragePath(userId, contentType);
+  const extension = extensionFromMime(contentType);
+  const path = `${userId}/${Date.now()}.${extension}`;
 
-  const response = await fetch(localUri);
-  const arrayBuffer = await response.arrayBuffer();
+  const body = await new File(localUri).arrayBuffer();
+  if (body.byteLength === 0) {
+    throw new Error('Avatar file is empty');
+  }
 
-  const { error: uploadError } = await supabase.storage
-    .from(AVATAR_BUCKET)
-    .upload(path, arrayBuffer, {
-      contentType,
-      upsert: true,
-    });
+  const { error: uploadError } = await supabase.storage.from(AVATAR_BUCKET).upload(path, body, {
+    contentType,
+    upsert: true,
+  });
 
   if (uploadError) {
     throw uploadError;
   }
 
   const { data } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(path);
-  const publicUrl = `${data.publicUrl}?t=${Date.now()}`;
+  const publicUrl = data.publicUrl;
 
-  const { error: profileError } = await supabase
+  const { data: saved, error: profileError } = await supabase
     .from('user_profiles')
     .update({ avatar_url: publicUrl } as never)
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .select('avatar_url')
+    .maybeSingle();
 
-  if (profileError) {
-    throw profileError;
+  if (profileError || !(saved as { avatar_url?: string | null } | null)?.avatar_url) {
+    throw profileError ?? new Error('Avatar URL was not saved');
   }
 
-  await supabase
+  const { error: userError } = await supabase
     .from('users')
     .update({ avatar_url: publicUrl } as never)
     .eq('id', userId);
+
+  if (userError) {
+    console.warn('Could not copy avatar URL onto the user row:', userError.message);
+  }
+
+  const { data: existing } = await supabase.storage.from(AVATAR_BUCKET).list(userId);
+  const stale = (existing ?? [])
+    .map((file) => `${userId}/${file.name}`)
+    .filter((filePath) => filePath !== path);
+
+  if (stale.length > 0) {
+    const { error: removeError } = await supabase.storage.from(AVATAR_BUCKET).remove(stale);
+    if (removeError) {
+      console.warn('Could not remove the previous avatar file:', removeError.message);
+    }
+  }
 
   return publicUrl;
 }

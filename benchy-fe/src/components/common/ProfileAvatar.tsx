@@ -7,9 +7,16 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
+
+function imageUri(uri: string): string {
+  if (!uri.startsWith('http://') && !uri.startsWith('https://')) {
+    return uri;
+  }
+  const query = uri.indexOf('?');
+  return query === -1 ? uri : uri.slice(0, query);
+}
 
 type ProfileAvatarProps = {
   avatarUrl?: string | null;
@@ -32,38 +39,40 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
 }) => {
   const { theme } = useThemedStyles();
   const radius = size / 2;
-  const placeholderColors =
-    variant === 'onPrimary'
-      ? (['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.1)'] as const)
-      : ([theme.gradient.light, theme.primary[200]] as const);
-  const placeholderIconColor = variant === 'onPrimary' ? '#fff' : theme.primary[800];
+  const placeholderColor = variant === 'onPrimary' ? '#ffffff' : theme.primary[100];
+  const placeholderIconColor = theme.primary[800];
 
   const content = (
     <View style={[{ width: size, height: size }, style]}>
-      {avatarUrl ? (
-        <Image
-          source={{ uri: avatarUrl }}
+      <View
+        collapsable={false}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: radius,
+          overflow: 'hidden',
+          backgroundColor: placeholderColor,
+        }}
+      >
+        <View
           style={{
             width: size,
             height: size,
-            borderRadius: radius,
-            backgroundColor: theme.gray[200],
-          }}
-        />
-      ) : (
-        <LinearGradient
-          colors={[...placeholderColors]}
-          style={{
-            width: size,
-            height: size,
-            borderRadius: radius,
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
           <Ionicons name="person" size={size * 0.5} color={placeholderIconColor} />
-        </LinearGradient>
-      )}
+        </View>
+        {avatarUrl ? (
+          <Image
+            key={avatarUrl}
+            source={{ uri: imageUri(avatarUrl) }}
+            style={{ position: 'absolute', top: 0, left: 0, width: size, height: size }}
+            resizeMode="cover"
+            fadeDuration={0}
+          />
+        ) : null}
 
       {uploading && (
         <View
@@ -82,6 +91,7 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
           <ActivityIndicator color="#fff" />
         </View>
       )}
+      </View>
 
       {editable && !uploading && (
         <View

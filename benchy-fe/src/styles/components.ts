@@ -52,6 +52,7 @@ export const createComponentStyles = (t: AppTheme) =>
       borderWidth: 1,
       borderColor: t.gray[300],
       minHeight: 50,
+      overflow: 'hidden',
     },
     inputIconContainer: {
       paddingLeft: 16,
@@ -66,6 +67,7 @@ export const createComponentStyles = (t: AppTheme) =>
       fontSize: 16,
       color: t.text.primary,
       backgroundColor: 'transparent',
+      includeFontPadding: false,
     },
     inputWithIcon: {
       paddingLeft: 8,

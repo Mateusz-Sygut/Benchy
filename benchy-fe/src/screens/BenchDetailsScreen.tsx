@@ -6,8 +6,8 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import { BenchMapMarker, BENCH_MARKER_ANCHOR } from '../components/common/BenchMapMarker';
+import MapView from 'react-native-maps';
+import { TrackedBenchMarker } from '../components/common/BenchMapMarker';
 import { BenchTypeIcon } from '../components/common/BenchTypeIcon';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
@@ -271,17 +271,15 @@ const BenchDetailsScreen = ({ route }: any) => {
           pitchEnabled={false}
           pointerEvents="none"
         >
-          <Marker
+          <TrackedBenchMarker
             coordinate={{
               latitude: bench.latitude,
               longitude: bench.longitude,
             }}
             title={bench.name}
-            anchor={BENCH_MARKER_ANCHOR}
-            tracksViewChanges={false}
-          >
-            <BenchMapMarker rarityLevel={benchRarityLevel} size={18} />
-          </Marker>
+            rarityLevel={benchRarityLevel}
+            size={18}
+          />
         </MapView>
       </View>
 

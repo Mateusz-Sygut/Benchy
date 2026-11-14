@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { useAchievements } from './useAchievements';
@@ -11,8 +12,9 @@ export function useProfileAvatar() {
   const { user } = useAuth();
   const { userProfile, refreshAchievements } = useAchievements();
   const [uploading, setUploading] = useState(false);
+  const [previewUri, setPreviewUri] = useState<string | null>(null);
 
-  const avatarUrl = userProfile?.avatar_url ?? null;
+  const avatarUrl = previewUri ?? userProfile?.avatar_url ?? null;
 
   const pickAndUpload = useCallback(async () => {
     if (!user) return;
@@ -37,10 +39,16 @@ export function useProfileAvatar() {
     const asset = result.assets[0];
     setUploading(true);
     try {
-      await uploadProfileAvatar(user.id, asset.uri, asset.mimeType ?? undefined);
+      const jpeg = await ImageManipulator.manipulateAsync(asset.uri, [], {
+        compress: 0.85,
+        format: ImageManipulator.SaveFormat.JPEG,
+      });
+      setPreviewUri(jpeg.uri);
+      await uploadProfileAvatar(user.id, jpeg.uri, 'image/jpeg');
       await refreshAchievements();
       Alert.alert(t('common.success'), t('profile.avatarUpdated'));
     } catch (error) {
+      setPreviewUri(null);
       console.error('Error uploading avatar:', error);
       Alert.alert(t('common.error'), t('profile.avatarUploadError'));
     } finally {
@@ -52,6 +60,7 @@ export function useProfileAvatar() {
     if (!user) return;
 
     setUploading(true);
+    setPreviewUri(null);
     try {
       await removeProfileAvatar(user.id);
       await refreshAchievements();

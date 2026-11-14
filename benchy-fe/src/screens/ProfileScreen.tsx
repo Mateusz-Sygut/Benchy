@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { getDisplayName } from '../lib/displayName';
 import { getTitleLabel } from '../lib/titles';
@@ -25,6 +26,7 @@ const ProfileScreen = () => {
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
   const { screen: screenStyles, theme } = useThemedStyles();
+  const insets = useSafeAreaInsets();
   const {
     userProfile,
     achievements,
@@ -80,7 +82,10 @@ const ProfileScreen = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <ScrollView style={screenStyles.profileContainer}>
+      <ScrollView
+        style={screenStyles.profileContainer}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
+      >
         <LinearGradient
           colors={[...theme.gradient.primary] as [string, string, string]}
           style={screenStyles.profileHeader}
