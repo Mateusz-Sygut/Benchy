@@ -663,21 +663,28 @@
     "favorites": "Add to favorites – easy to find later."
   },
   "notifications": {
-    "sitNudge": {
-      "title": "The bench remembers",
-      "body": "It has been a while. Placeholder for a gentle nudge."
+    "sit": {
+      "title": "Sit for a moment",
+      "bodies": [
+        "You do not always have to rush. Maybe it is worth sitting down for a moment and catching your breath.",
+        "A trip into the unknown? Sometimes it is enough to step off the beaten path. You might find a place worth settling into for a moment.",
+        "Intriguing places can be waiting around every corner. How about a walk to discover a few of them?",
+        "Meditation can take many forms. Wonder at a beautiful view while sitting on a bench is one of them.",
+        "Why sit at home when you can sit out in the fresh air?",
+        "Your favorite places can hide many stories. Any passer-by might have left something there. Time to find it."
+      ]
     },
-    "streakSoft": {
-      "title": "The streak is cooling",
-      "body": "There is still time to sit. Placeholder."
+    "message": {
+      "title": "Leave a message",
+      "bodies": [
+        "Everyone can see the world differently. Sit down and describe what you see, so others can notice it too.",
+        "You may never meet, but you can still pass something precious along. Sit down and leave a message for those who come after us.",
+        "Endless scrolling will not add much. You can use your phone instead to tell others what you think. Who knows, your message might change someone’s day."
+      ]
     },
-    "nearbyBench": {
-      "title": "A free bench",
-      "body": "A bench is standing somewhere nearby. Placeholder."
-    },
-    "messageHeart": {
-      "title": "Someone liked your message",
-      "body": "Your bench message got a heart. Placeholder."
+    "streak": {
+      "title": "Your streak",
+      "body": "We have not seen each other in a while. Do not forget to log in each day to keep your streak."
     }
   }
 }

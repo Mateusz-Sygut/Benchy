@@ -675,21 +675,28 @@
     "failedToUpdateRarity": "Nie udało się zaktualizować rzadkości"
   },
   "notifications": {
-    "sitNudge": {
-      "title": "Ławka pamięta",
-      "body": "Dawno Cię nie było. Placeholder na łagodne przypomnienie."
+    "sit": {
+      "title": "Usiądź na chwilę",
+      "bodies": [
+        "Pamiętaj, że nie zawsze trzeba się spieszyć! Może warto usiąść na chwilę i odetchnąć?",
+        "Podróż w nieznane? Czasem wystarczy tylko zboczyć z utartej ścieżki. Może uda się znaleźć miejsce warte przycupnięcia na moment?",
+        "Intrygujące miejsca mogą czaić się za każdym rogiem. Może by tak wyjść na spacer i odkryć kilka z nich?",
+        "Medytacja może przybierać różne formy. Zachwyt nad pięknym widokiem, siedząc na ławeczce to jedna z nich.",
+        "Po co siedzieć w domu, skoro można posiedzieć na świeżym powietrzu?",
+        "Twoje ulubione miejsca mogą kryć wiele historii. Każdy przechodzień mógł zostawić tam coś po sobie. Pora to odkryć!"
+      ]
     },
-    "streakSoft": {
-      "title": "Seria stygnie",
-      "body": "Jeszcze zdążysz usiąść. Placeholder."
+    "message": {
+      "title": "Zostaw wiadomość",
+      "bodies": [
+        "Każdy może postrzegać świat inaczej. Usiądź i opisz, co widzisz, pozwól dostrzec to innym.",
+        "Może nigdy się nie spotkacie, ale możecie przekazać sobie coś cennego. Usiądź i zostaw wiadomość dla tych, co przyjdą po nas.",
+        "Scrollowanie w nieskończoność nie wniesie za wiele. Zamiast tego możesz skorzystać z telefonu, by przekazać innym, co myślisz! Kto wie, może twoja wiadomość zmieni czyjś dzień?"
+      ]
     },
-    "nearbyBench": {
-      "title": "Wolna ławka",
-      "body": "Gdzieś blisko stoi ławka. Placeholder."
-    },
-    "messageHeart": {
-      "title": "Ktoś docenił wiadomość",
-      "body": "Twoja wiadomość dostała serduszko. Placeholder."
+    "streak": {
+      "title": "Twoja seria",
+      "body": "Dawno się nie widzieliśmy! Nie zapominaj o codziennym logowaniu, by utrzymać serię!"
     }
   }
 }

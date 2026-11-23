@@ -1,7 +1,7 @@
 /// <reference path="../edge-runtime.d.ts" />
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-type TemplateId = 'sitNudge' | 'streakSoft' | 'nearbyBench' | 'messageHeart';
+type TemplateId = 'sitNudge' | 'messageNudge' | 'streakSoft';
 type Provider = 'expo' | 'fcm' | 'apns';
 
 type TokenRow = {
@@ -12,45 +12,61 @@ type TokenRow = {
   enabled: boolean;
 };
 
-const TEMPLATES: Record<TemplateId, Record<'pl' | 'en', { title: string; body: string }>> = {
+const TEMPLATES: Record<TemplateId, Record<'pl' | 'en', { title: string; bodies: string[] }>> = {
   sitNudge: {
     pl: {
-      title: 'Ławka pamięta',
-      body: 'Dawno Cię nie było. Placeholder na łagodne przypomnienie.',
+      title: 'Usiądź na chwilę',
+      bodies: [
+        'Pamiętaj, że nie zawsze trzeba się spieszyć! Może warto usiąść na chwilę i odetchnąć?',
+        'Podróż w nieznane? Czasem wystarczy tylko zboczyć z utartej ścieżki. Może uda się znaleźć miejsce warte przycupnięcia na moment?',
+        'Intrygujące miejsca mogą czaić się za każdym rogiem. Może by tak wyjść na spacer i odkryć kilka z nich?',
+        'Medytacja może przybierać różne formy. Zachwyt nad pięknym widokiem, siedząc na ławeczce to jedna z nich.',
+        'Po co siedzieć w domu, skoro można posiedzieć na świeżym powietrzu?',
+        'Twoje ulubione miejsca mogą kryć wiele historii. Każdy przechodzień mógł zostawić tam coś po sobie. Pora to odkryć!',
+      ],
     },
     en: {
-      title: 'The bench remembers',
-      body: 'It has been a while. Placeholder for a gentle nudge.',
+      title: 'Sit for a moment',
+      bodies: [
+        'You do not always have to rush. Maybe it is worth sitting down for a moment and catching your breath.',
+        'A trip into the unknown? Sometimes it is enough to step off the beaten path. You might find a place worth settling into for a moment.',
+        'Intriguing places can be waiting around every corner. How about a walk to discover a few of them?',
+        'Meditation can take many forms. Wonder at a beautiful view while sitting on a bench is one of them.',
+        'Why sit at home when you can sit out in the fresh air?',
+        'Your favorite places can hide many stories. Any passer-by might have left something there. Time to find it.',
+      ],
+    },
+  },
+  messageNudge: {
+    pl: {
+      title: 'Zostaw wiadomość',
+      bodies: [
+        'Każdy może postrzegać świat inaczej. Usiądź i opisz, co widzisz, pozwól dostrzec to innym.',
+        'Może nigdy się nie spotkacie, ale możecie przekazać sobie coś cennego. Usiądź i zostaw wiadomość dla tych, co przyjdą po nas.',
+        'Scrollowanie w nieskończoność nie wniesie za wiele. Zamiast tego możesz skorzystać z telefonu, by przekazać innym, co myślisz! Kto wie, może twoja wiadomość zmieni czyjś dzień?',
+      ],
+    },
+    en: {
+      title: 'Leave a message',
+      bodies: [
+        'Everyone can see the world differently. Sit down and describe what you see, so others can notice it too.',
+        'You may never meet, but you can still pass something precious along. Sit down and leave a message for those who come after us.',
+        'Endless scrolling will not add much. You can use your phone instead to tell others what you think. Who knows, your message might change someone’s day.',
+      ],
     },
   },
   streakSoft: {
     pl: {
-      title: 'Seria stygnie',
-      body: 'Jeszcze zdążysz usiąść. Placeholder.',
+      title: 'Twoja seria',
+      bodies: [
+        'Dawno się nie widzieliśmy! Nie zapominaj o codziennym logowaniu, by utrzymać serię!',
+      ],
     },
     en: {
-      title: 'The streak is cooling',
-      body: 'There is still time to sit. Placeholder.',
-    },
-  },
-  nearbyBench: {
-    pl: {
-      title: 'Wolna ławka',
-      body: 'Gdzieś blisko stoi ławka. Placeholder.',
-    },
-    en: {
-      title: 'A free bench',
-      body: 'A bench is standing somewhere nearby. Placeholder.',
-    },
-  },
-  messageHeart: {
-    pl: {
-      title: 'Ktoś docenił wiadomość',
-      body: 'Twoja wiadomość dostała serduszko. Placeholder.',
-    },
-    en: {
-      title: 'Someone liked your message',
-      body: 'Your bench message got a heart. Placeholder.',
+      title: 'Your streak',
+      bodies: [
+        'We have not seen each other in a while. Do not forget to log in each day to keep your streak.',
+      ],
     },
   },
 };
@@ -92,9 +108,16 @@ function chooseTemplate(
   satRecently: boolean
 ): TemplateId | null {
   if (lastLoginDate === todayUtc()) return null;
-  if (streak >= 2) return 'streakSoft';
-  if (!satRecently) return 'sitNudge';
-  return null;
+
+  const options: TemplateId[] = [satRecently ? 'messageNudge' : 'sitNudge'];
+  if (streak >= 2) options.push('streakSoft');
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+function pickCopy(templateId: TemplateId, locale: 'pl' | 'en'): { title: string; body: string } {
+  const template = TEMPLATES[templateId][locale];
+  const body = template.bodies[Math.floor(Math.random() * template.bodies.length)] ?? template.bodies[0];
+  return { title: template.title, body };
 }
 
 async function sendExpo(token: string, title: string, body: string, templateId: TemplateId) {
@@ -197,7 +220,7 @@ Deno.serve(async (request) => {
 
     const userTokens = tokens.filter((row) => row.user_id === userId);
     const locale = localeOf(userTokens.find((row) => row.locale)?.locale ?? null);
-    const message = TEMPLATES[templateId][locale];
+    const message = pickCopy(templateId, locale);
     let delivered = false;
 
     for (const row of userTokens) {

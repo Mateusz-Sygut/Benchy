@@ -4,9 +4,9 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import supabase from './supabase';
 
-const PREVIEW_KEY = '@benchy_push_preview_shown';
+const PREVIEW_KEY = '@benchy_push_preview_v2';
 
-export type PushTemplateId = 'sitNudge' | 'streakSoft' | 'nearbyBench' | 'messageHeart';
+export type PushTemplateId = 'sitNudge' | 'messageNudge' | 'streakSoft';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

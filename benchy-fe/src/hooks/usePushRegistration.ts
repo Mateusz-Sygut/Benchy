@@ -4,6 +4,13 @@ import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { registerPushToken, showPreviewOnce } from '../lib/pushNotifications';
 
+function randomBody(value: unknown): string | null {
+  if (!Array.isArray(value)) return null;
+  const bodies = value.filter((item): item is string => typeof item === 'string' && item.length > 0);
+  if (bodies.length === 0) return null;
+  return bodies[Math.floor(Math.random() * bodies.length)];
+}
+
 export function usePushRegistration() {
   const { user } = useAuth();
   const { language } = useLanguage();
@@ -17,7 +24,8 @@ export function usePushRegistration() {
     registerPushToken(user.id, language)
       .then(async (mode) => {
         if (cancelled || mode !== 'local-only') return;
-        await showPreviewOnce(t('notifications.sitNudge.title'), t('notifications.sitNudge.body'));
+        const body = randomBody(t('notifications.sit.bodies', { returnObjects: true }));
+        if (body) await showPreviewOnce(t('notifications.sit.title'), body);
       })
       .catch((error) => {
         console.warn('Push registration failed.', error);
