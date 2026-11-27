@@ -4,6 +4,10 @@ export const SIT_GPS_POLL_MS = 25_000;
 
 export const SIT_MIN_DURATION_SEC = 120;
 
+export const SIT_RESUME_GAP_MS = 120_000;
+
+export const SIT_STORE_MS = 15_000;
+
 export function metersFromKm(km: number): number {
   return km * 1000;
 }

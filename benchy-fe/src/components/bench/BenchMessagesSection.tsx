@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../common/Button';
 import { useThemedStyles } from '../../hooks/useThemedStyles';
 import supabase from '../../lib/supabase';
+import { useSitSession } from '../../hooks/useSitSession';
 import { SIT_MIN_DURATION_SEC } from '../../lib/sitSession';
 import {
   MessageDraft,
@@ -29,6 +30,7 @@ export const BenchMessagesSection = ({
 }: BenchMessagesSectionProps) => {
   const { t } = useTranslation();
   const { screen: screenStyles, theme } = useThemedStyles();
+  const { sitSaveCount } = useSitSession();
   const [messages, setMessages] = useState<BenchMessage[]>([]);
   const [ownMessage, setOwnMessage] = useState<BenchMessage | null>(null);
   const [praisedIds, setPraisedIds] = useState<Set<string>>(new Set());
@@ -91,7 +93,7 @@ export const BenchMessagesSection = ({
     } else {
       setPraisedIds(new Set());
     }
-  }, [benchId, userId]);
+  }, [benchId, sitSaveCount, userId]);
 
   useEffect(() => {
     load();

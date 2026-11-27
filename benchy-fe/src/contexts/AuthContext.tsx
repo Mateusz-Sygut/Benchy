@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { flushActiveSit } from '../lib/sitFlush';
 import { User, Session } from '@supabase/supabase-js';
 
 interface AuthContextType {
@@ -55,6 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    await flushActiveSit();
     await supabase.auth.signOut();
   };
 
